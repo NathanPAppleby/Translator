@@ -1,4 +1,4 @@
-package testers;
+package provided.project_files.testers;
 
 /*
  * Tester for phase 1 of the Jott Translator
