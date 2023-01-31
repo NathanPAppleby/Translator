@@ -87,7 +87,7 @@ public class JottTokenizer {
 						char look_ahead = next_line.charAt(j);
 						String newTok = ".";
 						if (!isDigit(look_ahead)) {
-							// TODO: Error Handling
+							System.err.printf("Syntax Error:\nInvalid Token \".%c\"\n%s:%d", look_ahead, filename, lineNum);
 						}
 						while (isDigit(look_ahead)) {
 							newTok += look_ahead;
@@ -108,7 +108,7 @@ public class JottTokenizer {
 						if (look_ahead == '.') {
 							newTok += ".";
 							if (!isDigit(look_ahead)) {
-								// TODO: Error Handling
+								System.err.printf("Syntax Error:\nInvalid Token \"%s%c\"\n%s:%d", newTok, look_ahead, filename, lineNum);
 							}
 							while (isDigit(look_ahead)) {
 								newTok += look_ahead;
@@ -139,7 +139,7 @@ public class JottTokenizer {
 							Token newToken = new Token("!=", filename, lineNum, TokenType.REL_OP);
 							outList.add(newToken);
 						} else {
-							// TODO: Error Handling
+							System.err.printf("Syntax Error:\nInvalid Token \" ! \"\n%s:%d", filename, lineNum);
 						}
 					} else if (next_char == '"') {
 						String newTok = "\"";
@@ -154,7 +154,7 @@ public class JottTokenizer {
 							Token newToken = new Token(newTok, filename, lineNum, TokenType.ID_KEYWORD);
 							outList.add(newToken);
 						} else {
-							// TODO: Error Handling
+							System.err.printf("Syntax Error:\nInvalid Token \"%s%c\"\n%s:%d", newTok, look_ahead, filename, lineNum);
 						}
 					}
 
