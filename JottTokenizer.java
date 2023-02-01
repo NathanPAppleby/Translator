@@ -28,6 +28,7 @@ public class JottTokenizer {
 			while (scan.hasNextLine()) {
 				String next_line = scan.nextLine();
 				lineNum++;
+				int lineLength = next_line.length();
 				for (int i = 0; i < next_line.length(); i++) {
 					char next_char = next_line.charAt(i);
 					if (next_char == '#')
@@ -92,6 +93,10 @@ public class JottTokenizer {
 						while (isDigit(look_ahead)) {
 							newTok += look_ahead;
 							j++;
+							if (j > lineLength)
+							{
+								break;
+							}
 							look_ahead = next_line.charAt(j);
 						}
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
@@ -103,6 +108,10 @@ public class JottTokenizer {
 						while (isDigit(look_ahead)) {
 							newTok += look_ahead;
 							j++;
+							if (j > lineLength)
+							{
+								break;
+							}
 							look_ahead = next_line.charAt(j);
 						}
 						if (look_ahead == '.') {
@@ -126,6 +135,10 @@ public class JottTokenizer {
 						while(isLetter(look_ahead) || isDigit(look_ahead)) {
 							newTok += look_ahead;
 							j++;
+							if (j > lineLength)
+							{
+								break;
+							}
 							look_ahead = next_line.charAt(j);
 						}
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.ID_KEYWORD);
@@ -148,6 +161,10 @@ public class JottTokenizer {
 						while(isLetter(look_ahead) || isDigit(look_ahead) || look_ahead == ' ') {
 							newTok += look_ahead;
 							j++;
+							if (j > lineLength)
+							{
+								break;
+							}
 							look_ahead = next_line.charAt(j);
 						}
 						if (look_ahead == '"') {
