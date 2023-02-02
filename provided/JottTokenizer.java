@@ -52,19 +52,22 @@ public class JottTokenizer {
 						outList.add(newToken);
 					} else if (next_char == '=') {
 						int j = i + 1;
+						Token newToken;
 						if (j >= lineLength)
 						{
-							break;
-						}
-						char look_ahead = next_line.charAt(j);
-						Token newToken;
-						if (look_ahead == '=') {
-							newToken = new Token("==", filename, lineNum, TokenType.REL_OP);
-							i++;
-						} else {
 							newToken = new Token("=", filename, lineNum, TokenType.ASSIGN);
+							outList.add(newToken);
 						}
-						outList.add(newToken);
+						else {
+							char look_ahead = next_line.charAt(j);
+							if (look_ahead == '=') {
+								newToken = new Token("==", filename, lineNum, TokenType.REL_OP);
+								i++;
+							} else {
+								newToken = new Token("=", filename, lineNum, TokenType.ASSIGN);
+							}
+							outList.add(newToken);
+						}
 					} else if (next_char == '<') {
 						char look_ahead = next_line.charAt(i + 1);
 						Token newToken;
