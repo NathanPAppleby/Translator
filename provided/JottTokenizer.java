@@ -60,6 +60,7 @@ public class JottTokenizer {
 						Token newToken;
 						if (look_ahead == '=') {
 							newToken = new Token("==", filename, lineNum, TokenType.REL_OP);
+							i++;
 						} else {
 							newToken = new Token("=", filename, lineNum, TokenType.ASSIGN);
 						}
@@ -69,6 +70,7 @@ public class JottTokenizer {
 						Token newToken;
 						if (look_ahead == '=') {
 							newToken = new Token("<=", filename, lineNum, TokenType.REL_OP);
+							i++;
 						} else {
 							newToken = new Token("<", filename, lineNum, TokenType.REL_OP);
 						}
@@ -78,6 +80,7 @@ public class JottTokenizer {
 						Token newToken;
 						if (look_ahead == '=') {
 							newToken = new Token(">=", filename, lineNum, TokenType.REL_OP);
+							i++;
 						} else {
 							newToken = new Token(">", filename, lineNum, TokenType.REL_OP);
 						}
@@ -110,6 +113,7 @@ public class JottTokenizer {
 							look_ahead = next_line.charAt(j);
 						}
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
+						i = i + newTok.length()-1;
 						outList.add(newToken);
 					} else if (isDigit(next_char)) {
 						String newTok = "" + next_char;
@@ -137,6 +141,7 @@ public class JottTokenizer {
 							}
 						}
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
+						i = i + newTok.length() - 1;
 						outList.add(newToken);
 					} else if (isLetter(next_char))
 					{
@@ -157,6 +162,7 @@ public class JottTokenizer {
 							look_ahead = next_line.charAt(j);
 						}
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.ID_KEYWORD);
+						i = i + newTok.length()-1;
 						outList.add(newToken);
 					}
 					else if (next_char == ':') {
@@ -170,6 +176,7 @@ public class JottTokenizer {
 						}
 						if (next_line.charAt(j) == '=') {
 							Token newToken = new Token("!=", filename, lineNum, TokenType.REL_OP);
+							i++;
 							outList.add(newToken);
 						} else {
 							System.err.printf("Syntax Error:\nInvalid Token \" ! \"\n%s:%d", filename, lineNum);
@@ -194,6 +201,7 @@ public class JottTokenizer {
 						}
 						if (look_ahead == '"') {
 							Token newToken = new Token(newTok, filename, lineNum, TokenType.ID_KEYWORD);
+							i = i + newTok.length()-1;
 							outList.add(newToken);
 						} else {
 							System.err.printf("Syntax Error:\nInvalid Token \"%s%c\"\n%s:%d", newTok, look_ahead, filename, lineNum);
