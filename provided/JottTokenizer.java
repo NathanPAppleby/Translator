@@ -156,9 +156,10 @@ public class JottTokenizer {
 						}
 						if (look_ahead == '.') {
 							newTok += ".";
-							if (!isDigit(look_ahead)) {
-								System.err.printf("Syntax Error:\nInvalid Token \"%s%c\"\n%s:%d", newTok, look_ahead, filename, lineNum);
-								return null;
+							j++;
+							if (j < lineLength)
+							{
+								look_ahead = next_line.charAt(j);
 							}
 							while (isDigit(look_ahead)) {
 								newTok += look_ahead;
@@ -202,7 +203,7 @@ public class JottTokenizer {
 						int j = i + 1;
 						if (j >= lineLength)
 						{
-							System.err.printf("Syntax Error:\nInvalid Token \" ! \"\n%s:%d", filename, lineNum);
+							System.err.printf("Syntax Error:\nInvalid Token \"!\"\n%s:%d", filename, lineNum);
 							return null;
 						}
 						if (next_line.charAt(j) == '=') {
