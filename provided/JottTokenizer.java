@@ -200,7 +200,8 @@ public class JottTokenizer {
 							look_ahead = next_line.charAt(j);
 						}
 						if (look_ahead == '"') {
-							Token newToken = new Token(newTok, filename, lineNum, TokenType.ID_KEYWORD);
+							newTok += "\"";
+							Token newToken = new Token(newTok, filename, lineNum, TokenType.STRING);
 							i = i + newTok.length()-1;
 							outList.add(newToken);
 						} else {
