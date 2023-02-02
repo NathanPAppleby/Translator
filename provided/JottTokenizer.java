@@ -119,7 +119,8 @@ public class JottTokenizer {
 						int j = i + 1;
 						if (j >= lineLength)
 						{
-							break;
+							System.err.printf("Syntax Error:\nInvalid Token \".\"\n%s:%d", filename, lineNum);
+							return null;
 						}
 						char look_ahead = next_line.charAt(j);
 						String newTok = ".";
