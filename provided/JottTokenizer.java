@@ -51,7 +51,12 @@ public class JottTokenizer {
 						Token newToken = new Token("{", filename, lineNum, TokenType.L_BRACE);
 						outList.add(newToken);
 					} else if (next_char == '=') {
-						char look_ahead = next_line.charAt(i + 1);
+						int j = i + 1;
+						if (j >= lineLength)
+						{
+							break;
+						}
+						char look_ahead = next_line.charAt(j);
 						Token newToken;
 						if (look_ahead == '=') {
 							newToken = new Token("==", filename, lineNum, TokenType.REL_OP);
@@ -85,6 +90,10 @@ public class JottTokenizer {
 						outList.add(newToken);
 					} else if (next_char == '.') {
 						int j = i + 1;
+						if (j >= lineLength)
+						{
+							break;
+						}
 						char look_ahead = next_line.charAt(j);
 						String newTok = ".";
 						if (!isDigit(look_ahead)) {
@@ -93,7 +102,7 @@ public class JottTokenizer {
 						while (isDigit(look_ahead)) {
 							newTok += look_ahead;
 							j++;
-							if (j > lineLength)
+							if (j >= lineLength)
 							{
 								break;
 							}
@@ -108,7 +117,7 @@ public class JottTokenizer {
 						while (isDigit(look_ahead)) {
 							newTok += look_ahead;
 							j++;
-							if (j > lineLength)
+							if (j >= lineLength)
 							{
 								break;
 							}
@@ -131,11 +140,15 @@ public class JottTokenizer {
 					{
 						String newTok = "" + next_char;
 						int j = i + 1;
+						if (j >= lineLength)
+						{
+							break;
+						}
 						char look_ahead = next_line.charAt(j);
 						while(isLetter(look_ahead) || isDigit(look_ahead)) {
 							newTok += look_ahead;
 							j++;
-							if (j > lineLength)
+							if (j >= lineLength)
 							{
 								break;
 							}
@@ -148,7 +161,12 @@ public class JottTokenizer {
 						Token newToken = new Token(":", filename, lineNum, TokenType.COLON);
 						outList.add(newToken);
 					} else if (next_char == '!') {
-						if (next_line.charAt(i + 1) == '=') {
+						int j = i + 1;
+						if (j >= lineLength)
+						{
+							break;
+						}
+						if (next_line.charAt(j) == '=') {
 							Token newToken = new Token("!=", filename, lineNum, TokenType.REL_OP);
 							outList.add(newToken);
 						} else {
@@ -157,11 +175,15 @@ public class JottTokenizer {
 					} else if (next_char == '"') {
 						String newTok = "\"";
 						int j = i + 1;
+						if (j >= lineLength)
+						{
+							break;
+						}
 						char look_ahead = next_line.charAt(j);
 						while(isLetter(look_ahead) || isDigit(look_ahead) || look_ahead == ' ') {
 							newTok += look_ahead;
 							j++;
-							if (j > lineLength)
+							if (j >= lineLength)
 							{
 								break;
 							}
