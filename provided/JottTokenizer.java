@@ -34,23 +34,34 @@ public class JottTokenizer {
 					if (next_char == '#')
 					{
 						break;
-					} else if (next_char == ',')
+					}
+					else if (next_char == ',')
 					{
 						Token newToken = new Token(",", filename, lineNum, TokenType.COMMA);
 						outList.add(newToken);
-					} else if (next_char == ']') {
+					}
+					else if (next_char == ']')
+					{
 						Token newToken = new Token("]", filename, lineNum, TokenType.R_BRACKET);
 						outList.add(newToken);
-					} else if (next_char == '[') {
+					}
+					else if (next_char == '[')
+					{
 						Token newToken = new Token("[", filename, lineNum, TokenType.L_BRACKET);
 						outList.add(newToken);
-					} else if (next_char == '}') {
+					}
+					else if (next_char == '}')
+					{
 						Token newToken = new Token("}", filename, lineNum, TokenType.R_BRACE);
 						outList.add(newToken);
-					} else if (next_char == '{') {
+					}
+					else if (next_char == '{')
+					{
 						Token newToken = new Token("{", filename, lineNum, TokenType.L_BRACE);
 						outList.add(newToken);
-					} else if (next_char == '=') {
+					}
+					else if (next_char == '=')
+					{
 						int j = i + 1;
 						Token newToken;
 						if (j >= lineLength)
@@ -68,7 +79,9 @@ public class JottTokenizer {
 							}
 							outList.add(newToken);
 						}
-					} else if (next_char == '<') {
+					}
+					else if (next_char == '<')
+					{
 						char look_ahead = next_line.charAt(i + 1);
 						Token newToken;
 						if (look_ahead == '=') {
@@ -78,7 +91,9 @@ public class JottTokenizer {
 							newToken = new Token("<", filename, lineNum, TokenType.REL_OP);
 						}
 						outList.add(newToken);
-					} else if (next_char == '>') {
+					}
+					else if (next_char == '>')
+					{
 						char look_ahead = next_line.charAt(i + 1);
 						Token newToken;
 						if (look_ahead == '=') {
@@ -88,13 +103,19 @@ public class JottTokenizer {
 							newToken = new Token(">", filename, lineNum, TokenType.REL_OP);
 						}
 						outList.add(newToken);
-					} else if (next_char == '*' || next_char == '/' || next_char == '+' || next_char == '-') {
+					}
+					else if (next_char == '*' || next_char == '/' || next_char == '+' || next_char == '-')
+					{
 						Token newToken = new Token("" + next_char, filename, lineNum, TokenType.MATH_OP);
 						outList.add(newToken);
-					} else if (next_char == ';') {
+					}
+					else if (next_char == ';')
+					{
 						Token newToken = new Token(";", filename, lineNum, TokenType.SEMICOLON);
 						outList.add(newToken);
-					} else if (next_char == '.') {
+					}
+					else if (next_char == '.')
+					{
 						int j = i + 1;
 						if (j >= lineLength)
 						{
@@ -118,7 +139,9 @@ public class JottTokenizer {
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
 						i = i + newTok.length()-1;
 						outList.add(newToken);
-					} else if (isDigit(next_char)) {
+					}
+					else if (isDigit(next_char))
+					{
 						String newTok = "" + next_char;
 						int j = i + 1;
 						char look_ahead = next_line.charAt(j);
@@ -146,7 +169,8 @@ public class JottTokenizer {
 						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
 						i = i + newTok.length() - 1;
 						outList.add(newToken);
-					} else if (isLetter(next_char))
+					}
+					else if (isLetter(next_char))
 					{
 						String newTok = "" + next_char;
 						int j = i + 1;
@@ -168,10 +192,13 @@ public class JottTokenizer {
 						i = i + newTok.length()-1;
 						outList.add(newToken);
 					}
-					else if (next_char == ':') {
+					else if (next_char == ':')
+					{
 						Token newToken = new Token(":", filename, lineNum, TokenType.COLON);
 						outList.add(newToken);
-					} else if (next_char == '!') {
+					}
+					else if (next_char == '!')
+					{
 						int j = i + 1;
 						if (j >= lineLength)
 						{
@@ -186,7 +213,9 @@ public class JottTokenizer {
 							System.err.printf("Syntax Error:\nInvalid Token \" ! \"\n%s:%d", filename, lineNum);
 							return null;
 						}
-					} else if (next_char == '"') {
+					}
+					else if (next_char == '"')
+					{
 						String newTok = "\"";
 						int j = i + 1;
 						if (j >= lineLength)
