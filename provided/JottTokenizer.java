@@ -175,7 +175,8 @@ public class JottTokenizer {
 						int j = i + 1;
 						if (j >= lineLength)
 						{
-							break;
+							System.err.printf("Syntax Error:\nInvalid Token \" ! \"\n%s:%d", filename, lineNum);
+							return null;
 						}
 						if (next_line.charAt(j) == '=') {
 							Token newToken = new Token("!=", filename, lineNum, TokenType.REL_OP);
