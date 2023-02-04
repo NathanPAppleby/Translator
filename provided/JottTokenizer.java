@@ -2,8 +2,8 @@ package provided;
 
 /**
  * This class is responsible for tokenizing Jott code.
- * 
- * @author 
+ *
+ * @author
  **/
 
 import java.io.FileNotFoundException;
@@ -12,6 +12,281 @@ import java.util.Scanner;
 import java.io.File;
 
 public class JottTokenizer {
+	// fields used during tokenizing
+	private final String filename;
+	private int lineNum;
+	private Scanner scan;
+	private String nextLine;
+	private int lineLength;
+	private int charIndex;
+	private boolean isTokenizeError;
+
+
+	/**
+	 * Constructor method of JottTokenizer class
+	 * */
+	JottTokenizer(String filename) {
+		this.filename = filename;
+		this.lineNum = 0;
+		File file = new File(filename);
+		try {
+			this.scan = new Scanner(file);
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		this.nextLine = "";
+		this.lineLength = 0;
+		this.charIndex = 0;
+		this.isTokenizeError = false;
+	}
+
+
+	/**
+	 * Helper method for simplifying Token creation
+	 * @param token String input representing the token
+	 * @param tt TokenType of token
+	 * @return Token
+	 */
+	private Token createToken(String token, TokenType tt) {
+		return new Token(token, this.filename, this.lineNum, tt);
+	}
+
+
+	/**
+	 * Helper method for sending a syntax error encountered during tokenization to the console
+	 * @param errToken String "token" causing the syntax error
+	 */
+	private void printErrToken(String errToken) {
+		System.err.printf("Syntax Error:\nInvalid Token \"%s\"\n%s:%d", errToken, this.filename, this.lineNum);
+		this.isTokenizeError = true;
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '='
+	 * Assumes that the '=' character was already encountered during tokenization before method call
+	 * @return Either '=' ASSIGN or '==' REL_OP Token
+	 */
+	private Token getEqualsSignToken() {
+		Token newToken = createToken("=", TokenType.ASSIGN);
+		int j = charIndex + 1;
+		if (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (lookAhead == '=') {
+				newToken = createToken("==", TokenType.REL_OP);
+				charIndex++;
+			}
+		}
+		return newToken;
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '<' or '>'
+	 * Assumes that the '<' or '>' character was already encountered during tokenization before method call
+	 * @param angleBracket Either '<' or '>' depending on which character was encountered to create the token
+	 * @return '<', '>', '<=', or '>=' REL_OP Token
+	 */
+	private Token getAngleBracketToken(String angleBracket) {
+		char lookAhead = nextLine.charAt(charIndex + 1);
+		if (lookAhead == '=') {
+			charIndex++;
+			return createToken(angleBracket + "=", TokenType.REL_OP);
+		}
+		return createToken(angleBracket, TokenType.REL_OP);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with a digit
+	 * Assumes that the first digit character was already encountered during tokenization before method call
+	 * @param firstNumber String representation of the first digit character found to start off the token
+	 * @return NUMBER Token in format of X X* {. | none} X* where X is a digit
+	 */
+	private Token getNumberToken(String firstNumber) {
+		StringBuilder newTok = new StringBuilder(firstNumber);
+		int j = charIndex + 1;
+		char lookAhead = nextLine.charAt(j);
+		while (isDigit(lookAhead)) {
+			newTok.append(lookAhead);
+			j++;
+			if (j >= lineLength)
+			{
+				break;
+			}
+			lookAhead = nextLine.charAt(j);
+		}
+		if (lookAhead == '.') {
+			newTok.append(".");
+			j++;
+			if (j < lineLength)
+			{
+				lookAhead = nextLine.charAt(j);
+			}
+			while (isDigit(lookAhead)) { // TODO: Shared loop with getPeriodToken()
+				newTok.append(lookAhead);
+				j++;
+				if (j >= lineLength)
+				{
+					break;
+				}
+				lookAhead = nextLine.charAt(j);
+			}
+		}
+		charIndex += newTok.length() - 1;
+		return createToken(newTok.toString(), TokenType.NUMBER);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '.'
+	 * Assumes that the '.' character was already encountered during tokenization before method call
+	 * @return Null if token is invalid else NUMBER token in format . X X* where X is a digit
+	 */
+	private Token getPeriodToken() {
+		int j = charIndex + 1;
+		char lookAhead;
+		if (j >= lineLength || !isDigit(lookAhead = nextLine.charAt(j)))
+		{
+			printErrToken(".");
+			return null;
+		}
+		StringBuilder newTok = new StringBuilder(".");
+		while (isDigit(lookAhead)) { // TODO: Shared loop with getNumberToken()
+			newTok.append(lookAhead);
+			j++;
+			if (j >= lineLength)
+			{
+				break;
+			}
+			lookAhead = nextLine.charAt(j);
+		}
+		charIndex += newTok.length()-1;
+		return createToken(newTok.toString(), TokenType.NUMBER);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '!'
+	 * Assumes that the '!' character was already encountered during tokenization before method call
+	 * @return NULL if token is invalid else '!=' REL_OP Token
+	 */
+	private Token getExclamationToken() {
+		int j = charIndex + 1;
+		if (j >= lineLength || nextLine.charAt(j) != '=')
+		{
+			printErrToken("!");
+			return null;
+		}
+		charIndex++;
+		return createToken("!=", TokenType.REL_OP);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with a letter
+	 * Assumes that the letter character was already encountered during tokenization before method call
+	 * @param firstLetter String representation of the first letter character found to start off the token
+	 * @return ID_KEYWORD Token with a string of letters and digits, beginning with a letter
+	 */
+	private Token getIdKeywordToken(String firstLetter) {
+		String newTok = firstLetter;
+		int j = charIndex + 1;
+		while (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (isLetter(lookAhead) || isDigit(lookAhead)) {
+				newTok += lookAhead;
+				j++;
+			}
+			else {
+				break;
+			}
+		}
+		charIndex += newTok.length()-1;
+		return createToken(newTok, TokenType.ID_KEYWORD);
+	}
+
+
+	/**
+	 * Method for creation of token beginning with '"'
+	 * Assumes that the '"' character was already encountered during tokenization before method call
+	 * @return Null if token is invalid else a STRING token with a string of letters, digits, and ' ' beginning and
+	 *         ending with '"' characters
+	 */
+	private Token getStringToken() {
+		StringBuilder newTok = new StringBuilder("\"");
+		int j = charIndex + 1;
+		while (j < lineLength) {
+			char lookAhead = nextLine.charAt(j);
+			if (lookAhead == '"') {
+				newTok.append("\"");
+				charIndex += newTok.length()-1;
+				return createToken(newTok.toString(), TokenType.STRING);
+			}
+			else if (!isLetter(lookAhead) && !isDigit(lookAhead) && lookAhead != ' ') {
+				break;
+			}
+			newTok.append(lookAhead);
+			j++;
+		}
+		printErrToken(newTok.toString());
+		return null;
+	}
+
+
+	/**
+	 * Method for tokenizing entire file for the Tokenizer and adding tokens to list
+	 * @return Null if a syntax error was found during tokenization else an ArrayList of valid tokens
+	 */
+	private ArrayList<Token> getTokens() {
+		ArrayList<Token> outList = new ArrayList<>();
+		while (scan.hasNextLine() && !isTokenizeError) {
+			this.nextLine = scan.nextLine();
+			this.lineNum++;
+			this.lineLength = nextLine.length();
+			for (charIndex = 0; charIndex < lineLength && !isTokenizeError; charIndex++) {
+				char nextChar = nextLine.charAt(charIndex);
+				Token newToken = null;
+				if (nextChar == '#')
+				{
+					break;
+				}
+				else if (isDigit(nextChar)) {
+					newToken = getNumberToken("" + nextChar);
+				}
+				else if (isLetter(nextChar)) {
+					newToken = getIdKeywordToken("" + nextChar);
+				}
+				else {
+					switch (nextChar) {
+						case ',' -> newToken = createToken(",", TokenType.COMMA);
+						case ']' -> newToken = createToken("]", TokenType.R_BRACKET);
+						case '[' -> newToken = createToken("[", TokenType.L_BRACKET);
+						case '{' -> newToken = createToken("{", TokenType.L_BRACE);
+						case '}' -> newToken = createToken("}", TokenType.R_BRACE);
+						case '=' -> newToken = getEqualsSignToken();
+						case '>', '<' -> newToken = getAngleBracketToken("" + nextChar);
+						case '/', '+', '-', '*' -> newToken = createToken("" + nextChar, TokenType.MATH_OP);
+						case ';' -> newToken = createToken(";", TokenType.SEMICOLON);
+						case '.' -> newToken = getPeriodToken();
+						case ':' -> newToken = createToken(":", TokenType.COLON);
+						case '!' -> newToken = getExclamationToken();
+						case '"' -> newToken = getStringToken();
+					}
+				}
+
+				if (newToken != null) {
+					outList.add(newToken);
+				}
+			}
+		}
+		this.scan.close();
+		if (this.isTokenizeError) {
+			return null;
+		}
+		return outList;
+	}
 
 	/**
      * Takes in a filename and tokenizes that file into Tokens
@@ -20,242 +295,15 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-		ArrayList<Token> outList = new ArrayList<>();
-		int lineNum = 0;
-		File file = new File(filename);
-		try {
-			Scanner scan = new Scanner(file);
-			while (scan.hasNextLine()) {
-				String next_line = scan.nextLine();
-				lineNum++;
-				int lineLength = next_line.length();
-				for (int i = 0; i < next_line.length(); i++) {
-					char next_char = next_line.charAt(i);
-					if (next_char == '#')
-					{
-						break;
-					}
-					else if (next_char == ',')
-					{
-						Token newToken = new Token(",", filename, lineNum, TokenType.COMMA);
-						outList.add(newToken);
-					}
-					else if (next_char == ']')
-					{
-						Token newToken = new Token("]", filename, lineNum, TokenType.R_BRACKET);
-						outList.add(newToken);
-					}
-					else if (next_char == '[')
-					{
-						Token newToken = new Token("[", filename, lineNum, TokenType.L_BRACKET);
-						outList.add(newToken);
-					}
-					else if (next_char == '}')
-					{
-						Token newToken = new Token("}", filename, lineNum, TokenType.R_BRACE);
-						outList.add(newToken);
-					}
-					else if (next_char == '{')
-					{
-						Token newToken = new Token("{", filename, lineNum, TokenType.L_BRACE);
-						outList.add(newToken);
-					}
-					else if (next_char == '=')
-					{
-						int j = i + 1;
-						Token newToken;
-						if (j >= lineLength)
-						{
-							newToken = new Token("=", filename, lineNum, TokenType.ASSIGN);
-							outList.add(newToken);
-						}
-						else {
-							char look_ahead = next_line.charAt(j);
-							if (look_ahead == '=') {
-								newToken = new Token("==", filename, lineNum, TokenType.REL_OP);
-								i++;
-							} else {
-								newToken = new Token("=", filename, lineNum, TokenType.ASSIGN);
-							}
-							outList.add(newToken);
-						}
-					}
-					else if (next_char == '<')
-					{
-						char look_ahead = next_line.charAt(i + 1);
-						Token newToken;
-						if (look_ahead == '=') {
-							newToken = new Token("<=", filename, lineNum, TokenType.REL_OP);
-							i++;
-						} else {
-							newToken = new Token("<", filename, lineNum, TokenType.REL_OP);
-						}
-						outList.add(newToken);
-					}
-					else if (next_char == '>')
-					{
-						char look_ahead = next_line.charAt(i + 1);
-						Token newToken;
-						if (look_ahead == '=') {
-							newToken = new Token(">=", filename, lineNum, TokenType.REL_OP);
-							i++;
-						} else {
-							newToken = new Token(">", filename, lineNum, TokenType.REL_OP);
-						}
-						outList.add(newToken);
-					}
-					else if (next_char == '*' || next_char == '/' || next_char == '+' || next_char == '-')
-					{
-						Token newToken = new Token("" + next_char, filename, lineNum, TokenType.MATH_OP);
-						outList.add(newToken);
-					}
-					else if (next_char == ';')
-					{
-						Token newToken = new Token(";", filename, lineNum, TokenType.SEMICOLON);
-						outList.add(newToken);
-					}
-					else if (next_char == '.')
-					{
-						int j = i + 1;
-						if (j >= lineLength)
-						{
-							System.err.printf("Syntax Error:\nInvalid Token \".\"\n%s:%d", filename, lineNum);
-							return null;
-						}
-						char look_ahead = next_line.charAt(j);
-						String newTok = ".";
-						if (!isDigit(look_ahead)) {
-							System.err.printf("Syntax Error:\nInvalid Token \".%c\"\n%s:%d", look_ahead, filename, lineNum);
-							return null;
-						}
-						while (isDigit(look_ahead)) {
-							newTok += look_ahead;
-							j++;
-							if (j >= lineLength)
-							{
-								break;
-							}
-							look_ahead = next_line.charAt(j);
-						}
-						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
-						i = i + newTok.length()-1;
-						outList.add(newToken);
-					}
-					else if (isDigit(next_char))
-					{
-						String newTok = "" + next_char;
-						int j = i + 1;
-						char look_ahead = next_line.charAt(j);
-						while (isDigit(look_ahead)) {
-							newTok += look_ahead;
-							j++;
-							if (j >= lineLength)
-							{
-								break;
-							}
-							look_ahead = next_line.charAt(j);
-						}
-						if (look_ahead == '.') {
-							newTok += ".";
-							j++;
-							if (j < lineLength)
-							{
-								look_ahead = next_line.charAt(j);
-							}
-							while (isDigit(look_ahead)) {
-								newTok += look_ahead;
-								j++;
-								look_ahead = next_line.charAt(j);
-							}
-						}
-						Token newToken = new Token(newTok, filename, lineNum, TokenType.NUMBER);
-						i = i + newTok.length() - 1;
-						outList.add(newToken);
-					}
-					else if (isLetter(next_char))
-					{
-						String newTok = "" + next_char;
-						int j = i + 1;
-						if (j >= lineLength)
-						{
-							break;
-						}
-						char look_ahead = next_line.charAt(j);
-						while(isLetter(look_ahead) || isDigit(look_ahead)) {
-							newTok += look_ahead;
-							j++;
-							if (j >= lineLength)
-							{
-								break;
-							}
-							look_ahead = next_line.charAt(j);
-						}
-						Token newToken = new Token(newTok, filename, lineNum, TokenType.ID_KEYWORD);
-						i = i + newTok.length()-1;
-						outList.add(newToken);
-					}
-					else if (next_char == ':')
-					{
-						Token newToken = new Token(":", filename, lineNum, TokenType.COLON);
-						outList.add(newToken);
-					}
-					else if (next_char == '!')
-					{
-						int j = i + 1;
-						if (j >= lineLength)
-						{
-							System.err.printf("Syntax Error:\nInvalid Token \"!\"\n%s:%d", filename, lineNum);
-							return null;
-						}
-						if (next_line.charAt(j) == '=') {
-							Token newToken = new Token("!=", filename, lineNum, TokenType.REL_OP);
-							i++;
-							outList.add(newToken);
-						} else {
-							System.err.printf("Syntax Error:\nInvalid Token \" ! \"\n%s:%d", filename, lineNum);
-							return null;
-						}
-					}
-					else if (next_char == '"')
-					{
-						String newTok = "\"";
-						int j = i + 1;
-						if (j >= lineLength)
-						{
-							break;
-						}
-						char look_ahead = next_line.charAt(j);
-						while(isLetter(look_ahead) || isDigit(look_ahead) || look_ahead == ' ') {
-							newTok += look_ahead;
-							j++;
-							if (j >= lineLength)
-							{
-								break;
-							}
-							look_ahead = next_line.charAt(j);
-						}
-						if (look_ahead == '"') {
-							newTok += "\"";
-							Token newToken = new Token(newTok, filename, lineNum, TokenType.STRING);
-							i = i + newTok.length()-1;
-							outList.add(newToken);
-						} else {
-							System.err.printf("Syntax Error:\nInvalid Token \"%s%c\"\n%s:%d", newTok, look_ahead, filename, lineNum);
-							return null;
-						}
-					}
-
-
-				}
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		return outList;
+		JottTokenizer tokenizer = new JottTokenizer(filename);
+		return tokenizer.getTokens();
 	}
 
+
+	/**
+	 * Helper method for determining whether a character is a digit
+	 * @return TRUE if character is a digit else FALSE
+	 */
 	private static boolean isDigit(char c) {
 		return switch (c) {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> true;
@@ -263,6 +311,11 @@ public class JottTokenizer {
 		};
 	}
 
+
+	/**
+	 * Helper method for determining whether a character is a letter
+	 * @return TRUE if character is a letter else FALSE
+	 */
 	private static boolean isLetter(char c) {
 		return switch (c) {
 			case 'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f' -> true;
