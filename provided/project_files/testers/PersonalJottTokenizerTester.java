@@ -17,10 +17,15 @@ import java.util.ArrayList;
 
 public class PersonalJottTokenizerTester {
     public static void main(String[] args) {
-        ArrayList<Token> result = JottTokenizer.tokenize("tokenizerTestCases/personalTest.jott");
-        for (Token token : result){
-            System.out.println("Token Type: " + token.getTokenType() +
-                    "\nToken Contents: " + token.getToken());
+        try {
+            ArrayList<Token> result = JottTokenizer.tokenize("tokenizerTestCases/personalTest.jott");
+            for (Token token : result) {
+                System.out.println("Token Type: " + token.getTokenType() +
+                        "\nToken Contents: " + token.getToken());
+            }
+        }
+        catch(Exception e){
+            System.out.println("\nError");
         }
     }
 }
