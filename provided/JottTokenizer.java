@@ -69,16 +69,15 @@ public class JottTokenizer {
 	 * @return Either '=' ASSIGN or '==' REL_OP Token
 	 */
 	private Token getEqualsSignToken() {
-		Token newToken = createToken("=", TokenType.ASSIGN);
 		int j = charIndex + 1;
 		if (j < lineLength) {
 			char lookAhead = nextLine.charAt(j);
 			if (lookAhead == '=') {
-				newToken = createToken("==", TokenType.REL_OP);
 				charIndex++;
+				return createToken("==", TokenType.REL_OP);
 			}
 		}
-		return newToken;
+		return createToken("=", TokenType.ASSIGN);
 	}
 
 
@@ -89,10 +88,13 @@ public class JottTokenizer {
 	 * @return '<', '>', '<=', or '>=' REL_OP Token
 	 */
 	private Token getAngleBracketToken(String angleBracket) {
-		char lookAhead = nextLine.charAt(charIndex + 1);
-		if (lookAhead == '=') {
-			charIndex++;
-			return createToken(angleBracket + "=", TokenType.REL_OP);
+		int j = charIndex + 1;
+		if (j < lineLength) {
+			char lookAhead = nextLine.charAt(charIndex + 1);
+			if (lookAhead == '=') {
+				charIndex++;
+				return createToken(angleBracket + "=", TokenType.REL_OP);
+			}
 		}
 		return createToken(angleBracket, TokenType.REL_OP);
 	}
@@ -107,6 +109,10 @@ public class JottTokenizer {
 	private Token getNumberToken(String firstNumber) {
 		StringBuilder newTok = new StringBuilder(firstNumber);
 		int j = charIndex + 1;
+		if (j >= lineLength)
+		{
+			return createToken(newTok.toString(), TokenType.NUMBER);
+		}
 		char lookAhead = nextLine.charAt(j);
 		while (isDigit(lookAhead)) {
 			newTok.append(lookAhead);
