@@ -58,7 +58,7 @@ public class JottTokenizer {
 	 * @param errToken String "token" causing the syntax error
 	 */
 	private void printErrToken(String errToken) {
-		System.err.printf("Syntax Error:\nInvalid Token \"%s\"\n%s:%d", errToken, this.filename, this.lineNum);
+		System.err.printf("Syntax Error:\nInvalid Token \"%s\"\n%s:%d\n", errToken, this.filename, this.lineNum);
 		this.isTokenizeError = true;
 	}
 
