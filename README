@@ -1,4 +1,4 @@
 Phase 1:
-To run the JottTokenizerTester, run:
+To run the JottTokenizerTester, run from the jott-translator directory:
 javac testers/JottTokenizerTester.java
 java testers/JottTokenizerTester.java
