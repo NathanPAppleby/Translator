@@ -1,4 +1,4 @@
-package provided.project_files.testers;
+package testers;
 
 /*
  * Basic Jott Token Printer

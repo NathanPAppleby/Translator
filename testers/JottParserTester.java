@@ -1,4 +1,4 @@
-package provided.project_files.testers;
+package testers;
 
 /*
   Jott parser tester. This will test the parsing phase of the Jott
