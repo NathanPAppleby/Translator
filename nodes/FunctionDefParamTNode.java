@@ -1,8 +1,13 @@
 package nodes;
 
 import provided.JottTree;
+import provided.Token;
+
+import java.util.ArrayList;
 
 public class FunctionDefParamTNode implements JottTree {
+    static FunctionDefParamTNode parseFunctionDefParamTNode(ArrayList<Token> tokens) { return null; }
+
     @Override
     public String convertToJott() {
         return null;

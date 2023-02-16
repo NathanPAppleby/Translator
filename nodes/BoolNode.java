@@ -1,8 +1,13 @@
 package nodes;
 
 import provided.JottTree;
+import provided.Token;
+
+import java.util.ArrayList;
 
 public class BoolNode implements JottTree {
+    static BoolNode parseBoolNode(ArrayList<Token> tokens) { return null; }
+
     @Override
     public String convertToJott() {
         return null;

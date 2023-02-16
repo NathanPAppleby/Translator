@@ -1,8 +1,13 @@
 package nodes;
 
 import provided.JottTree;
+import provided.Token;
+
+import java.util.ArrayList;
 
 public class NExprNode extends ExprNode implements JottTree {
+    static NExprNode parseNExprNode(ArrayList<Token> tokens) { return null; }
+
     @Override
     public String convertToJott() {
         return null;
