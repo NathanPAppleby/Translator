@@ -3,10 +3,13 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 
+
 import java.util.ArrayList;
 
+import static nodes.BodyStmtNode.parseBodyStmtNode;
+
 public class BodyNode implements JottTree {
-    static BodyNode parseBodyNode(ArrayList<Token> tokens) { return null; }
+    public static BodyNode parseBodyNode(ArrayList<Token> tokens) { return null; }
 
     @Override
     public String convertToJott() {
