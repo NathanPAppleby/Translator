@@ -5,8 +5,36 @@ import provided.Token;
 
 import java.util.ArrayList;
 
+
 public class OpNode implements JottTree {
-    static OpNode parseOpNode(ArrayList<Token> tokens) { return null; }
+
+    private final String token;
+
+    public OpNode(String token){
+        this.token = token;
+    }
+
+    static OpNode parseOpNode(ArrayList<Token> tokens) throws Exception {
+        if (tokens.get(0).getToken().equals("+")) {
+            tokens.remove(0);
+            return new OpNode("+");
+        }
+        else if (tokens.get(0).getToken().equals("*")) {
+            tokens.remove(0);
+            return new OpNode("*");
+        }
+        else if (tokens.get(0).getToken().equals("/")) {
+            tokens.remove(0);
+            return new OpNode("/");
+        }
+        else if (tokens.get(0).getToken().equals("-")) {
+            tokens.remove(0);
+            return new OpNode("-");
+        }
+        else {
+            throw new Exception();
+        }
+    }
 
     @Override
     public String convertToJott() {
