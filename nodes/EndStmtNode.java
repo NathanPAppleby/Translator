@@ -25,22 +25,22 @@ public class EndStmtNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToPython() {
-        return null;
+        return "";
     }
 
     @Override
