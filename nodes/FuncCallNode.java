@@ -5,7 +5,13 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class FuncCallNode implements JottTree {
+public class FuncCallNode extends ExprNode implements JottTree {
+
+    private final Token token;
+
+    public FuncCallNode(Token token){
+        this.token = token;
+    }
     static FuncCallNode parseFuncCallNode(ArrayList<Token> tokens) { return null; }
 
     @Override
