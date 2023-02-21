@@ -6,7 +6,18 @@ import provided.Token;
 import java.util.ArrayList;
 
 public class RelOpNode implements JottTree {
-    static RelOpNode parseRelOpNode(ArrayList<Token> tokens) { return null; }
+    private final Token token;
+    public RelOpNode(Token token) {
+        this.token = token;
+    }
+
+    static RelOpNode parseRelOpNode(ArrayList<Token> tokens) throws Exception {
+        Token t = tokens.remove(0);
+        return switch (t.getToken()) {
+            case ">", "<", ">=", "<=", "==", "!=" -> new RelOpNode(t);
+            default -> throw new Exception();
+        };
+    }
 
     @Override
     public String convertToJott() {
