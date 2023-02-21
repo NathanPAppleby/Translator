@@ -6,7 +6,22 @@ import provided.Token;
 import java.util.ArrayList;
 
 public class EndStmtNode implements JottTree {
-    static EndStmtNode parseEndStmtNode(ArrayList<Token> tokens) { return null; }
+
+    private final Token token;
+
+    public EndStmtNode(Token token){
+        this.token = token;
+    }
+    static EndStmtNode parseEndStmtNode(ArrayList<Token> tokens) throws Exception {
+        Token t = tokens.get(0);
+        if (t.getToken().equals(";")) {
+            tokens.remove(0);
+            return new EndStmtNode(t);
+        }
+        else {
+            throw new Exception();
+        }
+    }
 
     @Override
     public String convertToJott() {
