@@ -17,7 +17,7 @@ public class OperationNode extends ExprNode implements JottTree {
      * @return .
      * @throws Exception .
      */
-    static OperationNode OperationNode(ArrayList<Token> tokens) throws Exception { return null; }
+    static OperationNode parseOperationNode(ArrayList<Token> tokens) throws Exception { return null; }
 
     @Override
     public String convertToJott() {

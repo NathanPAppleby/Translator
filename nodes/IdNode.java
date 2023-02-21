@@ -14,7 +14,7 @@ public class IdNode extends ExprNode implements JottTree {
         this.token = token;
     }
 
-    static IdNode IdNode(ArrayList<Token> tokens) throws Exception { return null; }
+    static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception { return null; }
 
     @Override
     public String convertToJott() {
