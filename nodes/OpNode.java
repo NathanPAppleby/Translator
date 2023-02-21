@@ -16,24 +16,12 @@ public class OpNode implements JottTree {
 
     static OpNode parseOpNode(ArrayList<Token> tokens) throws Exception {
         Token t = tokens.get(0);
-        if (t.getToken().equals("+")) {
-            tokens.remove(0);
-            return new OpNode(t);
-        }
-        else if (t.getToken().equals("*")) {
-            tokens.remove(0);
-            return new OpNode(t);
-        }
-        else if (t.getToken().equals("/")) {
-            tokens.remove(0);
-            return new OpNode(t);
-        }
-        else if (t.getToken().equals("-")) {
-            tokens.remove(0);
-            return new OpNode(t);
-        }
-        else {
-            throw new Exception();
+        switch (t.getToken()) {
+            case "+", "*", "/", "-" -> {
+                tokens.remove(0);
+                return new OpNode(t);
+            }
+            default -> throw new Exception();
         }
     }
 
