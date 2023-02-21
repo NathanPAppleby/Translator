@@ -25,16 +25,15 @@ public class AssignNode implements JottTree {
     }
 
     static AssignNode parseAssignNode(ArrayList<Token> tokens) throws Exception {
-        Token token1 = tokens.get(1);
-        Token token2 = tokens.get(2);
         TypeNode typeNode = null;
-        if (token2.getTokenType() == TokenType.ASSIGN) {
+        try {
             typeNode = TypeNode.parseTypeNode(tokens);
         }
-        else if (token1.getTokenType() != TokenType.ASSIGN) {
+        catch (Exception ignored) { }
+        IdNode idNode = IdNode.parseIdNode(tokens);
+        if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
             throw new Exception();
         }
-        IdNode idNode = IdNode.parseIdNode(tokens);
         Token assignToken = tokens.remove(0);
         ExprNode exprNode = ExprNode.parseExprNode(tokens);
         EndStmtNode endStmtNode = EndStmtNode.parseEndStmtNode(tokens);
