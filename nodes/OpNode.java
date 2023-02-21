@@ -8,28 +8,29 @@ import java.util.ArrayList;
 
 public class OpNode implements JottTree {
 
-    private final String token;
+    private final Token token;
 
-    public OpNode(String token){
+    public OpNode(Token token){
         this.token = token;
     }
 
     static OpNode parseOpNode(ArrayList<Token> tokens) throws Exception {
-        if (tokens.get(0).getToken().equals("+")) {
+        Token t = tokens.get(0);
+        if (t.getToken().equals("+")) {
             tokens.remove(0);
-            return new OpNode("+");
+            return new OpNode(t);
         }
-        else if (tokens.get(0).getToken().equals("*")) {
+        else if (t.getToken().equals("*")) {
             tokens.remove(0);
-            return new OpNode("*");
+            return new OpNode(t);
         }
-        else if (tokens.get(0).getToken().equals("/")) {
+        else if (t.getToken().equals("/")) {
             tokens.remove(0);
-            return new OpNode("/");
+            return new OpNode(t);
         }
-        else if (tokens.get(0).getToken().equals("-")) {
+        else if (t.getToken().equals("-")) {
             tokens.remove(0);
-            return new OpNode("-");
+            return new OpNode(t);
         }
         else {
             throw new Exception();
