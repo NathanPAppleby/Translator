@@ -2,6 +2,7 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -14,34 +15,40 @@ import java.util.ArrayList;
  *         - <expr> operator <expr> (currently: <expr> OpNode <expr>)
  *     IdNode <id/keyword>
  */
-public class ExprNode extends ParamNode implements JottTree {
-    static ExprNode parseExprNode(ArrayList<Token> tokens) {
-        return null;
-    }
+public class ExprNode implements JottTree {
 
-    /*
-        //each token in arrayList of Tokens knows its Type from tokenizing logic
-    static SExprNode parseSExprNode(ArrayList<Token> tokens) throws Exception {
-        //if next token is str literal
-        if (tokens.get(0).getTokenType().equals(TokenType.STRING)) {
-            //return new SExprNode(); param to SExprNode result of parseStrLiteralNode
-        } //if next token is id
+    //each token in arrayList of Tokens knows its Type from tokenizing logic
+    static ExprNode parseExprNode(ArrayList<Token> tokens) throws Exception {
+        //if next token is constant Node- need to cut this down with a simple ask if constant node somehow
+        if (tokens.get(0).getTokenType().equals(TokenType.STRING) ||
+                tokens.get(0).getTokenType().equals(TokenType.NUMBER) ||
+                tokens.get(0).getToken().equals("true") || tokens.get(0).getToken().equals("false")
+        ) {
+            ArrayList<Token> constantToken = new ArrayList<>();
+            constantToken.add(tokens.get(0));
+            return ConstantNode.parseConstantNode(constantToken);
+        } // if next token is function call
         else if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) &&
                 tokens.get(1).getTokenType().equals(TokenType.L_BRACKET)) {
-            ArrayList<Token> funcCallTokens = new ArrayList<>();
-            funcCallTokens.add(tokens.get(0));
-            FuncCallNode.parseFuncCallNode(funcCallTokens);
-            //return new SExprNode();
-        }
+            ArrayList<Token> funcCallToken = new ArrayList<>();
+            funcCallToken.add(tokens.get(0));
+            return FuncCallNode.parseFuncCallNode(funcCallToken);
+        } //if operation Node
+        else if (tokens.get(0).getTokenType().equals(TokenType.MATH_OP)) {
+            ArrayList<Token> operationToken = new ArrayList<>();
+            operationToken.add(tokens.get(0));
+            return OperationNode.parseOperationNode(operationToken);
+        } // if next token is id
         else if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD)) {
-            //return new SExprNode(); param to SExprNode result of parseIdNode
-        } // if next token is function call
+            ArrayList<Token> idToken = new ArrayList<>();
+            idToken.add(tokens.get(0));
+            return IdNode.parseIdNode(idToken);
+        }
         else {
             throw new Exception();
         }
-        return null;
     }
-     */
+
 
     @Override
     public String convertToJott() {
