@@ -7,27 +7,27 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class BoolNode implements JottTree {
-    private final boolean booleanValue;
+    private final Token token;
 
-    public BoolNode(boolean booleanValue) { this.booleanValue = booleanValue; }
+    public BoolNode(Token token) { this.token = token; }
 
     static BoolNode parseBoolNode(ArrayList<Token> tokens) throws Exception {
         Token t = tokens.get(0);
         if (t.getTokenType() == TokenType.ID_KEYWORD) {
             if (t.getToken().equals("True")) {
                 tokens.remove(0);
-                return new BoolNode(true);
+                return new BoolNode(t);
             }
             else if (t.getToken().equals("False")) {
                 tokens.remove(0);
-                return new BoolNode(false);
+                return new BoolNode(t);
             }
         }
         throw new Exception("Invalid boolean value: " + t.getToken());
     }
 
     @Override
-    public String convertToJott() { return this.booleanValue ? "True" : "False"; }
+    public String convertToJott() { return this.token.getToken(); }
 
     @Override
     public String convertToJava(String className) {
