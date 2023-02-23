@@ -1,39 +1,34 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class FunctionDefParamTNode implements JottTree {
-
-    private final FunctionDefParamNode fDefParamNode;
-
-    public FunctionDefParamTNode(FunctionDefParamNode fDefParamTNode) {
-        this.fDefParamNode = fDefParamTNode;
+public class FunctionDefParamTNode extends FunctionDefParamNode {
+    public FunctionDefParamTNode(IdNode idNode, TypeNode typeNode, FunctionDefParamTNode fDefParamTNode) {
+        super(idNode, typeNode, fDefParamTNode);
     }
+
     // < func_def_params_t > -> ,<id >: < type > < func_def_params_t > | nothing
 
-    static FunctionDefParamTNode parseFunctionDefParamTNode(ArrayList<Token> tokens) {
-        try {
-            if (tokens.get(0).getTokenType() != TokenType.COMMA) {
-                throw new Exception();
-            }
-            tokens.remove(0);
-            FunctionDefParamNode fDefParamNode = FunctionDefParamNode.parseFunctionDefParamNode(tokens);
-            if (fDefParamNode == null) {
-                throw new Exception();
-            }
-            return new FunctionDefParamTNode(fDefParamNode);
-        } catch (Exception e) {
+    static FunctionDefParamTNode parseFunctionDefParamTNode(ArrayList<Token> tokens) throws Exception {
+        if (tokens.get(0).getTokenType() != TokenType.COMMA) {
             return null;
         }
+        IdNode idNode = IdNode.parseIdNode(tokens);
+        if (tokens.get(0).getTokenType() != TokenType.COLON) {
+            throw new Exception();
+        }
+        tokens.remove(0);
+        TypeNode typeNode = TypeNode.parseTypeNode(tokens);
+        FunctionDefParamTNode fDefParamTNode = FunctionDefParamTNode.parseFunctionDefParamTNode(tokens);
+        return new FunctionDefParamTNode(idNode, typeNode, fDefParamTNode);
     }
 
     @Override
     public String convertToJott() {
-        return "," + fDefParamNode.convertToJott();
+        return "," + super.convertToJott();
     }
 
     @Override
