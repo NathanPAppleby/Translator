@@ -14,23 +14,32 @@ import java.util.ArrayList;
  *     <n_expr> <rel_op> <n_expr>  (ExprNode RelOpNode ExprNode)
  */
 public class OperationNode extends ExprNode implements JottTree {
+    ExprNode left;
+    OpNode middle;
+    ExprNode right;
+
+    OperationNode(ExprNode leftNode, OpNode middleNode, ExprNode rightNode) {
+        this.left = leftNode;
+        this.middle = middleNode;
+        this.right = rightNode;
+    }
 
     /**
-     * OperationNode does not need a constructor will simply return
      * @param tokens .
      * @return .
      * @throws Exception .
      */
     static OperationNode parseOperationNode(ArrayList<Token> tokens) throws Exception {
-        //ArrayList<Token> firstExprToken = new ArrayList<>();
-        //firstExprToken.add(tokens.get(0));
-        //return ExprNode.parseExprNode(firstExprToken);
-        return null;
+        ExprNode leftExpr = ExprNode.parseExprNode(tokens);
+        OpNode operation = OpNode.parseOpNode(tokens);
+        ExprNode rightExpr = ExprNode.parseExprNode(tokens);
+        return new OperationNode(leftExpr, operation, rightExpr);
     }
 
     @Override
     public String convertToJott() {
-        return null;
+
+        return this.left.convertToJott() + this.middle.convertToJott() + this.right.convertToJott();
     }
 
     @Override

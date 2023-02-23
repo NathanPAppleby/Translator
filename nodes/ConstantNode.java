@@ -50,7 +50,7 @@ public class ConstantNode extends ExprNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return token.getToken();
     }
 
     @Override
