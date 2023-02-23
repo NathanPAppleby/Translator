@@ -14,14 +14,12 @@ public class AssignNode implements JottTree {
     private final IdNode idNode;
     private final Token assignToken;
     private final ExprNode exprNode;
-    private final EndStmtNode endStmtNode;
 
-    public AssignNode(TypeNode typeNode, IdNode idNode, Token assignToken, ExprNode exprNode, EndStmtNode endStmtNode) {
+    public AssignNode(TypeNode typeNode, IdNode idNode, Token assignToken, ExprNode exprNode) {
         this.typeNode = typeNode;
         this.idNode = idNode;
         this.assignToken = assignToken;
         this.exprNode = exprNode;
-        this.endStmtNode = endStmtNode;
     }
 
     static AssignNode parseAssignNode(ArrayList<Token> tokens) throws Exception {
@@ -36,8 +34,13 @@ public class AssignNode implements JottTree {
         }
         Token assignToken = tokens.remove(0);
         ExprNode exprNode = ExprNode.parseExprNode(tokens);
-        EndStmtNode endStmtNode = EndStmtNode.parseEndStmtNode(tokens);
-        return new AssignNode(typeNode, idNode, assignToken, exprNode, endStmtNode);
+        if(tokens.remove(0).equals(";")) {
+            return new AssignNode(typeNode, idNode, assignToken, exprNode);
+        }
+        else{
+            throw new Exception();
+        }
+
     }
 
     @Override
@@ -49,7 +52,7 @@ public class AssignNode implements JottTree {
         sb.append(this.idNode.convertToJott()).append(" ");
         sb.append(this.assignToken.getToken()).append(" ");
         sb.append(this.exprNode.convertToJott());
-        sb.append(this.endStmtNode.convertToJott());
+        sb.append(";");
         return sb.toString();
     }
 
