@@ -22,31 +22,27 @@ public class ExprNode implements JottTree {
         //if next token is constant Node- need to cut this down with a simple ask if constant node somehow
         if (tokens.get(0).getTokenType().equals(TokenType.STRING) ||
                 tokens.get(0).getTokenType().equals(TokenType.NUMBER) ||
-                tokens.get(0).getToken().equals("true") || tokens.get(0).getToken().equals("false")
-        ) {
-            ArrayList<Token> constantToken = new ArrayList<>();
-            constantToken.add(tokens.get(0));
-            return ConstantNode.parseConstantNode(constantToken);
-        } // if next token is function call
-        else if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) &&
-                tokens.get(1).getTokenType().equals(TokenType.L_BRACKET)) {
-            ArrayList<Token> funcCallToken = new ArrayList<>();
-            funcCallToken.add(tokens.get(0));
-            return FuncCallNode.parseFuncCallNode(funcCallToken);
-        } //if operation Node
-        else if (tokens.get(0).getTokenType().equals(TokenType.MATH_OP)) {
-            ArrayList<Token> operationToken = new ArrayList<>();
-            operationToken.add(tokens.get(0));
-            return OperationNode.parseOperationNode(operationToken);
-        } // if next token is id
-        else if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD)) {
-            ArrayList<Token> idToken = new ArrayList<>();
-            idToken.add(tokens.get(0));
-            return IdNode.parseIdNode(idToken);
+                tokens.get(0).getToken().equals("true") || tokens.get(0).getToken().equals("false"))
+        {
+            return ConstantNode.parseConstantNode(tokens);
         }
-        else {
+        else if (tokens.size() > 1) { //this might be pointless, tokens passed in will always be greater
+            // if Function Call Node. MUST Check for func call before id because func call starts with id
+            if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) &&
+                    tokens.get(1).getTokenType().equals(TokenType.L_BRACKET)) {
+                return FuncCallNode.parseFuncCallNode(tokens);
+            }
+            //if Operation Node MUST also check for func call before id because Operation can begin with id
+            if (tokens.get(1).getTokenType().equals(TokenType.MATH_OP) ||
+                    tokens.get(1).getTokenType().equals(TokenType.REL_OP)) {
+                return OperationNode.parseOperationNode(tokens);
+            }
+        } else if (tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD)) { // if next token is id
+            return IdNode.parseIdNode(tokens);
+        } else {
             throw new Exception();
         }
+        return null; //should never hit
     }
 
 
