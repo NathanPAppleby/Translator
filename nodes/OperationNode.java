@@ -6,8 +6,12 @@ import provided.Token;
 import java.util.ArrayList;
 
 /**
- * A Type of ExprNode, OperationNode follows the format:
- *     <expr> operator <expr>
+ * A Type of ExprNode, OperationNode follows the format <expr> operator <expr>
+ * which can break down into one of the following:
+ *     <id> <op> <n_expr>          (ConstantNode OpNode ExprNode)
+ *     <num> <op> <n_expr>         (ConstantNode OpNode ExprNode)
+ *     <func_call> <op> <n_expr>   (ConstantNode OpNode ExprNode)
+ *     <n_expr> <rel_op> <n_expr>  (ExprNode RelOpNode ExprNode)
  */
 public class OperationNode extends ExprNode implements JottTree {
 
@@ -17,7 +21,12 @@ public class OperationNode extends ExprNode implements JottTree {
      * @return .
      * @throws Exception .
      */
-    static OperationNode parseOperationNode(ArrayList<Token> tokens) throws Exception { return null; }
+    static OperationNode parseOperationNode(ArrayList<Token> tokens) throws Exception {
+        //ArrayList<Token> firstExprToken = new ArrayList<>();
+        //firstExprToken.add(tokens.get(0));
+        //return ExprNode.parseExprNode(firstExprToken);
+        return null;
+    }
 
     @Override
     public String convertToJott() {

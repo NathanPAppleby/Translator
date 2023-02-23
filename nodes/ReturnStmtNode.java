@@ -16,8 +16,12 @@ public class ReturnStmtNode implements JottTree {
         Token returnToken = tokens.remove(0);
         if(returnToken.getToken().equals("return")){
             ExprNode exprNode = ExprNode.parseExprNode(tokens);
-            EndStmtNode.parseEndStmtNode(tokens);
-            return new ReturnStmtNode(exprNode);
+            if(tokens.remove(0).equals(";")) {
+                return new ReturnStmtNode(exprNode);
+            }
+            else{
+                throw new Exception();
+            }
         }
         else{
             throw new Exception();
