@@ -6,11 +6,12 @@ import provided.Token;
 import java.util.ArrayList;
 
 public class BodyStmtNode implements JottTree {
-    static BodyStmtNode parseBodyStmtNode(ArrayList<Token> tokens) {
+
+    static BodyStmtNode parseBodyStmtNode(ArrayList<Token> tokens) throws Exception {
         if (tokens.get(0).getToken().equals("if")) {
             return IfStmtNode.parseIfStmtNode(tokens);
         }
-        else if (tokens.get(0).getToken().equals("While")) {
+        else if (tokens.get(0).getToken().equals("while")) {
             return WhileLoopNode.parseWhileLoopNode(tokens);
         }
         else {
