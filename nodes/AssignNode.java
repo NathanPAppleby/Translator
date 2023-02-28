@@ -7,7 +7,7 @@ import provided.TokenType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class AssignNode implements JottTree {
+public class AssignNode extends StmtNode implements JottTree {
     // < asmt > -> < type > <id > = < expr > < end_statement > | <id > = < expr > < end_statement >
 
     private final TypeNode typeNode;

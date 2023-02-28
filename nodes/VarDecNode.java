@@ -6,7 +6,7 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class VarDecNode implements JottTree {
+public class VarDecNode extends StmtNode implements JottTree {
     // < var_dec > -> < type > <id > < end_statement >
 
     private final TypeNode typeNode;

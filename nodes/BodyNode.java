@@ -16,7 +16,7 @@ public class BodyNode implements JottTree {
     static BodyNode parseBodyNode(ArrayList<Token> tokens) {
         ArrayList<BodyStmtNode> bodyStmtNodes = new ArrayList<>();
         ReturnStmtNode returnStmtNode = null;
-        bodyStmtNodes = getbodystmtnodes(tokens, bodyStmtNodes);
+        bodyStmtNodes = getBodyStmtNodes(tokens, bodyStmtNodes);
         try {
             returnStmtNode = ReturnStmtNode.parseReturnStmtNode(tokens);
         }
@@ -24,10 +24,10 @@ public class BodyNode implements JottTree {
         return new BodyNode(bodyStmtNodes, returnStmtNode);
     }
 
-    static ArrayList<BodyStmtNode> getbodystmtnodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes) {
+    static ArrayList<BodyStmtNode> getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes) {
         try {
             bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens));
-            getbodystmtnodes(tokens, bodyStmtNodes);
+            getBodyStmtNodes(tokens, bodyStmtNodes);
         }
         catch (Exception ignored) {}
         return bodyStmtNodes;
