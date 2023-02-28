@@ -6,26 +6,38 @@ import provided.Token;
 import java.util.ArrayList;
 
 public class ProgramNode implements JottTree {
-    static ProgramNode parseProgramNode(ArrayList<Token> tokens) { return null; }
+
+    private final FunctionListNode functionListNode;
+
+    public ProgramNode(FunctionListNode functionListNode){this.functionListNode = functionListNode;}
+    static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
+        try {
+            FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
+            return new ProgramNode(functionListNode);
+        }
+        catch (IndexOutOfBoundsException e){
+            throw new Exception();
+        }
+    }
 
     @Override
     public String convertToJott() {
-        return null;
+        return this.functionListNode.convertToJott();
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return this.functionListNode.convertToJava(className);
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return this.functionListNode.convertToC();
     }
 
     @Override
     public String convertToPython() {
-        return null;
+        return this.functionListNode.convertToPython();
     }
 
     @Override

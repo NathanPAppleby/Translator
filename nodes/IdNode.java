@@ -2,11 +2,12 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
 
-public class IdNode extends ExprNode implements JottTree {
+public class IdNode implements ExprNode {
 
     private final Token token;
 
@@ -14,11 +15,17 @@ public class IdNode extends ExprNode implements JottTree {
         this.token = token;
     }
 
-    static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception { return null; }
+    static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception {
+        Token t = tokens.get(0);
+        if (t.getTokenType() != TokenType.ID_KEYWORD) {
+            throw new Exception();
+        }
+        return new IdNode(t);
+    }
 
     @Override
     public String convertToJott() {
-        return null;
+        return token.getToken();
     }
 
     @Override

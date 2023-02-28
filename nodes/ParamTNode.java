@@ -1,16 +1,29 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class ParamTNode implements JottTree {
-    static ParamTNode parseParamTNode(ArrayList<Token> tokens) { return null; }
+public class ParamTNode extends ParamNode {
+    // < params_t > -> ,< expr > < params_t > | nothing
+    public ParamTNode(ExprNode exprNode, ParamTNode paramTNode) {
+        super(exprNode, paramTNode);
+    }
+
+    static ParamTNode parseParamTNode(ArrayList<Token> tokens) throws Exception {
+        if (tokens.get(0).getTokenType() != TokenType.COMMA) {
+            return null;
+        }
+        tokens.remove(0);
+        ExprNode exprNode = ExprNode.parseExprNode(tokens);
+        ParamTNode paramTNode = ParamTNode.parseParamTNode(tokens);
+        return new ParamTNode(exprNode, paramTNode);
+    }
 
     @Override
     public String convertToJott() {
-        return null;
+        return "," + super.convertToJott();
     }
 
     @Override
