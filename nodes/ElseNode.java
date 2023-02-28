@@ -7,6 +7,7 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class ElseNode implements JottTree {
+
     // < else > -> else { < body } | nothing
 
     private final BodyNode bodyNode;
