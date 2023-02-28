@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *     <func_call> <op> <n_expr>   (ConstantNode OpNode ExprNode)
  *     <n_expr> <rel_op> <n_expr>  (ExprNode RelOpNode ExprNode)
  */
-public class OperationNode extends ExprNode implements JottTree {
+public class OperationNode implements ExprNode {
     private final ExprNode left;
     private final OpNode middle;
     private final ExprNode right;

@@ -15,7 +15,15 @@ import java.util.ArrayList;
  *         - <expr> operator <expr> (currently: <expr> OpNode <expr>)
  *     IdNode <id/keyword>
  */
-public class ExprNode implements JottTree {
+public interface ExprNode extends JottTree {
+
+    //private final ExprNode theNode;
+    /*
+    public ExprNode(ExprNode node) {
+        this.theNode = node;
+    }
+
+     */
 
     //each token in arrayList of Tokens knows its Type from tokenizing logic
     static ExprNode parseExprNode(ArrayList<Token> tokens) throws Exception {
@@ -25,6 +33,7 @@ public class ExprNode implements JottTree {
                 tokens.get(0).getToken().equals("true") || tokens.get(0).getToken().equals("false"))
         {
             return ConstantNode.parseConstantNode(tokens);
+            //return new ExprNode(ConstantNode.parseConstantNode(tokens));
         }
         else if (tokens.size() > 1) { //this might be pointless, tokens passed in will always be greater
             // if Function Call Node. MUST Check for func call before id because func call starts with id
@@ -42,32 +51,7 @@ public class ExprNode implements JottTree {
         } else {
             throw new Exception();
         }
-        return null; //should never hit
-    }
-
-
-    @Override
-    public String convertToJott() {
         return null;
     }
 
-    @Override
-    public String convertToJava(String className) {
-        return null;
-    }
-
-    @Override
-    public String convertToC() {
-        return null;
-    }
-
-    @Override
-    public String convertToPython() {
-        return null;
-    }
-
-    @Override
-    public boolean validateTree() {
-        return false;
-    }
 }

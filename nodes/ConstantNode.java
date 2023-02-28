@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *     String as defined in DFA (<str_literal>)
  *     Boolean (<bool>)
  */
-public class ConstantNode extends ExprNode implements JottTree {
+public class ConstantNode implements ExprNode {
 
     private final Token token;
 

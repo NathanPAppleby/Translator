@@ -7,7 +7,7 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 
-public class IdNode extends ExprNode implements JottTree {
+public class IdNode implements ExprNode {
 
     private final Token token;
 
