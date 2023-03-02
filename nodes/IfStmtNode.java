@@ -49,9 +49,9 @@ public class IfStmtNode implements BodyStmtNode {
     public String convertToJott() {
         return "if[" +
                 this.b_expr.convertToJott() +
-                "] {" +
+                "] {\n" +
                 this.body.convertToJott() +
-                "}" +
+                "\n}\n" +
                 this.elseif_lst.convertToJott() +
                 this.else_node.convertToJott();
     }
