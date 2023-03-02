@@ -6,7 +6,7 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class IfStmtNode extends BodyStmtNode {
+public class IfStmtNode implements BodyStmtNode {
 
     private ExprNode b_expr;
     private BodyNode body;

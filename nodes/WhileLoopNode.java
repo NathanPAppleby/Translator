@@ -6,7 +6,7 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class WhileLoopNode extends BodyStmtNode implements JottTree {
+public class WhileLoopNode implements BodyStmtNode {
 
     private final ExprNode bool_expr;
     private final BodyNode body_node;

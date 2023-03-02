@@ -5,7 +5,7 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class StmtNode extends BodyStmtNode implements JottTree {
+public class StmtNode implements BodyStmtNode {
 
 
     static StmtNode parseStmtNode(ArrayList<Token> tokens) throws Exception {
