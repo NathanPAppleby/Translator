@@ -40,7 +40,7 @@ public class FunctionDefNode implements JottTree {
         if (tokens.get(0).getTokenType() == TokenType.R_BRACKET
             && tokens.get(1).getTokenType() == TokenType.COLON) {
             tokens.remove(0);
-            tokens.remove(1);
+            tokens.remove(0);
         }
         else {
             throw new Exception();
