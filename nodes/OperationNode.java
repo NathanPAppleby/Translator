@@ -1,13 +1,10 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
 
 /**
- * TODO THIS CLASSES FUNCTIONALITY is treating both rel_op and op as an OpNode-
- *  can we combine OpNode and RelOpNode into a single operator node class
  * A Type of ExprNode, OperationNode follows the format <expr> operator <expr>
  * which can break down into one of the following:
  *     <id> <op> <n_expr>          (ConstantNode OpNode ExprNode)
@@ -17,10 +14,10 @@ import java.util.ArrayList;
  */
 public class OperationNode implements ExprNode {
     private final ExprNode left;
-    private final OpNode middle;
+    private final OperatorNode middle;
     private final ExprNode right;
 
-    OperationNode(ExprNode leftNode, OpNode middleNode, ExprNode rightNode) {
+    OperationNode(ExprNode leftNode, OperatorNode middleNode, ExprNode rightNode) {
         this.left = leftNode;
         this.middle = middleNode;
         this.right = rightNode;
@@ -33,7 +30,7 @@ public class OperationNode implements ExprNode {
      */
     static OperationNode parseOperationNode(ArrayList<Token> tokens) throws Exception {
         ExprNode leftExpr = ExprNode.parseExprNode(tokens);
-        OpNode operation = OpNode.parseOpNode(tokens);
+        OperatorNode operation = OperatorNode.parseOperatorNode(tokens);
         ExprNode rightExpr = ExprNode.parseExprNode(tokens);
         return new OperationNode(leftExpr, operation, rightExpr);
     }

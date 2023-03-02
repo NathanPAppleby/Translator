@@ -17,15 +17,6 @@ import java.util.ArrayList;
  */
 public interface ExprNode extends JottTree {
 
-    //private final ExprNode theNode;
-    /*
-    public ExprNode(ExprNode node) {
-        this.theNode = node;
-    }
-
-     */
-
-    //each token in arrayList of Tokens knows its Type from tokenizing logic
     static ExprNode parseExprNode(ArrayList<Token> tokens) throws Exception {
         //if next token is constant Node- need to cut this down with a simple ask if constant node somehow
         if (tokens.get(0).getTokenType().equals(TokenType.STRING) ||
@@ -33,7 +24,6 @@ public interface ExprNode extends JottTree {
                 tokens.get(0).getToken().equals("true") || tokens.get(0).getToken().equals("false"))
         {
             return ConstantNode.parseConstantNode(tokens);
-            //return new ExprNode(ConstantNode.parseConstantNode(tokens));
         }
         else if (tokens.size() > 1) { //this might be pointless, tokens passed in will always be greater
             // if Function Call Node. MUST Check for func call before id because func call starts with id

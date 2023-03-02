@@ -49,8 +49,11 @@ public class WhileLoopNode extends BodyStmtNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return "while[" + this.bool_expr.convertToJott() + "] " +
-                "{" + this.body_node.convertToJott() + "}";
+        return "while[" +
+                this.bool_expr.convertToJott() +
+                "] {" +
+                this.body_node.convertToJott() +
+                "}";
     }
 
     @Override

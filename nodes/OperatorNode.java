@@ -6,20 +6,23 @@ import provided.Token;
 import java.util.ArrayList;
 
 
-public class OpNode implements JottTree {
+/**
+ * Handles <op> & <rel_op>
+ */
+public class OperatorNode implements JottTree {
 
     private final Token token;
 
-    public OpNode(Token token){
+    public OperatorNode(Token token){
         this.token = token;
     }
 
-    static OpNode parseOpNode(ArrayList<Token> tokens) throws Exception {
+    static OperatorNode parseOperatorNode(ArrayList<Token> tokens) throws Exception {
         Token t = tokens.get(0);
-        switch (t.getToken()) {
-            case "+", "*", "/", "-" -> {
+        switch (t.getToken()) { //first four <op>
+            case "+", "*", "/", "-", ">", "<", ">=", "<=", "==", "!=" -> {
                 tokens.remove(0);
-                return new OpNode(t);
+                return new OperatorNode(t);
             }
             default -> throw new Exception();
         }
@@ -27,7 +30,7 @@ public class OpNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return token.getToken();
     }
 
     @Override
