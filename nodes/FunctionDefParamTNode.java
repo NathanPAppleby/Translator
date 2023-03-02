@@ -16,13 +16,19 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
         if (tokens.get(0).getTokenType() != TokenType.COMMA) {
             return null;
         }
+        tokens.remove(0);
+
         IdNode idNode = IdNode.parseIdNode(tokens);
+
         if (tokens.get(0).getTokenType() != TokenType.COLON) {
             throw new Exception();
         }
         tokens.remove(0);
+
         TypeNode typeNode = TypeNode.parseTypeNode(tokens);
+
         FunctionDefParamTNode fDefParamTNode = FunctionDefParamTNode.parseFunctionDefParamTNode(tokens);
+
         return new FunctionDefParamTNode(idNode, typeNode, fDefParamTNode);
     }
 
