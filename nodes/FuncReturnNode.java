@@ -16,6 +16,7 @@ public class FuncReturnNode implements JottTree {
 
     static FuncReturnNode parseFuncReturnNode(ArrayList<Token> tokens) throws Exception {
          if (tokens.get(0).getToken().equals("Void")) {
+             tokens.remove(0);
              return new FuncReturnNode(null);
          }
          return new FuncReturnNode(TypeNode.parseTypeNode(tokens));
