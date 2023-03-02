@@ -2,6 +2,7 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,11 @@ public interface StmtNode extends BodyStmtNode, JottTree {
                 return AssignNode.parseAssignNode(tokens);
             }
             else{
-                return FuncCallNode.parseFuncCallNode(tokens);
+                FuncCallNode funcCallNode = FuncCallNode.parseFuncCallNode(tokens);
+                if (tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
+                    throw new Exception();
+                }
+                return funcCallNode;
             }
         }
     }
