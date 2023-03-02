@@ -31,6 +31,7 @@ public interface StmtNode extends BodyStmtNode, JottTree {
                 if (tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
                     throw new Exception();
                 }
+                tokens.remove(0);
                 return funcCallNode;
             }
         }
