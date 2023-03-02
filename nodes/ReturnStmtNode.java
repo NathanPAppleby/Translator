@@ -13,6 +13,9 @@ public class ReturnStmtNode implements JottTree {
     }
 
     static ReturnStmtNode parseReturnStmtNode(ArrayList<Token> tokens) throws Exception {
+        if (!tokens.get(0).getToken().equals("return")) {
+            throw new Exception();
+        }
         Token returnToken = tokens.remove(0);
         if(returnToken.getToken().equals("return")){
             ExprNode exprNode = ExprNode.parseExprNode(tokens);

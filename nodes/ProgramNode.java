@@ -10,14 +10,12 @@ public class ProgramNode implements JottTree {
     private final FunctionListNode functionListNode;
 
     public ProgramNode(FunctionListNode functionListNode){this.functionListNode = functionListNode;}
+
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
-        try {
-            FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
-            return new ProgramNode(functionListNode);
-        }
-        catch (IndexOutOfBoundsException e){
-            throw new Exception();
-        }
+
+        FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
+        return new ProgramNode(functionListNode);
+
     }
 
     @Override

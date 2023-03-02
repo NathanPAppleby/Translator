@@ -67,7 +67,7 @@ public class FunctionDefNode implements JottTree {
         return "def " +
                 this.idNode.convertToJott() +
                 "[" +
-                this.fDefParamNode.convertToJott() +
+                (this.fDefParamNode == null ? "" : this.fDefParamNode.convertToJott())  +
                 "]: " +
                 this.funcReturnNode.convertToJott() +
                 "{" +
