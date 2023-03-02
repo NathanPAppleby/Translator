@@ -6,7 +6,7 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class FuncCallNode extends StmtNode implements ExprNode {
+public class FuncCallNode implements StmtNode, ExprNode {
     // < func_call > -> <id >[ params ]
     private final IdNode idNode;
     private final ParamNode paramNode; // Can be nothing
