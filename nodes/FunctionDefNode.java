@@ -53,7 +53,7 @@ public class FunctionDefNode implements JottTree {
             throw new Exception();
         }
         BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
-        if (tokens.remove(0).getTokenType() == TokenType.R_BRACE) {
+        if (tokens.get(0).getTokenType() == TokenType.R_BRACE) {
             tokens.remove(0);
         }
         else {
