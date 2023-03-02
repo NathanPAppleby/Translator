@@ -47,13 +47,15 @@ public class ElseIfLstNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return "elseif[" +
+        String out =    "elseif[ " +
                 this.bexprNode.convertToJott() +
-                "] {" +
+                "] {\n" +
                 this.bodyNode.convertToJott() +
-                "}" +
-                this.elseIfLstNode.convertToJott();
-        //todo is eplison handled here?
+                "\n}\n";
+        if (this.elseIfLstNode != null) {
+            out += this.elseIfLstNode.convertToJott();
+        }
+        return out;
     }
 
     @Override
