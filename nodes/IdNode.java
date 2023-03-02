@@ -20,6 +20,7 @@ public class IdNode implements ExprNode {
         if (t.getTokenType() != TokenType.ID_KEYWORD) {
             throw new Exception();
         }
+        tokens.remove(0);
         return new IdNode(t);
     }
 
