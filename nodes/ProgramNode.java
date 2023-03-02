@@ -10,7 +10,7 @@ public class ProgramNode implements JottTree {
     private final FunctionListNode functionListNode;
 
     public ProgramNode(FunctionListNode functionListNode){this.functionListNode = functionListNode;}
-    static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
+    public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
         try {
             FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
             return new ProgramNode(functionListNode);
