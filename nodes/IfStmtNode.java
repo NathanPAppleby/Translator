@@ -47,7 +47,13 @@ public class IfStmtNode implements BodyStmtNode {
 
     @Override
     public String convertToJott() {
-        return null;
+        return "if[" +
+                this.b_expr.convertToJott() +
+                "] {" +
+                this.body.convertToJott() +
+                "}" +
+                this.elseif_lst.convertToJott() +
+                this.else_node.convertToJott();
     }
 
     @Override

@@ -7,12 +7,12 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class ElseIfLstNode implements JottTree {
-    private ExprNode exprNode;
+    private ExprNode bexprNode;
     private BodyNode bodyNode;
     private ElseIfLstNode elseIfLstNode;
 
     public ElseIfLstNode(ExprNode exprNode, BodyNode bodyNode, ElseIfLstNode elseIfLstNode) {
-        this.exprNode = exprNode;
+        this.bexprNode = exprNode;
         this.bodyNode = bodyNode;
         this.elseIfLstNode = elseIfLstNode;
     }
@@ -47,7 +47,13 @@ public class ElseIfLstNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return "elseif[" +
+                this.bexprNode.convertToJott() +
+                "] {" +
+                this.bodyNode.convertToJott() +
+                "}" +
+                this.elseIfLstNode.convertToJott();
+        //todo is eplison handled here?
     }
 
     @Override
