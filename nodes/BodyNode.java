@@ -2,8 +2,8 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BodyNode implements JottTree {
@@ -13,24 +13,22 @@ public class BodyNode implements JottTree {
         this.bodyStmtNodes = bodyStmtNodes;
         this.returnStmtNode = returnStmtNode;
     }
-    static BodyNode parseBodyNode(ArrayList<Token> tokens) {
+    static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
         ArrayList<BodyStmtNode> bodyStmtNodes = new ArrayList<>();
         ReturnStmtNode returnStmtNode = null;
-        bodyStmtNodes = getBodyStmtNodes(tokens, bodyStmtNodes);
-        try {
+        getBodyStmtNodes(tokens, bodyStmtNodes);
+        if (tokens.get(0).getToken().equals("return")) {
             returnStmtNode = ReturnStmtNode.parseReturnStmtNode(tokens);
         }
-        catch (Exception ignored) {}
         return new BodyNode(bodyStmtNodes, returnStmtNode);
     }
 
-    static ArrayList<BodyStmtNode> getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes) {
-        try {
+    static void getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes) throws Exception {
+        if(!tokens.get(0).getToken().equals("return") &&
+                tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD)) {
             bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens));
             getBodyStmtNodes(tokens, bodyStmtNodes);
         }
-        catch (Exception ignored) {}
-        return bodyStmtNodes;
     }
 
     @Override
@@ -65,3 +63,4 @@ public class BodyNode implements JottTree {
         return false;
     }
 }
+
