@@ -21,11 +21,8 @@ public class AssignNode implements StmtNode {
     }
 
     static AssignNode parseAssignNode(ArrayList<Token> tokens) throws Exception {
-        TypeNode typeNode = null;
-        try {
-            typeNode = TypeNode.parseTypeNode(tokens);
-        }
-        catch (Exception ignored) { }
+
+        TypeNode typeNode = TypeNode.parseTypeNode(tokens);
 
         IdNode idNode = IdNode.parseIdNode(tokens);
 
@@ -46,8 +43,12 @@ public class AssignNode implements StmtNode {
 
     @Override
     public String convertToJott() {
-        return (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
-                exprNode.convertToJott() + ";";
+        String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
+                exprNode.convertToJott();
+        if(!output.contains(";")){
+            output += ";";
+        }
+        return output;
     }
 
     @Override
