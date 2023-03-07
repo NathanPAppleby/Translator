@@ -22,6 +22,10 @@ public class FuncReturnNode implements JottTree {
          return new FuncReturnNode(TypeNode.parseTypeNode(tokens));
     }
 
+    public String getReturnType() {
+        return typeNode == null ? "Void" : typeNode.convertToJott();
+    }
+
     @Override
     public String convertToJott() {
         return (typeNode == null ? "Void" : typeNode.convertToJott());

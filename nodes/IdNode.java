@@ -24,6 +24,10 @@ public class IdNode implements ExprNode {
         return new IdNode(t);
     }
 
+    public String getIdName() {
+        return token.getToken();
+    }
+
     @Override
     public String convertToJott() {
         return token.getToken();
