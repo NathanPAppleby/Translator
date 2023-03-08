@@ -16,7 +16,8 @@ public class TypeNode implements JottTree {
     static TypeNode parseTypeNode(ArrayList<Token> tokens) throws Exception {
         return switch (tokens.get(0).getToken()) {
             case "Double", "Integer", "String", "Boolean" -> new TypeNode(tokens.remove(0));
-            default -> throw new Exception();
+            default -> throw new Exception(String.format("Type Error:\nInvalid type \"%s\"\n%s:%d\n",
+                    tokens.get(0).getToken(), tokens.get(0).getFilename(), tokens.get(0).getLineNum()));
         };
     }
 

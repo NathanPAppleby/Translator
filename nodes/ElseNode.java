@@ -23,14 +23,16 @@ public class ElseNode implements JottTree {
         tokens.remove(0);
 
         if (tokens.get(0).getTokenType() != TokenType.L_BRACE) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("Else Error:\nReceived token \"%s\" expected \"{\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 
         BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
 
         if (tokens.get(0).getTokenType() != TokenType.R_BRACE) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("Else Error:\nReceived token \"%s\" expected \"}\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 

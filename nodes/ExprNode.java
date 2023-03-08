@@ -53,13 +53,15 @@ public interface ExprNode extends JottTree {
             //this if is handling case where directly after '=' we have '-''-', the lone minus case.
             //we should not be returning an operation node if we don't have a complete operation node,
             if(expressionNode == null){
-                throw new Exception();
+               Token errToken = tokens.get(0);
+                throw new Exception(String.format("Expression Error:\nEmpty Expression\n%s:%d\n", errToken.getFilename(), errToken.getLineNum()));
             } else {
                 return new OperationNode(expressionNode, op, right);
             }
         } else { // we have a number, but no op or rel op follows, so our expression is simply a number
             if(expressionNode == null){
-                throw new Exception();
+                Token errToken = tokens.get(0);
+                throw new Exception(String.format("Expression Error:\nEmpty Expression\n%s:%d\n", errToken.getFilename(), errToken.getLineNum()));
             }
             return expressionNode;
         }

@@ -21,7 +21,8 @@ public class VarDecNode implements StmtNode {
         TypeNode typeNode = TypeNode.parseTypeNode(tokens);
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("Variable Declaration Error:\nReceived token \"%s\" expected \";\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
         return new VarDecNode(typeNode, idNode);

@@ -29,7 +29,8 @@ public interface StmtNode extends BodyStmtNode, JottTree {
             else{
                 FuncCallNode funcCallNode = FuncCallNode.parseFuncCallNode(tokens);
                 if (tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
-                    throw new Exception();
+                    Token errToken = tokens.get(0);
+                    throw new Exception(String.format("Function Call Error:\nReceived token \"%s\" expected \";\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
                 }
                 tokens.remove(0);
                 return funcCallNode;

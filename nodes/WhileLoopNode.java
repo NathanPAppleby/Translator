@@ -18,29 +18,34 @@ public class WhileLoopNode implements BodyStmtNode {
 
     static WhileLoopNode parseWhileLoopNode(ArrayList<Token> tokens) throws Exception {
         if (!tokens.get(0).getToken().equals("while")) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"while\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove "while"
         if (!tokens.get(0).getTokenType().equals(TokenType.L_BRACKET)) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"[\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove '['
 
         ExprNode exprNode = ExprNode.parseExprNode(tokens);
 
         if (!tokens.get(0).getTokenType().equals(TokenType.R_BRACKET)) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"]\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove ']'
         if (!tokens.get(0).getTokenType().equals(TokenType.L_BRACE)) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"{\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove '{'
 
         BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
 
         if (!tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"}\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove '}'
 
