@@ -52,6 +52,9 @@ public interface ExprNode extends JottTree {
             ExprNode right = ExprNode.parseExprNode(tokens);
             return new OperationNode(expressionNode, op, right);
         } else { // we have a number, but no op or rel op follows, so our expression is simply a number
+            if(expressionNode == null){
+                throw new Exception();
+            }
             return expressionNode;
         }
     }

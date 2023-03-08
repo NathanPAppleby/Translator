@@ -2,63 +2,62 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
 public class FunctionListNode implements JottTree {
-    private final FunctionDefNode functionDefNode;
-    private final FunctionListNode next;
-
-    public FunctionListNode(FunctionDefNode functionDefNode, FunctionListNode next) {
-        this.functionDefNode = functionDefNode;
-        this.next = next;
+    private final ArrayList<FunctionDefNode> functionDefNodes;
+    public FunctionListNode(ArrayList<FunctionDefNode> functionDefNodes) {
+        this.functionDefNodes = functionDefNodes;
     }
 
     static FunctionListNode parseFunctionListNode(ArrayList<Token> tokens) throws Exception {
-        if(!tokens.isEmpty()){
-            FunctionDefNode functionDefNode = FunctionDefNode.parseFunctionDefNode(tokens);
-            FunctionListNode next = FunctionListNode.parseFunctionListNode(tokens);
-            return new FunctionListNode(functionDefNode, next);
-        }
-        else {
-            return null;
-        }
+        ArrayList<FunctionDefNode> functionDefNodes = new ArrayList<>();
+        getFunctionDefNodes(tokens, functionDefNodes);
+        return new FunctionListNode(functionDefNodes);
     }
 
+    static void getFunctionDefNodes(ArrayList<Token> tokens, ArrayList<FunctionDefNode> functionDefNodes) throws Exception {
+        if(!tokens.isEmpty()) {
+            functionDefNodes.add(FunctionDefNode.parseFunctionDefNode(tokens));
+            getFunctionDefNodes(tokens, functionDefNodes);
+        }
+    }
     @Override
     public String convertToJott() {
-        String output = this.functionDefNode.convertToJott();
-        if(this.next != null){
-            output += "\n" + this.next.convertToJott();
+        StringBuilder output = new StringBuilder();
+        for(FunctionDefNode defNode : this.functionDefNodes){
+            output.append(defNode.convertToJott()).append("\n");
         }
-        return output;
+        return output.toString();
     }
 
     @Override
     public String convertToJava(String className) {
-        String output = this.functionDefNode.convertToJava(className);
-        if(this.next != null){
-            output += "\n" + this.next.convertToJava(className);
+        StringBuilder output = new StringBuilder();
+        for(FunctionDefNode defNode : this.functionDefNodes){
+            output.append(defNode.convertToJava(className)).append("\n");
         }
-        return output;
+        return output.toString();
     }
 
     @Override
     public String convertToC() {
-        String output = this.functionDefNode.convertToC();
-        if(this.next != null){
-            output += "\n" + this.next.convertToC();
+        StringBuilder output = new StringBuilder();
+        for(FunctionDefNode defNode : this.functionDefNodes){
+            output.append(defNode.convertToC()).append("\n");
         }
-        return output;
+        return output.toString();
     }
 
     @Override
     public String convertToPython() {
-        String output = this.functionDefNode.convertToPython();
-        if(this.next != null){
-            output += "\n" + this.next.convertToPython();
+        StringBuilder output = new StringBuilder();
+        for(FunctionDefNode defNode : this.functionDefNodes){
+            output.append(defNode.convertToPython()).append("\n");
         }
-        return output;
+        return output.toString();
     }
 
     @Override
