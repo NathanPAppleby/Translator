@@ -45,9 +45,7 @@ public class AssignNode implements StmtNode {
     public String convertToJott() {
         String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
                 exprNode.convertToJott();
-        if(!output.contains(";")){
-            output += ";";
-        }
+
         return output;
     }
 

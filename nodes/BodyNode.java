@@ -35,8 +35,14 @@ public class BodyNode implements JottTree {
     public String convertToJott() {
         StringBuilder output = new StringBuilder();
         for(BodyStmtNode bodyStmtNode: this.bodyStmtNodes){
-            output.append(bodyStmtNode.convertToJott()).append("\n");
-        };
+            StringBuilder body = new StringBuilder(bodyStmtNode.convertToJott());
+            if (body.charAt(body.length()-1) != '}'){
+                output.append(bodyStmtNode.convertToJott()).append(";\n");
+            }
+            else{
+                output.append(bodyStmtNode.convertToJott()).append("\n");
+            }
+        }
         if(this.returnStmtNode != null){
             output.append(this.returnStmtNode.convertToJott()).append("\n");
         }

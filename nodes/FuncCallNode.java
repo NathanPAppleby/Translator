@@ -32,7 +32,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public String convertToJott() {
-        return idNode.convertToJott() + "[" + paramNode.convertToJott() + "];";
+        return idNode.convertToJott() + "[" + paramNode.convertToJott() + "]";
     }
 
     @Override
