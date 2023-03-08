@@ -50,7 +50,13 @@ public interface ExprNode extends JottTree {
                 tokens.get(0).getTokenType().equals(TokenType.REL_OP)) { //Need to check if negative sign or math op.
             OperatorNode op = OperatorNode.parseOperatorNode(tokens);
             ExprNode right = ExprNode.parseExprNode(tokens);
-            return new OperationNode(expressionNode, op, right);
+            //this if is handling case where directly after '=' we have '-''-', the lone minus case.
+            //we should not be returning an operation node if we don't have a complete operation node,
+            if(expressionNode == null){
+                throw new Exception();
+            } else {
+                return new OperationNode(expressionNode, op, right);
+            }
         } else { // we have a number, but no op or rel op follows, so our expression is simply a number
             if(expressionNode == null){
                 throw new Exception();
