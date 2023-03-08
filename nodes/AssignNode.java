@@ -32,6 +32,8 @@ public class AssignNode implements StmtNode {
         IdNode idNode = IdNode.parseIdNode(tokens);
 
         if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
+            Token errToken = tokens.get(0);
+            System.err.printf("\nAssign Error:\n\tExpected Assign Token, found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         tokens.remove(0);
@@ -39,6 +41,8 @@ public class AssignNode implements StmtNode {
         ExprNode exprNode = ExprNode.parseExprNode(tokens);
 
         if(tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
+            Token errToken = tokens.get(0);
+            System.err.printf("Function Definition Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         tokens.remove(0);

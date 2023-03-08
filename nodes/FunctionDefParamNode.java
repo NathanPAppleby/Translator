@@ -25,6 +25,8 @@ public class FunctionDefParamNode implements JottTree {
         }
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (tokens.get(0).getTokenType() != TokenType.COLON) {
+            Token errToken = tokens.get(0);
+            System.err.printf("\nFunction Definition Parameter Error:\n\tExpected \":\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         tokens.remove(0);

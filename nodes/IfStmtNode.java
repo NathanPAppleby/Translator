@@ -37,22 +37,22 @@ public class IfStmtNode implements BodyStmtNode {
                         return new IfStmtNode(exprNode, bodyNode, elseIfLstNode, elseNode);
                     } else {
                         Token errToken = tokens.get(0);
-                        System.err.printf("Missing Token Error:\nExpected \"}\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
+                        System.err.printf("\nMissing Token Error:\n\tExpected \"}\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
                         throw new Exception();
                     }
                 } else {
                     Token errToken = tokens.get(0);
-                    System.err.printf("Missing Token Error:\nExpected \"{\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
+                    System.err.printf("\nMissing Token Error:\n\tExpected \"{\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
                     throw new Exception();
                 }
             } else {
                 Token errToken = tokens.get(0);
-                System.err.printf("Missing Token Error:\nExpected \"]\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
+                System.err.printf("\nMissing Token Error:\n\tExpected \"]\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
                 throw new Exception();
             }
         } else {
             Token errToken = tokens.get(0);
-            System.err.printf("Missing Token Error:\nExpected \"[\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
+            System.err.printf("\nMissing Token Error:\n\tExpected \"[\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
     }

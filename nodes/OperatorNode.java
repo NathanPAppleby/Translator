@@ -24,7 +24,10 @@ public class OperatorNode implements JottTree {
                 tokens.remove(0);
                 return new OperatorNode(t);
             }
-            default -> throw new Exception();
+            default -> {
+                System.err.printf("\nOperator Error:\n\tExpected Operator Token, found \"%s\"\n\t%s:%d\n", t.getToken(), t.getFilename(), t.getLineNum());
+                throw new Exception();
+            }
         }
     }
 

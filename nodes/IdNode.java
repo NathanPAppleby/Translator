@@ -18,6 +18,8 @@ public class IdNode implements ExprNode {
     static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception {
         Token t = tokens.get(0);
         if (t.getTokenType() != TokenType.ID_KEYWORD) {
+            Token errToken = tokens.get(0);
+            System.err.printf("\nID/Keyword Error:\n\tExpected id/keyword token, found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         tokens.remove(0);
