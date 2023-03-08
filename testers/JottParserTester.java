@@ -72,6 +72,7 @@ public class JottParserTester {
         testCases.add(new TestCase("missing closing } (error)", "missingClosing.jott", true ));
     }
 
+
     private boolean parserTest(TestCase test, String orginalJottCode){
         try {
             ArrayList<Token> tokens = JottTokenizer.tokenize("parserTestCases/" + test.fileName);

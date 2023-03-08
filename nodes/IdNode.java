@@ -19,8 +19,7 @@ public class IdNode implements ExprNode {
         Token t = tokens.get(0);
         if (t.getTokenType() != TokenType.ID_KEYWORD) {
             Token errToken = tokens.get(0);
-            System.err.printf("\nID/Keyword Error:\n\tExpected id/keyword token, found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-            throw new Exception();
+            throw new Exception(String.format("\nID/Keyword Error:\n\tExpected id/keyword token, found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
         return new IdNode(t);

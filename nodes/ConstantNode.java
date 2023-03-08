@@ -35,8 +35,7 @@ public class ConstantNode implements ExprNode {
             return new ConstantNode(tokens.remove(0));
         } else {
             Token errToken = tokens.get(0);
-            System.err.printf("Invalid Constant Error:\n\"%s\" is an invalid constant\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-            throw new Exception();
+            throw new Exception(String.format("Invalid Constant Error:\n\"%s\" is an invalid constant\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
     }
 

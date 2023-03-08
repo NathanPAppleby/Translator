@@ -37,23 +37,19 @@ public class IfStmtNode implements BodyStmtNode {
                         return new IfStmtNode(exprNode, bodyNode, elseIfLstNode, elseNode);
                     } else {
                         Token errToken = tokens.get(0);
-                        System.err.printf("\nMissing Token Error:\n\tExpected \"}\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-                        throw new Exception();
+                        throw new Exception(String.format("\nMissing Token Error:\n\tExpected \"}\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
                     }
                 } else {
                     Token errToken = tokens.get(0);
-                    System.err.printf("\nMissing Token Error:\n\tExpected \"{\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-                    throw new Exception();
+                    throw new Exception(String.format("\nMissing Token Error:\n\tExpected \"{\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
                 }
             } else {
                 Token errToken = tokens.get(0);
-                System.err.printf("\nMissing Token Error:\n\tExpected \"]\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-                throw new Exception();
+                throw new Exception(String.format("\nMissing Token Error:\n\tExpected \"]\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
             }
         } else {
             Token errToken = tokens.get(0);
-            System.err.printf("\nMissing Token Error:\n\tExpected \"[\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-            throw new Exception();
+            throw new Exception(String.format("\nMissing Token Error:\n\tExpected \"[\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
     }
 

@@ -20,15 +20,13 @@ public class FuncCallNode implements StmtNode, ExprNode {
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (tokens.get(0).getTokenType() != TokenType.L_BRACKET) {
             Token errToken = tokens.get(0);
-            System.err.printf("\nFunction Call Error:\n\tExpected \"[\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-            throw new Exception();
+            throw new Exception(String.format("\nFunction Call Error:\n\tExpected \"[\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
         ParamNode paramNode = ParamNode.parseParamNode(tokens);
         if (tokens.get(0).getTokenType() != TokenType.R_BRACKET) {
             Token errToken = tokens.get(0);
-            System.err.printf("\nFunction Definition Error:\n\tExpected \"]\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
-            throw new Exception();
+            throw new Exception(String.format("\nFunction Definition Error:\n\tExpected \"]\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
         return new FuncCallNode(idNode, paramNode);
