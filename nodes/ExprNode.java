@@ -27,7 +27,16 @@ public interface ExprNode extends JottTree {
             return ConstantNode.parseConstantNode(tokens);
         }
         ExprNode expressionNode = null; //will be <id> or <num>
-        if ( tokens.get(0).getTokenType().equals(TokenType.NUMBER) ) {
+        // Negative Number check
+        if (tokens.get(0).getToken().equals("-") && tokens.get(1).getTokenType().equals(TokenType.NUMBER)) {
+            tokens.remove(0); //remove negative token
+            Token num = tokens.remove(0); //remove num
+            Token negativeNum = new Token("-" + num.getToken(), num.getFilename(), num.getLineNum(), num.getTokenType());
+            tokens.add(0, negativeNum); //Add negative num back in
+            expressionNode = ConstantNode.parseConstantNode(tokens);
+        }
+        // Positive Number check
+        else if ( tokens.get(0).getTokenType().equals(TokenType.NUMBER) ) {
             expressionNode = ConstantNode.parseConstantNode(tokens);
         } else if ( tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) ) {
             //MUST Check for func call before id because func call starts with id
@@ -38,7 +47,7 @@ public interface ExprNode extends JottTree {
             }
         }
         if (tokens.get(0).getTokenType().equals(TokenType.MATH_OP) ||
-                tokens.get(0).getTokenType().equals(TokenType.REL_OP)) {
+                tokens.get(0).getTokenType().equals(TokenType.REL_OP)) { //Need to check if negative sign or math op.
             OperatorNode op = OperatorNode.parseOperatorNode(tokens);
             ExprNode right = ExprNode.parseExprNode(tokens);
             return new OperationNode(expressionNode, op, right);
