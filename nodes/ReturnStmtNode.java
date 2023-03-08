@@ -14,20 +14,18 @@ public class ReturnStmtNode implements JottTree {
 
     static ReturnStmtNode parseReturnStmtNode(ArrayList<Token> tokens) throws Exception {
         if (!tokens.get(0).getToken().equals("return")) {
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("Function Return Error:\nReceived token \"%s\" expected \"return\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
-        Token returnToken = tokens.remove(0);
-        if(returnToken.getToken().equals("return")){
-            ExprNode exprNode = ExprNode.parseExprNode(tokens);
-            if(tokens.remove(0).getToken().equals(";")) {
-                return new ReturnStmtNode(exprNode);
-            }
-            else{
-                throw new Exception();
-            }
+        tokens.remove(0);
+        ExprNode exprNode = ExprNode.parseExprNode(tokens);
+        if(tokens.get(0).getToken().equals(";")) {
+            tokens.remove(0);
+            return new ReturnStmtNode(exprNode);
         }
         else{
-            throw new Exception();
+            Token errToken = tokens.get(0);
+            throw new Exception(String.format("Function Return Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
     }
 
