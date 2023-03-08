@@ -22,7 +22,7 @@ public class VarDecNode implements StmtNode {
         IdNode idNode = IdNode.parseIdNode(tokens);
         if (tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Variable Declaration Error:\nReceived token \"%s\" expected \";\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Variable Declaration Error:\n\tReceived token \"%s\" expected \";\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
         return new VarDecNode(typeNode, idNode);

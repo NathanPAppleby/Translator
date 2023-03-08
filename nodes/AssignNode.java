@@ -33,7 +33,7 @@ public class AssignNode implements StmtNode {
 
         if (tokens.get(0).getTokenType() != TokenType.ASSIGN) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("\nAssign Error:\n\tExpected Assign Token, found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Assign Error:\n\tExpected Assign Token, found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 
@@ -41,7 +41,7 @@ public class AssignNode implements StmtNode {
 
         if(tokens.get(0).getTokenType() != TokenType.SEMICOLON) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Function Definition Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Assign Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 

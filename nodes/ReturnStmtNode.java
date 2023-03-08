@@ -15,7 +15,7 @@ public class ReturnStmtNode implements JottTree {
     static ReturnStmtNode parseReturnStmtNode(ArrayList<Token> tokens) throws Exception {
         if (!tokens.get(0).getToken().equals("return")) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Function Return Error:\nReceived token \"%s\" expected \"return\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Return Statement Error:\n\tReceived token \"%s\" expected \"return\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
         ExprNode exprNode = ExprNode.parseExprNode(tokens);
@@ -25,7 +25,7 @@ public class ReturnStmtNode implements JottTree {
         }
         else{
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Function Return Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Return Statement Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
     }
 

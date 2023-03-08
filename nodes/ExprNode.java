@@ -54,14 +54,14 @@ public interface ExprNode extends JottTree {
             //we should not be returning an operation node if we don't have a complete operation node,
             if(expressionNode == null){
                Token errToken = tokens.get(0);
-                throw new Exception(String.format("Expression Error:\nEmpty Expression\n%s:%d\n", errToken.getFilename(), errToken.getLineNum()));
+                throw new Exception(String.format("Expression Error:\n\tEmpty Expression\n\t%s:%d\n", errToken.getFilename(), errToken.getLineNum()));
             } else {
                 return new OperationNode(expressionNode, op, right);
             }
         } else { // we have a number, but no op or rel op follows, so our expression is simply a number
             if(expressionNode == null){
                 Token errToken = tokens.get(0);
-                throw new Exception(String.format("Expression Error:\nEmpty Expression\n%s:%d\n", errToken.getFilename(), errToken.getLineNum()));
+                throw new Exception(String.format("Expression Error:\n\tEmpty Expression\n\t%s:%d\n", errToken.getFilename(), errToken.getLineNum()));
             }
             return expressionNode;
         }

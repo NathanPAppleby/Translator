@@ -25,7 +25,7 @@ public class OperatorNode implements JottTree {
                 return new OperatorNode(t);
             }
             default -> {
-                throw new Exception(String.format("\nOperator Error:\n\tExpected Operator Token, found \"%s\"\n\t%s:%d\n", t.getToken(), t.getFilename(), t.getLineNum()));
+                throw new Exception(String.format("Operator Error:\n\tExpected Operator Token, found \"%s\"\n\t%s:%d\n", t.getToken(), t.getFilename(), t.getLineNum()));
             }
         }
     }

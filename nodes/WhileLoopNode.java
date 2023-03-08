@@ -19,12 +19,12 @@ public class WhileLoopNode implements BodyStmtNode {
     static WhileLoopNode parseWhileLoopNode(ArrayList<Token> tokens) throws Exception {
         if (!tokens.get(0).getToken().equals("while")) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"while\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("While Loop Error:\n\tReceived token \"%s\" expected \"while\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove "while"
         if (!tokens.get(0).getTokenType().equals(TokenType.L_BRACKET)) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"[\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("While Loop Error:\n\tReceived token \"%s\" expected \"[\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove '['
 
@@ -32,12 +32,12 @@ public class WhileLoopNode implements BodyStmtNode {
 
         if (!tokens.get(0).getTokenType().equals(TokenType.R_BRACKET)) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"]\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("While Loop Error:\n\tReceived token \"%s\" expected \"]\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove ']'
         if (!tokens.get(0).getTokenType().equals(TokenType.L_BRACE)) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"{\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("While Loop Error:\n\tReceived token \"%s\" expected \"{\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove '{'
 
@@ -45,7 +45,7 @@ public class WhileLoopNode implements BodyStmtNode {
 
         if (!tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("While Loop Error:\nReceived token \"%s\" expected \"}\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("While Loop Error:\n\tReceived token \"%s\" expected \"}\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0); //remove '}'
 

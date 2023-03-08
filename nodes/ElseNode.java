@@ -24,7 +24,7 @@ public class ElseNode implements JottTree {
 
         if (tokens.get(0).getTokenType() != TokenType.L_BRACE) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Else Error:\nReceived token \"%s\" expected \"{\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Else Error:\n\tReceived token \"%s\" expected \"{\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 
@@ -32,7 +32,7 @@ public class ElseNode implements JottTree {
 
         if (tokens.get(0).getTokenType() != TokenType.R_BRACE) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Else Error:\nReceived token \"%s\" expected \"}\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(String.format("Else Error:\n\tReceived token \"%s\" expected \"}\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 

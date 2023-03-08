@@ -34,19 +34,19 @@ public class ElseIfLstNode implements JottTree {
                             return new ElseIfLstNode(exprNode, bodyNode, elseIfLstNode);
                         } else {
                             Token errToken = tokens.get(0);
-                            throw new Exception(String.format("Else If Error:\nReceived token \"%s\" expected \"}\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+                            throw new Exception(String.format("Else If Error:\n\tReceived token \"%s\" expected \"}\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
                         }
                     } else {
                         Token errToken = tokens.get(0);
-                        throw new Exception(String.format("Else If Error:\nReceived token \"%s\" expected \"{\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+                        throw new Exception(String.format("Else If Error:\n\tReceived token \"%s\" expected \"{\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
                     }
                 } else {
                     Token errToken = tokens.get(0);
-                    throw new Exception(String.format("Else If Error:\nReceived token \"%s\" expected \"]\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+                    throw new Exception(String.format("Else If Error:\n\tReceived token \"%s\" expected \"]\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
                 }
             } else {
                 Token errToken = tokens.get(0);
-                throw new Exception(String.format("Else If Error:\nReceived token \"%s\" expected \"[\".\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+                throw new Exception(String.format("Else If Error:\n\tReceived token \"%s\" expected \"[\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
             }
         } else {
             return null;

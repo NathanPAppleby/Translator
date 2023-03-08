@@ -18,7 +18,7 @@ public class ProgramNode implements JottTree {
         }
         catch (Exception e) {
             if (e.getClass().equals(IndexOutOfBoundsException.class)) {
-                System.err.println("Error: \n\tPrematurely ran out of tokens in parser.");
+                System.err.println("General Tokens Error: \n\tPrematurely ran out of tokens in parser.\n");
             }
             else {
                 System.err.println(e.getLocalizedMessage() == null ? e.toString() : e.getLocalizedMessage());
