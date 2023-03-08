@@ -22,7 +22,12 @@ public class AssignNode implements StmtNode {
 
     static AssignNode parseAssignNode(ArrayList<Token> tokens) throws Exception {
 
-        TypeNode typeNode = TypeNode.parseTypeNode(tokens);
+        TypeNode typeNode = null;
+
+        switch (tokens.get(0).getToken()) {
+            case "Double", "Integer", "String", "Boolean" -> typeNode = TypeNode.parseTypeNode(tokens);
+            default -> {}
+        }
 
         IdNode idNode = IdNode.parseIdNode(tokens);
 

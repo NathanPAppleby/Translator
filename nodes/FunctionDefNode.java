@@ -60,12 +60,6 @@ public class FunctionDefNode implements JottTree {
             throw new Exception();
         }
 
-        // Main must return int edge case
-        if (idNode.getIdName().equals("main") &&
-                !(funcReturnNode.getReturnType().equals("Integer") || funcReturnNode.getReturnType().equals("Void"))) {
-            throw new Exception();
-        }
-
         return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode);
     }
 
