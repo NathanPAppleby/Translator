@@ -22,25 +22,37 @@ public class IfStmtNode implements BodyStmtNode {
 
     static IfStmtNode parseIfStmtNode(ArrayList<Token> tokens) throws Exception {
         tokens.remove( 0 );
-        if ( tokens.remove( 0 ).getTokenType().equals( TokenType.L_BRACKET ) ) {
+        if ( tokens.get( 0 ).getTokenType().equals( TokenType.L_BRACKET ) ) {
+            tokens.remove(0);
             ExprNode exprNode = ExprNode.parseExprNode( tokens );
-            if ( tokens.remove( 0 ).getTokenType().equals( TokenType.R_BRACKET ) ) {
-                if ( tokens.remove( 0 ).getTokenType().equals( TokenType.L_BRACE) ) {
+            if ( tokens.get( 0 ).getTokenType().equals( TokenType.R_BRACKET ) ) {
+                tokens.remove(0);
+                if ( tokens.get( 0 ).getTokenType().equals( TokenType.L_BRACE) ) {
+                    tokens.remove(0);
                     BodyNode bodyNode = BodyNode.parseBodyNode( tokens );
-                    if ( tokens.remove( 0 ).getTokenType().equals( TokenType.R_BRACE ) ) {
+                    if ( tokens.get( 0 ).getTokenType().equals( TokenType.R_BRACE ) ) {
+                        tokens.remove(0);
                         ElseIfLstNode elseIfLstNode = ElseIfLstNode.parseElseIfLstNode( tokens );
                         ElseNode elseNode = ElseNode.parseElseNode( tokens );
                         return new IfStmtNode(exprNode, bodyNode, elseIfLstNode, elseNode);
                     } else {
+                        Token errToken = tokens.get(0);
+                        System.err.printf("Missing Token Error:\nExpected \"}\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
                         throw new Exception();
                     }
                 } else {
+                    Token errToken = tokens.get(0);
+                    System.err.printf("Missing Token Error:\nExpected \"{\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
                     throw new Exception();
                 }
             } else {
+                Token errToken = tokens.get(0);
+                System.err.printf("Missing Token Error:\nExpected \"]\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
                 throw new Exception();
             }
         } else {
+            Token errToken = tokens.get(0);
+            System.err.printf("Missing Token Error:\nExpected \"[\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
     }

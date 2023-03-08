@@ -27,6 +27,8 @@ public class FunctionDefNode implements JottTree {
             tokens.remove(0);
         }
         else {
+            Token errToken = tokens.get(0);
+            System.err.printf("Function Definition Error:\nExpected \"def\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         IdNode idNode = IdNode.parseIdNode(tokens);
@@ -34,6 +36,8 @@ public class FunctionDefNode implements JottTree {
             tokens.remove(0);
         }
         else {
+            Token errToken = tokens.get(0);
+            System.err.printf("Function Definition Error:\nExpected \"[\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         FunctionDefParamNode fDefParamNode = FunctionDefParamNode.parseFunctionDefParamNode(tokens);
@@ -43,6 +47,14 @@ public class FunctionDefNode implements JottTree {
             tokens.remove(0);
         }
         else {
+            Token errToken;
+            if (tokens.get(0).getTokenType().equals(TokenType.R_BRACKET)) {
+                errToken = tokens.get(1);
+                System.err.printf("Function Definition Error:\nExpected \":\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
+            } else {
+                errToken = tokens.get(0);
+                System.err.printf("Function Definition Error:\nExpected \"]\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
+            }
             throw new Exception();
         }
         FuncReturnNode funcReturnNode = FuncReturnNode.parseFuncReturnNode(tokens);
@@ -50,6 +62,8 @@ public class FunctionDefNode implements JottTree {
             tokens.remove(0);
         }
         else {
+            Token errToken = tokens.get(0);
+            System.err.printf("Function Definition Error:\nExpected \"{\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
         BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
@@ -57,6 +71,8 @@ public class FunctionDefNode implements JottTree {
             tokens.remove(0);
         }
         else {
+            Token errToken = tokens.get(0);
+            System.err.printf("Function Definition Error:\nExpected \"}\", found \"%s\"\n%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum());
             throw new Exception();
         }
 
