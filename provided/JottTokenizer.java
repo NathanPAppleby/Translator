@@ -57,8 +57,8 @@ public class JottTokenizer {
 	 * Helper method for sending a syntax error encountered during tokenization to the console
 	 * @param errToken String "token" causing the syntax error
 	 */
-	private void printErrToken(String errToken) {
-		System.err.printf("Syntax Error:\nInvalid Token \"%s\"\n%s:%d\n", errToken, this.filename, this.lineNum);
+	private void printErrToken(String expected, String errToken) {
+		System.err.printf("Syntax Error:\n\tExpected %s, got \"%s\"\n\t%s:%d\n\n",expected, errToken, this.filename, this.lineNum);
 		this.isTokenizeError = true;
 	}
 
@@ -130,7 +130,7 @@ public class JottTokenizer {
 			{
 				lookAhead = nextLine.charAt(j);
 			}
-			while (isDigit(lookAhead)) { // TODO: Shared loop with getPeriodToken()
+			while (isDigit(lookAhead)) {
 				newTok.append(lookAhead);
 				j++;
 				if (j >= lineLength)
@@ -155,11 +155,11 @@ public class JottTokenizer {
 		char lookAhead;
 		if (j >= lineLength || !isDigit(lookAhead = nextLine.charAt(j)))
 		{
-			printErrToken(".");
+			printErrToken("Valid Number", ".");
 			return null;
 		}
 		StringBuilder newTok = new StringBuilder(".");
-		while (isDigit(lookAhead)) { // TODO: Shared loop with getNumberToken()
+		while (isDigit(lookAhead)) {
 			newTok.append(lookAhead);
 			j++;
 			if (j >= lineLength)
@@ -182,7 +182,7 @@ public class JottTokenizer {
 		int j = charIndex + 1;
 		if (j >= lineLength || nextLine.charAt(j) != '=')
 		{
-			printErrToken("!");
+			printErrToken("\"!=\"", "!");
 			return null;
 		}
 		charIndex++;
@@ -236,7 +236,7 @@ public class JottTokenizer {
 			newTok.append(lookAhead);
 			j++;
 		}
-		printErrToken(newTok.toString());
+		printErrToken("Valid String",newTok.toString());
 		return null;
 	}
 
