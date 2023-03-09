@@ -23,7 +23,7 @@ public interface ExprNode extends JottTree {
         //if we have a <bool> or a <str_literal> (both of TokenType String)
         //we can return that right away bc it will not
         //directly exist as one of our 4 potential operation nodes
-        if (tokens.get(0).getTokenType().equals(TokenType.STRING)) {
+        if (tokens.get(0).getTokenType().equals(TokenType.STRING) || tokens.get(0).getToken().equals("True") || tokens.get(0).getToken().equals("False")) {
             return ConstantNode.parseConstantNode(tokens);
         }
         ExprNode expressionNode = null; //will be <id> or <num>

@@ -31,7 +31,7 @@ public class ConstantNode implements ExprNode {
 
         if (tokens.get(0).getTokenType().equals(TokenType.STRING) ||
                 tokens.get(0).getTokenType().equals(TokenType.NUMBER) ||
-                tokens.get(0).getToken().equals("true") || tokens.get(0).getToken().equals("false")) {
+                tokens.get(0).getToken().equals("True") || tokens.get(0).getToken().equals("False")) {
             return new ConstantNode(tokens.remove(0));
         } else {
             Token errToken = tokens.get(0);
