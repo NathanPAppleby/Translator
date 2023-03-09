@@ -59,7 +59,7 @@ public class ElseIfLstNode implements JottTree {
                 this.bexprNode.convertToJott() +
                 "] {\n" +
                 this.bodyNode.convertToJott() +
-                "\n}\n";
+                "\n}";
         if (this.elseIfLstNode != null) {
             out += this.elseIfLstNode.convertToJott();
         }
