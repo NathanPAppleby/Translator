@@ -60,8 +60,8 @@ public class IfStmtNode implements BodyStmtNode {
                 "] {\n" +
                 this.body.convertToJott() +
                 "\n}\n" +
-                this.elseif_lst.convertToJott() +
-                this.else_node.convertToJott();
+                (this.elseif_lst == null ? "" : this.elseif_lst.convertToJott()) +
+                (this.else_node == null ? "" : this.else_node.convertToJott());
     }
 
     @Override
