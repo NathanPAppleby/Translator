@@ -3,8 +3,10 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FunctionDefNode implements JottTree {
     // < function_def > -> def <id >[ func_def_params ]: < function_return >{ < body >}
@@ -22,7 +24,7 @@ public class FunctionDefNode implements JottTree {
         this.bodyNode = bodyNode;
     }
 
-    static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens) throws Exception {
+    static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens, HashMap<String, FunctionDef> functionSymbolTable) throws Exception {
         if (tokens.get(0).getToken().equals("def")) {
             tokens.remove(0);
         }
@@ -71,6 +73,24 @@ public class FunctionDefNode implements JottTree {
         }
 
         return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode);
+    }
+
+    public String getFunctionName() {
+        return this.idNode.getIdName();
+    }
+
+    public ArrayList<FunctionDefParamNode> getFunctionParameters() {
+        ArrayList<FunctionDefParamNode> paramNodes = new ArrayList<>();
+        FunctionDefParamNode paramNode = this.fDefParamNode;
+        while (paramNode != null) {
+            paramNodes.add(paramNode);
+            paramNode = paramNode.getTail();
+        }
+        return paramNodes;
+    }
+
+    public String getFunctionReturnType() {
+        return this.funcReturnNode.getReturnType();
     }
 
     @Override

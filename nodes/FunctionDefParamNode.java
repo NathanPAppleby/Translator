@@ -34,6 +34,18 @@ public class FunctionDefParamNode implements JottTree {
         return new FunctionDefParamNode(idNode, typeNode, fDefParamTNode);
     }
 
+    public String getParamName(){
+        return this.idNode.getIdName();
+    }
+
+    public String getReturnType(){
+        return this.typeNode.getType();
+    }
+
+    public FunctionDefParamNode getTail(){
+        return this.fDefParamTNode;
+    }
+
     @Override
     public String convertToJott() {
         return idNode.convertToJott()+ ":" + typeNode.convertToJott() +

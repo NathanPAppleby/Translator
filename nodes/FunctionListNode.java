@@ -2,9 +2,10 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
-import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FunctionListNode implements JottTree {
     private final ArrayList<FunctionDefNode> functionDefNodes;
@@ -12,16 +13,18 @@ public class FunctionListNode implements JottTree {
         this.functionDefNodes = functionDefNodes;
     }
 
-    static FunctionListNode parseFunctionListNode(ArrayList<Token> tokens) throws Exception {
+    static FunctionListNode parseFunctionListNode(ArrayList<Token> tokens, HashMap<String, FunctionDef> functionSymbolTable) throws Exception {
         ArrayList<FunctionDefNode> functionDefNodes = new ArrayList<>();
-        getFunctionDefNodes(tokens, functionDefNodes);
+        getFunctionDefNodes(tokens, functionDefNodes, functionSymbolTable);
         return new FunctionListNode(functionDefNodes);
     }
 
-    static void getFunctionDefNodes(ArrayList<Token> tokens, ArrayList<FunctionDefNode> functionDefNodes) throws Exception {
+    static void getFunctionDefNodes(ArrayList<Token> tokens, ArrayList<FunctionDefNode> functionDefNodes, HashMap<String, FunctionDef> functionSymbolTable) throws Exception {
         if(!tokens.isEmpty()) {
-            functionDefNodes.add(FunctionDefNode.parseFunctionDefNode(tokens));
-            getFunctionDefNodes(tokens, functionDefNodes);
+            FunctionDefNode fn = FunctionDefNode.parseFunctionDefNode(tokens, functionSymbolTable);
+            functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn)); // TODO: Need to check to make sure function does not already exist
+            functionDefNodes.add(fn);
+            getFunctionDefNodes(tokens, functionDefNodes, functionSymbolTable);
         }
     }
     @Override

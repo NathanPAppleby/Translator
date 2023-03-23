@@ -2,20 +2,27 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProgramNode implements JottTree {
 
     private final FunctionListNode functionListNode;
+    private HashMap<String, FunctionDef> functionSymbolTable;
 
-    public ProgramNode(FunctionListNode functionListNode){this.functionListNode = functionListNode;}
+    public ProgramNode(FunctionListNode functionListNode, HashMap<String, FunctionDef> functionSymbolTable){
+        this.functionListNode = functionListNode;
+        this.functionSymbolTable = functionSymbolTable;
+    }
 
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
         Token lastToken = tokens.get(tokens.size()-1);
         try {
-            FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
-            return new ProgramNode(functionListNode);
+            HashMap<String, FunctionDef> functionSymbolTable = new HashMap<>();
+            FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens, functionSymbolTable);
+            return new ProgramNode(functionListNode, functionSymbolTable);
         }
         catch (Exception e) {
             if (e.getClass().equals(IndexOutOfBoundsException.class)) {
