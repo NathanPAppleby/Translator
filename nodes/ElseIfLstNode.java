@@ -83,6 +83,6 @@ public class ElseIfLstNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return bexprNode.validateTree() && bodyNode.validateTree() && elseIfLstNode.validateTree();
+        return bexprNode.validateTree() && bodyNode.validateTree() && elseIfLstNode.validateTree() && bexprNode.isBoolean();
     }
 }

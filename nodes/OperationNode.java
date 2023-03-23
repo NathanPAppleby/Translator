@@ -1,5 +1,7 @@
 package nodes;
 
+import provided.TokenType;
+
 /**
  * A Type of ExprNode, OperationNode follows the format <expr> operator <expr>
  * which can break down into one of the following:
@@ -12,11 +14,12 @@ public class OperationNode implements ExprNode {
     private final ExprNode left;
     private final OperatorNode middle;
     private final ExprNode right;
-
+    private final boolean isBoolean;
 
     OperationNode(ExprNode leftNode, OperatorNode middleNode, ExprNode rightNode) {
         this.left = leftNode;
         this.middle = middleNode;
+        this.isBoolean = (middleNode.getToken().getTokenType().equals(TokenType.REL_OP));
         this.right = rightNode;
     }
 
@@ -31,6 +34,10 @@ public class OperationNode implements ExprNode {
 
      */
 
+    @Override
+    public boolean isBoolean() {
+        return isBoolean;
+    }
     @Override
     public String convertToJott() {
         return this.left.convertToJott() +

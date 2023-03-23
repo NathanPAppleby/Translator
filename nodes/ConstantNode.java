@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ConstantNode implements ExprNode {
 
     private final Token token;
+    private final boolean isBoolean;
 
     /**
      * Constructor initalize's the actual token rather than the string representation of the token
@@ -25,6 +26,7 @@ public class ConstantNode implements ExprNode {
      */
     public ConstantNode(Token token){
         this.token = token;
+        isBoolean = token.getToken().equals("True") || token.getToken().equals("False");
     }
 
     static ConstantNode parseConstantNode(ArrayList<Token> tokens) throws Exception {
@@ -63,6 +65,11 @@ public class ConstantNode implements ExprNode {
         } else {
            return token.getToken();
         }
+    }
+
+    @Override
+    public boolean isBoolean() {
+        return isBoolean;
     }
 
     @Override

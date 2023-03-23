@@ -30,6 +30,9 @@ public class OperatorNode implements JottTree {
         }
     }
 
+    public Token getToken() {
+        return token;
+    }
     @Override
     public String convertToJott() {
         return token.getToken();

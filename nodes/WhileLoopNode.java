@@ -78,6 +78,6 @@ public class WhileLoopNode implements BodyStmtNode {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return body_node.validateTree() && bool_expr.validateTree() && bool_expr.isBoolean();
     }
 }
