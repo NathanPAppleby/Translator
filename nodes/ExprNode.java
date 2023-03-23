@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public interface ExprNode extends JottTree {
 
     //LOOK AT FIRST TOKEN AND DETERMINE WHAT     I COULD BE,
+    //DO NOT HANDLE CASE WHERE 4 - + 3 which is technically valid
 
     static ExprNode parseExprNode(ArrayList<Token> tokens) throws Exception {
         //if we have a <bool> or a <str_literal> (both of TokenType String)

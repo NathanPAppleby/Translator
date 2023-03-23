@@ -31,7 +31,6 @@ public class OperationNode implements ExprNode {
         //return new OperationNode(operation, rightExpr);
         return new OperationNode(leftExpr, operation, rightExpr);
     }
-
      */
 
     @Override
@@ -68,7 +67,7 @@ public class OperationNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return this.left.validateTree() && this.middle.validateTree() && this.right.validateTree();
     }
 
 }

@@ -74,6 +74,7 @@ public class ConstantNode implements ExprNode {
 
     @Override
     public boolean validateTree() {
-        return false;
+        //already validated in parsing
+        return true;
     }
 }

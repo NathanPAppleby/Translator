@@ -206,5 +206,42 @@ public class JottParserTester {
         }
 
         System.out.printf("Passed: %d/%d%n", passedTests, numTests);
+
+        /*
+        testing purposes:
+        
+                ArrayList<Token> tokens = new ArrayList<>();
+        Token aToken = new Token("3", "", 1, TokenType.NUMBER);
+        Token bToken = new Token("-", "", 1, TokenType.MATH_OP);
+        Token cToken = new Token("2", "", 1, TokenType.NUMBER);
+        Token dToken = new Token("-", "", 1, TokenType.MATH_OP);
+        Token eToken = new Token("+", "", 1, TokenType.MATH_OP);
+        Token fToken = new Token("4", "", 1, TokenType.NUMBER);
+        Token gToken = new Token(";", "", 1, TokenType.SEMICOLON);
+        Token hToken = new Token("", "", 1, TokenType.ID_KEYWORD);
+        Token iToken = new Token("", "", 1, TokenType.ID_KEYWORD);
+        Token jToken = new Token("", "", 1, TokenType.ID_KEYWORD);
+        Token kToken = new Token("", "", 1, TokenType.ID_KEYWORD);
+        Token lToken = new Token("", "", 1, TokenType.ID_KEYWORD);
+        tokens.add(aToken);
+        tokens.add(bToken);
+        tokens.add(cToken);
+        tokens.add(dToken);
+        tokens.add(eToken);
+        tokens.add(fToken);
+        tokens.add(gToken);
+
+        tokens.add(hToken);
+        tokens.add(iToken);
+        tokens.add(jToken);
+        tokens.add(kToken);
+        tokens.add(lToken);
+
+        try {
+            parseExprNode(tokens);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+         */
     }
 }

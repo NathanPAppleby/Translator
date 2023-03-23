@@ -55,6 +55,6 @@ public class OperatorNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return true;
     }
 }
