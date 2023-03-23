@@ -53,4 +53,9 @@ public class IdNode implements ExprNode {
     public boolean validateTree() {
         return false;
     }
+
+    @Override
+    public boolean isBoolean() {
+        return false;
+    }
 }

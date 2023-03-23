@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IfStmtNode implements BodyStmtNode {
 
@@ -20,7 +21,7 @@ public class IfStmtNode implements BodyStmtNode {
         else_node = elseNode;
     }
 
-    static IfStmtNode parseIfStmtNode(ArrayList<Token> tokens) throws Exception {
+    static IfStmtNode parseIfStmtNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
         tokens.remove( 0 );
         if ( tokens.get( 0 ).getTokenType().equals( TokenType.L_BRACKET ) ) {
             tokens.remove(0);
@@ -29,11 +30,11 @@ public class IfStmtNode implements BodyStmtNode {
                 tokens.remove(0);
                 if ( tokens.get( 0 ).getTokenType().equals( TokenType.L_BRACE) ) {
                     tokens.remove(0);
-                    BodyNode bodyNode = BodyNode.parseBodyNode( tokens );
+                    BodyNode bodyNode = BodyNode.parseBodyNode( tokens, localVarSymbolTable );
                     if ( tokens.get( 0 ).getTokenType().equals( TokenType.R_BRACE ) ) {
                         tokens.remove(0);
-                        ElseIfLstNode elseIfLstNode = ElseIfLstNode.parseElseIfLstNode( tokens );
-                        ElseNode elseNode = ElseNode.parseElseNode( tokens );
+                        ElseIfLstNode elseIfLstNode = ElseIfLstNode.parseElseIfLstNode( tokens, localVarSymbolTable );
+                        ElseNode elseNode = ElseNode.parseElseNode( tokens, localVarSymbolTable );
                         return new IfStmtNode(exprNode, bodyNode, elseIfLstNode, elseNode);
                     } else {
                         Token errToken = tokens.get(0);

@@ -6,6 +6,7 @@ import provided.TokenType;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AssignNode implements StmtNode {
     // < asmt > -> < type > <id > = < expr > < end_statement > | <id > = < expr > < end_statement >
@@ -20,7 +21,7 @@ public class AssignNode implements StmtNode {
         this.exprNode = exprNode;
     }
 
-    static AssignNode parseAssignNode(ArrayList<Token> tokens) throws Exception {
+    static AssignNode parseAssignNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
 
         TypeNode typeNode = null;
 
@@ -45,6 +46,9 @@ public class AssignNode implements StmtNode {
         }
         tokens.remove(0);
 
+        if (typeNode != null) {
+            localVarSymbolTable.put(idNode.getIdName(), typeNode.getType());
+        }
         return new AssignNode(typeNode, idNode, exprNode);
     }
 

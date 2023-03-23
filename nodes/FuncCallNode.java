@@ -56,4 +56,9 @@ public class FuncCallNode implements StmtNode, ExprNode {
     public boolean validateTree() {
         return false;
     }
+
+    @Override
+    public boolean isBoolean() {
+        return false;
+    }
 }

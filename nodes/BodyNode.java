@@ -5,29 +5,33 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BodyNode implements JottTree {
     private final ArrayList<BodyStmtNode> bodyStmtNodes;
     private final ReturnStmtNode returnStmtNode;
-    public BodyNode(ArrayList<BodyStmtNode> bodyStmtNodes, ReturnStmtNode returnStmtNode) {
+    private final HashMap<String, String> localVarSymbolTable;
+
+    public BodyNode(ArrayList<BodyStmtNode> bodyStmtNodes, ReturnStmtNode returnStmtNode, HashMap<String, String> localVarSymbolTable) {
         this.bodyStmtNodes = bodyStmtNodes;
         this.returnStmtNode = returnStmtNode;
+        this.localVarSymbolTable = localVarSymbolTable;
     }
-    static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
+    static BodyNode parseBodyNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
         ArrayList<BodyStmtNode> bodyStmtNodes = new ArrayList<>();
         ReturnStmtNode returnStmtNode = null;
-        getBodyStmtNodes(tokens, bodyStmtNodes);
+        getBodyStmtNodes(tokens, bodyStmtNodes, localVarSymbolTable);
         if (tokens.get(0).getToken().equals("return")) {
             returnStmtNode = ReturnStmtNode.parseReturnStmtNode(tokens);
         }
-        return new BodyNode(bodyStmtNodes, returnStmtNode);
+        return new BodyNode(bodyStmtNodes, returnStmtNode, localVarSymbolTable);
     }
 
-    static void getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes) throws Exception {
+    static void getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes, HashMap<String, String> localVarSymbolTable) throws Exception {
         if(!tokens.get(0).getToken().equals("return") &&
                 tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD)) {
-            bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens));
-            getBodyStmtNodes(tokens, bodyStmtNodes);
+            bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens, localVarSymbolTable));
+            getBodyStmtNodes(tokens, bodyStmtNodes, localVarSymbolTable);
         }
     }
 

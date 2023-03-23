@@ -15,13 +15,16 @@ public class FunctionDefNode implements JottTree {
     private final FunctionDefParamNode fDefParamNode;
     private final FuncReturnNode funcReturnNode;
     private final BodyNode bodyNode;
+    private final HashMap<String, String> localVarSymbolTable;
 
     public FunctionDefNode(IdNode idNode, FunctionDefParamNode fDefParamNode, FuncReturnNode funcReturnNode,
-                           BodyNode bodyNode) {
+                           BodyNode bodyNode, HashMap<String, String> localVarSymbolTable) {
         this.idNode = idNode;
         this.fDefParamNode = fDefParamNode;
         this.funcReturnNode = funcReturnNode;
         this.bodyNode = bodyNode;
+        this.localVarSymbolTable = localVarSymbolTable;
+        System.out.println(idNode.getIdName() + localVarSymbolTable.toString());
     }
 
     static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens, HashMap<String, FunctionDef> functionSymbolTable) throws Exception {
@@ -63,7 +66,8 @@ public class FunctionDefNode implements JottTree {
             Token errToken = tokens.get(0);
             throw new Exception(String.format("Function Definition Error:\n\tExpected \"{\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
-        BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
+        HashMap<String, String> localVariableSymbolTable = new HashMap<>();
+        BodyNode bodyNode = BodyNode.parseBodyNode(tokens, localVariableSymbolTable);
         if (tokens.get(0).getTokenType() == TokenType.R_BRACE) {
             tokens.remove(0);
         }
@@ -72,7 +76,7 @@ public class FunctionDefNode implements JottTree {
             throw new Exception(String.format("Function Definition Error:\n\tExpected \"}\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
 
-        return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode);
+        return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode, localVariableSymbolTable);
     }
 
     public String getFunctionName() {
