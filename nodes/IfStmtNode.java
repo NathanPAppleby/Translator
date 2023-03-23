@@ -81,6 +81,7 @@ public class IfStmtNode implements BodyStmtNode {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return b_expr.validateTree() && body.validateTree()
+                && elseif_lst.validateTree() && else_node.validateTree();
     }
 }
