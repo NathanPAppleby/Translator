@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class IdNode implements ExprNode {
@@ -50,7 +51,7 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 
@@ -58,4 +59,10 @@ public class IdNode implements ExprNode {
     public boolean isBoolean() {
         return false;
     }
+
+    @Override
+    public String getJottType() { return null; }
+
+    @Override
+    public Token getTokenObj() { return null; }
 }

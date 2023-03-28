@@ -67,7 +67,7 @@ public class BodyNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 }

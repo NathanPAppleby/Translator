@@ -4,6 +4,7 @@ import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -54,7 +55,7 @@ public class OperatorNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return true;
     }
 }

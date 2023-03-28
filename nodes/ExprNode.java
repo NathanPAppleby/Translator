@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * An Expression Node <expr>, representing an <n_expr>, <b_expr>, or an <s_expr>,
@@ -69,4 +70,10 @@ public interface ExprNode extends JottTree {
     }
     public boolean isBoolean();
 
+    //Idea here is to be able to get type expression when doing validation in
+    //AssignNode, so the type of constant node and idNode too if needed?
+    public String getJottType();
+
+    //to be able to get token info like Line Number
+    public Token getTokenObj();
 }

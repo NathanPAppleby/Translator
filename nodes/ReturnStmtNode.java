@@ -4,6 +4,7 @@ import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ReturnStmtNode implements JottTree {
     private final ExprNode exprNode;
@@ -50,7 +51,7 @@ public class ReturnStmtNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 }

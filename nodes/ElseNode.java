@@ -61,7 +61,7 @@ public class ElseNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
-        return bodyNode.validateTree();
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+        return bodyNode.validateTree(localVariableSymbolTable);
     }
 }

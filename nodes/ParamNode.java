@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ParamNode implements JottTree {
     // < params > -> < expr > < params_t > | nothing
@@ -47,7 +48,7 @@ public class ParamNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 }

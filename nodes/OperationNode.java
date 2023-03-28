@@ -1,6 +1,9 @@
 package nodes;
 
+import provided.Token;
 import provided.TokenType;
+
+import java.util.HashMap;
 
 /**
  * A Type of ExprNode, OperationNode follows the format <expr> operator <expr>
@@ -23,20 +26,11 @@ public class OperationNode implements ExprNode {
         this.right = rightNode;
     }
 
-    /*
-    static OperationNode parseOperationNode(ArrayList<Token> tokens) throws Exception {
-        ExprNode leftExpr = ExprNode.parseExprNode(tokens);
-        OperatorNode operation = OperatorNode.parseOperatorNode(tokens);
-        ExprNode rightExpr = ExprNode.parseExprNode(tokens);
-        //return new OperationNode(operation, rightExpr);
-        return new OperationNode(leftExpr, operation, rightExpr);
-    }
-     */
-
     @Override
     public boolean isBoolean() {
         return isBoolean;
     }
+
     @Override
     public String convertToJott() {
         return this.left.convertToJott() +
@@ -66,8 +60,17 @@ public class OperationNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree() {
-        return this.left.validateTree() && this.middle.validateTree() && this.right.validateTree();
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+        return this.left.validateTree(localVariableSymbolTable)
+                && this.middle.validateTree(localVariableSymbolTable)
+                && this.right.validateTree(localVariableSymbolTable);
     }
+
+    @Override
+    public String getJottType() { return null; }
+
+    @Override
+    public Token getTokenObj() { return null; }
+
 
 }

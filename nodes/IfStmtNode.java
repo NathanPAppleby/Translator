@@ -81,8 +81,9 @@ public class IfStmtNode implements BodyStmtNode {
     }
 
     @Override
-    public boolean validateTree() {
-        return b_expr.validateTree() && body.validateTree()
-                && elseif_lst.validateTree() && else_node.validateTree() && b_expr.isBoolean();
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+        return b_expr.validateTree(localVariableSymbolTable) && body.validateTree(localVariableSymbolTable)
+                && elseif_lst.validateTree(localVariableSymbolTable)
+                && else_node.validateTree(localVariableSymbolTable) && b_expr.isBoolean();
     }
 }

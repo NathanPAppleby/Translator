@@ -4,6 +4,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FunctionDefParamTNode extends FunctionDefParamNode {
     public FunctionDefParamTNode(IdNode idNode, TypeNode typeNode, FunctionDefParamTNode fDefParamTNode) {
@@ -54,7 +55,7 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 }

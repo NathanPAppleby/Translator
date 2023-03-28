@@ -51,7 +51,7 @@ public class VarDecNode implements StmtNode {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 }

@@ -7,6 +7,7 @@ import provided.TokenType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AssignNode implements StmtNode {
     // < asmt > -> < type > <id > = < expr > < end_statement > | <id > = < expr > < end_statement >
@@ -76,7 +77,32 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+        Token exprToken = exprNode.getTokenObj();
+        //todo if exprNode is constant node- only constant node has a getJottType() actually implemented atm!
+        //body of this if commented out below
+            /*
+            //if type of idNode is not equal to type of a constant
+            if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), this.exprNode.getJottType()) ) {
+                try {
+                    throw new Exception(String.format("Semantic Error:\n constant \"%s\" has invalid type\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            */
+
+        //somehow this method can be written much better avoiding redundancy
+        //if exprNode is also an idNode, so in case of "Integer a = b" for example
+            /* //in second portion of if condition, getToken should return id Name?
+            if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), localVariableSymbolTable.get(exprToken.getToken())) ) {
+                try {
+                    throw new Exception(String.format("Semantic Error:\n variable \"%s\" has invalid type\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            */
         return false;
     }
 }

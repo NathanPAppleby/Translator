@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FuncCallNode implements StmtNode, ExprNode {
     // < func_call > -> <id >[ params ]
@@ -53,7 +54,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean validateTree() {
+    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 
@@ -61,4 +62,10 @@ public class FuncCallNode implements StmtNode, ExprNode {
     public boolean isBoolean() {
         return false;
     }
+
+    @Override
+    public String getJottType() { return null; }
+
+    @Override
+    public Token getTokenObj() { return null; }
 }
