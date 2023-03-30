@@ -67,7 +67,7 @@ public class ParamNode implements JottTree {
         return pn;
     }
 
-    public String getType() {
-        return this.exprNode.getJottType();
+    public String getType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
     }
 }

@@ -71,7 +71,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
             return false;
         }
         for (int i = 0; i < parameters.size(); i++) {
-            if (!parameters.get(i).getType().equals(funcParameters.get(i).parameterReturnType)) {
+            if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
                 // Parameter does not match the type of function parameter defined in the function definition
                 return false;
             }
@@ -93,4 +93,9 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public Token getTokenObj() { return null; }
+
+    @Override
+    public boolean containsReturn() {
+        return false;
+    }
 }
