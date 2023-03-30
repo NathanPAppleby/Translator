@@ -23,5 +23,9 @@ public class FunctionDef {
         }
         return new FunctionDef(fd.getFunctionName(), parameters, fd.getFunctionReturnType());
     }
+
+    public String getReturnType() {
+        return this.returnType;
+    }
 }
 

@@ -87,9 +87,22 @@ public class AssignNode implements StmtNode {
                     throw new RuntimeException(e);
                 }
             }
-        //somehow this method can be written much better avoiding redundancy
-        //if exprNode is also an idNode, so in case of "Integer a = b" for example
+        //Somehow this method can be written much better avoiding redundancy
+        //if exprNode is also an idNode (b or functionName in cases below):
+        // Cases: "Integer a = b"
+        //        "Integer a = functionName(...)" //todo assumes names of functions have type ID_KEYWORD
         if (exprToken.getTokenType() == TokenType.ID_KEYWORD) {
+            // if our exprNode (IdNode) is an id that is a functionName (rather than an id of a variable)
+            if (functionSymbolTable.containsKey(exprToken.getToken())) {
+                //if id type is not equal to return type for function
+                if (!Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), functionSymbolTable.get(exprToken.getToken()).getReturnType())) {
+                    try {
+                        throw new Exception(String.format("Semantic Error:\n return type of function \"%s\" is incompatible\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
             //in second portion of if condition, getToken should return id Name?
             if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), localVariableSymbolTable.get(exprToken.getToken())) ) {
                 try {
