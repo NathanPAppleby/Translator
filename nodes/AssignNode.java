@@ -75,38 +75,49 @@ public class AssignNode implements StmtNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        Token exprToken = exprNode.getTokenObj();
+        Token exprToken = this.exprNode.getTokenObj();
+        String idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName());
         //if exprNode is A Constant Node - only constant node has a getJottType() actually implemented atm!
         if (exprToken.getTokenType() == TokenType.NUMBER || exprToken.getTokenType() == TokenType.STRING ||
-                Objects.equals(exprToken.getToken(), "True") || Objects.equals(exprToken.getToken(), "False"))
-            //if type of idNode is not equal to type of a constant
-            if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable)) ) {
+                Objects.equals(exprToken.getToken(), "True") || Objects.equals(exprToken.getToken(), "False")) {
+            String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
+            //if type of idNode is not equal to type of constant
+            if ( !Objects.equals(idTokenJottType, exprTokenJottType) ) {
                 try {
-                    throw new Exception(String.format("Semantic Error:\n constant \"%s\" has invalid type\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                    throw new Exception(String.format("Semantic Error:\n constant \"%s\" is of type '%s', and does not " +
+                                    "match type '%s' \n%s:%d\n", exprToken.getToken(), exprTokenJottType,
+                            idTokenJottType, exprToken.getFilename(), exprToken.getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
+        }
         //Somehow this method can be written much better avoiding redundancy
         //if exprNode is also an idNode (b or functionName in cases below):
         // Cases: "Integer a = b"
-        //        "Integer a = functionName(...)" //todo assumes names of functions have type ID_KEYWORD
+        //        "Integer a = functionName(...)"
         if (exprToken.getTokenType() == TokenType.ID_KEYWORD) {
             // if our exprNode (IdNode) is an id that is a functionName (rather than an id of a variable)
             if (functionSymbolTable.containsKey(exprToken.getToken())) {
                 //if id type is not equal to return type for function
-                if (!Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), functionSymbolTable.get(exprToken.getToken()).getReturnType())) {
+                String exprIdfunctionReturnType = functionSymbolTable.get(exprToken.getToken()).getReturnType();
+                if (!Objects.equals(idTokenJottType, exprIdfunctionReturnType)) {
                     try {
-                        throw new Exception(String.format("Semantic Error:\n return type of function \"%s\" is incompatible\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                        throw new Exception(String.format("Semantic Error:\n return type of function \"%s\" is of type " +
+                                "'%s', and does not match type '%s' \n%s:%d\n", exprToken.getToken(), exprIdfunctionReturnType,
+                                idTokenJottType, exprToken.getFilename(), exprToken.getLineNum()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
             //in second portion of if condition, getToken should return id Name?
-            if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), localVariableSymbolTable.get(exprToken.getToken())) ) {
+            String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken());
+            if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {
                 try {
-                    throw new Exception(String.format("Semantic Error:\n variable \"%s\" has invalid type\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                    throw new Exception(String.format("Semantic Error:\n variable \"%s\" is of type '%s', and does not " +
+                            "match type '%s'\n%s:%d\n", exprToken.getToken(), exprIdJottType, idTokenJottType,
+                            exprToken.getFilename(), exprToken.getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
