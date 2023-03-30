@@ -4,9 +4,11 @@ import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
+import symbols.FunctionParameter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class FuncCallNode implements StmtNode, ExprNode {
     // < func_call > -> <id >[ params ]
@@ -55,17 +57,39 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        String functionName = this.idNode.getIdName();
+        if (!functionSymbolTable.containsKey(functionName)) {
+            // referencing a yet undefined function
+            return false;
+        }
+        FunctionDef fd = functionSymbolTable.get(functionName);
+        ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
+        ArrayList<FunctionParameter> funcParameters = fd.parameters;
+        // Incorrect number of parameters
+        if (parameters.size() != funcParameters.size()) {
+            return false;
+        }
+        for (int i = 0; i < parameters.size(); i++) {
+            if (!parameters.get(i).getType().equals(funcParameters.get(i).parameterReturnType)) {
+                // Parameter does not match the type of function parameter defined in the function definition
+                return false;
+            }
+        }
+        // Function is defined, same number of parameters coming in with the call as there are defined in the function,
+        // and all passed parameters match the expected type
+        return true;
     }
 
     @Override
-    public boolean isBoolean() {
-        return false;
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
     }
 
     @Override
-    public String getJottType() { return null; }
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return functionSymbolTable.get(this.idNode.getIdName()).returnType;
+    }
 
     @Override
     public Token getTokenObj() { return null; }

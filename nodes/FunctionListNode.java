@@ -63,13 +63,24 @@ public class FunctionListNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         boolean isValidated = true;
         for (FunctionDefNode fn : this.functionDefNodes) {
             // Validation
             isValidated = isValidated && fn.validateTree(functionSymbolTable, localVariableSymbolTable);
             // After validation, add function to function symbol table
             functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn)); // TODO: Need to check to make sure function does not already exist
+        }
+        // Check to make sure there is a correctly defined main function
+        if (!functionSymbolTable.containsKey("main")) {
+            throw new Exception("Semantic Error:\nMissing main function definition\nfilename.jott\n");
+        } else {
+            // main function must return "Void" or "Integer" types
+            FunctionDef fd = functionSymbolTable.get("main");
+            if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
+                throw new Exception("Semantic Error:\nMain function must return type \"Void\" or \"Integer\"\nfilename.jott\n");
+            }
+            //TODO: params in main function?
         }
         return isValidated;
     }

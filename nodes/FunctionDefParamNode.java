@@ -70,7 +70,7 @@ public class FunctionDefParamNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         addParamToLocalVarTable(localVariableSymbolTable);
         return this.fDefParamTNode == null || this.fDefParamTNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }

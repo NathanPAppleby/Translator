@@ -52,17 +52,19 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         return true;
     }
 
     @Override
-    public boolean isBoolean() {
-        return false;
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(this.getIdName()).equals("Boolean");
     }
 
     @Override
-    public String getJottType() { return null; }
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(this.getIdName());
+    }
 
     @Override
     public Token getTokenObj() { return null; }

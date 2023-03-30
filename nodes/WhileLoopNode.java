@@ -79,8 +79,8 @@ public class WhileLoopNode implements BodyStmtNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         return body_node.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && bool_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && bool_expr.isBoolean();
+                && bool_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && bool_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
     }
 }

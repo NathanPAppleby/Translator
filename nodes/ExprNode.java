@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,11 +69,11 @@ public interface ExprNode extends JottTree {
             return expressionNode;
         }
     }
-    public boolean isBoolean();
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
 
     //Idea here is to be able to get type expression when doing validation in
     //AssignNode, so the type of constant node and idNode too if needed?
-    public String getJottType();
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
 
     //to be able to get token info like Line Number
     public Token getTokenObj();

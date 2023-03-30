@@ -49,7 +49,25 @@ public class ParamNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable) &&
+                (this.paramTNode == null || this.paramTNode.validateTree(functionSymbolTable, localVariableSymbolTable));
+    }
+
+    // Retrieve all linked Param and ParamTNodes into a single, easily accessible list
+    public ArrayList<ParamNode> getAllParamNodes() {
+        ArrayList<ParamNode> pn;
+        if (this.paramTNode == null) {
+            pn = new ArrayList<>();
+        }
+        else {
+            pn = this.paramTNode.getAllParamNodes();
+        }
+        pn.add(0, this);
+        return pn;
+    }
+
+    public String getType() {
+        return this.exprNode.getJottType();
     }
 }

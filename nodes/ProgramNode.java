@@ -53,8 +53,29 @@ public class ProgramNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         HashMap<String, FunctionDef> newFunctionSymbolTable = new HashMap<>();
-        return functionListNode.validateTree(newFunctionSymbolTable, null);
+        boolean isValidated = true;
+        try {
+            functionListNode.validateTree(newFunctionSymbolTable, null);
+
+            // Every file must have a "main" function.
+            if (!newFunctionSymbolTable.containsKey("main")) {
+                throw new Exception("Semantic Error:\nMissing main function definition\nfilename.jott\n");
+            } else {
+                // main function must return "Void" or "Integer" types
+                FunctionDef fd = newFunctionSymbolTable.get("main");
+                if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
+                    return false;
+                }
+                //TODO: params in main function?
+            }
+            return true;
+        }
+        catch (Exception e) {
+            isValidated = false;
+            System.err.println(e.getLocalizedMessage() == null ? e.toString() : e.getLocalizedMessage());
+            return false;
+        }
     }
 }

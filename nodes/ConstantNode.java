@@ -35,7 +35,7 @@ public class ConstantNode implements ExprNode {
         isBoolean = token.getToken().equals("True") || token.getToken().equals("False");
     }
 
-    public String getJottType() {
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         return this.jottType;
     }
 
@@ -99,12 +99,12 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
-    public boolean isBoolean() {
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         return isBoolean;
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
         //already validated in parsing
         return true;
     }
