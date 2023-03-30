@@ -124,7 +124,7 @@ public class FunctionDefNode implements JottTree {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         HashMap<String, String> newLocalVariableSymbolTable = new HashMap<>();
         boolean isValidated = this.idNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
-                this.fDefParamNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
+                (this.fDefParamNode == null || this.fDefParamNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable)) &&
                 this.funcReturnNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
                 this.bodyNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable);
         // Check to make sure if return type is not "Void" then there is a return statement within the body or every return statement
