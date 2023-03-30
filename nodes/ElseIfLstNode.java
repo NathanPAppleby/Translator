@@ -88,4 +88,8 @@ public class ElseIfLstNode implements JottTree {
         return bexprNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && elseIfLstNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
     }
+
+    public boolean containsReturn() {
+        return this.bodyNode.alwaysReturns() && (this.elseIfLstNode == null || this.elseIfLstNode.containsReturn());
+    }
 }

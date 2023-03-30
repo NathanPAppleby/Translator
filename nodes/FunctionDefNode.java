@@ -128,6 +128,10 @@ public class FunctionDefNode implements JottTree {
                 this.fDefParamNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
                 this.funcReturnNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
                 this.bodyNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable);
+        // Check to make sure if return type is not "Void" then there is a return statement within the body or every return statement
+        if (!this.funcReturnNode.getReturnType().equals("Void")) {
+            this.bodyNode.alwaysReturns();
+        }
         return isValidated;
     }
 }

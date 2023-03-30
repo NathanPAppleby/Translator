@@ -87,4 +87,11 @@ public class IfStmtNode implements BodyStmtNode {
                 && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
     }
+
+    @Override
+    public boolean containsReturn() {
+        return this.body.alwaysReturns() &&
+                (this.elseif_lst == null || this.elseif_lst.containsReturn()) &&
+                (this.else_node == null || this.else_node.containsReturn());
+    }
 }

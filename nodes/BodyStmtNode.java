@@ -19,4 +19,6 @@ public interface BodyStmtNode extends JottTree {
             return StmtNode.parseStmtNode(tokens);
         }
     }
+
+    public boolean containsReturn();
 }

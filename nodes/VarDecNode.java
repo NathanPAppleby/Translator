@@ -58,4 +58,9 @@ public class VarDecNode implements StmtNode {
         localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
         return false;
     }
+
+    @Override
+    public boolean containsReturn() {
+        return false;
+    }
 }

@@ -74,5 +74,14 @@ public class BodyNode implements JottTree {
         }
         return this.returnStmtNode == null || this.returnStmtNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
+
+    public boolean alwaysReturns() {
+        if (this.returnStmtNode != null) {
+            return true;
+        }
+        // If the body does not have a return statement, iterate backwards through the body statements to look for a body statement that always returns
+        BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
+        return lastBdyStmtNode.containsReturn();
+    }
 }
 
