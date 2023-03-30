@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +62,7 @@ public class ElseNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
-        return bodyNode.validateTree(localVariableSymbolTable);
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

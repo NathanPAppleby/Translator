@@ -56,7 +56,7 @@ public class ProgramNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         return false;
     }
 }

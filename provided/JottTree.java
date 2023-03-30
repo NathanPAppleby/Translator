@@ -1,5 +1,7 @@
 package provided;
 
+import symbols.FunctionDef;
+
 import java.util.HashMap;
 
 /**
@@ -38,5 +40,5 @@ public interface JottTree {
 	 * Errors validating will be reported to System.err
      * @return true if valid Jott code; false otherwise
      */
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable);
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
 }

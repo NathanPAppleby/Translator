@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +104,7 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         //already validated in parsing
         return true;
     }

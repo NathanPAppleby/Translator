@@ -2,6 +2,7 @@ package nodes;
 
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.HashMap;
 
@@ -60,10 +61,10 @@ public class OperationNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
-        return this.left.validateTree(localVariableSymbolTable)
-                && this.middle.validateTree(localVariableSymbolTable)
-                && this.right.validateTree(localVariableSymbolTable);
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return this.left.validateTree(functionSymbolTable, localVariableSymbolTable)
+                && this.middle.validateTree(functionSymbolTable, localVariableSymbolTable)
+                && this.right.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     @Override

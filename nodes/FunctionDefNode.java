@@ -126,7 +126,8 @@ public class FunctionDefNode implements JottTree {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        HashMap<String, String> newLocalVariableSymbolTable = new HashMap<>();
         return false;
     }
 }

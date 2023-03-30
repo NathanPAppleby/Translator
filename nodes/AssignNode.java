@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         Token exprToken = exprNode.getTokenObj();
         //todo if exprNode is constant node- only constant node has a getJottType() actually implemented atm!
         //body of this if commented out below

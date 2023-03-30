@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,9 +82,9 @@ public class IfStmtNode implements BodyStmtNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
-        return b_expr.validateTree(localVariableSymbolTable) && body.validateTree(localVariableSymbolTable)
-                && elseif_lst.validateTree(localVariableSymbolTable)
-                && else_node.validateTree(localVariableSymbolTable) && b_expr.isBoolean();
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
+                && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
+                && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean();
     }
 }

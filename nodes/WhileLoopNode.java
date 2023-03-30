@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,8 +79,8 @@ public class WhileLoopNode implements BodyStmtNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, String> localVariableSymbolTable) {
-        return body_node.validateTree(localVariableSymbolTable)
-                && bool_expr.validateTree(localVariableSymbolTable) && bool_expr.isBoolean();
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return body_node.validateTree(functionSymbolTable, localVariableSymbolTable)
+                && bool_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && bool_expr.isBoolean();
     }
 }
