@@ -64,11 +64,29 @@ public class OperationNode implements ExprNode {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         return this.left.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && this.middle.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && this.right.validateTree(functionSymbolTable, localVariableSymbolTable);
+                && this.right.validateTree(functionSymbolTable, localVariableSymbolTable)
+                && !this.getJottType(functionSymbolTable, localVariableSymbolTable).equals("Invalid");
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) { return null; }
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        String ltype = this.left.getJottType(functionSymbolTable, localVariableSymbolTable);
+        String rtype = this.right.getJottType(functionSymbolTable, localVariableSymbolTable);
+        // Compare the left and right types
+        if(ltype.equals(rtype) && !ltype.equals("Invalid")){
+            // Make sure they are the right types
+            if(ltype.equals("Integer") || ltype.equals("Double")){
+                // Figure out if operation is boolean or not
+                if(this.middle.getToken().getTokenType().equals(TokenType.REL_OP)){
+                    return "Boolean";
+                }
+                else{
+                    return ltype;
+                }
+            }
+        }
+        return "Invalid";
+    }
 
     @Override
     public Token getTokenObj() { return null; }
