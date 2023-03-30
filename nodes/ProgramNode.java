@@ -10,19 +10,16 @@ import java.util.HashMap;
 public class ProgramNode implements JottTree {
 
     private final FunctionListNode functionListNode;
-    private HashMap<String, FunctionDef> functionSymbolTable;
 
-    public ProgramNode(FunctionListNode functionListNode, HashMap<String, FunctionDef> functionSymbolTable){
+    public ProgramNode(FunctionListNode functionListNode){
         this.functionListNode = functionListNode;
-        this.functionSymbolTable = functionSymbolTable;
     }
 
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) throws Exception {
         Token lastToken = tokens.get(tokens.size()-1);
         try {
-            HashMap<String, FunctionDef> functionSymbolTable = new HashMap<>();
-            FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens, functionSymbolTable);
-            return new ProgramNode(functionListNode, functionSymbolTable);
+            FunctionListNode functionListNode = FunctionListNode.parseFunctionListNode(tokens);
+            return new ProgramNode(functionListNode);
         }
         catch (Exception e) {
             if (e.getClass().equals(IndexOutOfBoundsException.class)) {
@@ -57,6 +54,7 @@ public class ProgramNode implements JottTree {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        HashMap<String, FunctionDef> newFunctionSymbolTable = new HashMap<>();
+        return functionListNode.validateTree(newFunctionSymbolTable, null);
     }
 }

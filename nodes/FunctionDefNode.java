@@ -15,19 +15,16 @@ public class FunctionDefNode implements JottTree {
     private final FunctionDefParamNode fDefParamNode;
     private final FuncReturnNode funcReturnNode;
     private final BodyNode bodyNode;
-    private final HashMap<String, String> localVarSymbolTable;
 
     public FunctionDefNode(IdNode idNode, FunctionDefParamNode fDefParamNode, FuncReturnNode funcReturnNode,
-                           BodyNode bodyNode, HashMap<String, String> localVarSymbolTable) {
+                           BodyNode bodyNode) {
         this.idNode = idNode;
         this.fDefParamNode = fDefParamNode;
         this.funcReturnNode = funcReturnNode;
         this.bodyNode = bodyNode;
-        this.localVarSymbolTable = localVarSymbolTable;
-        System.out.println(idNode.getIdName() + localVarSymbolTable.toString());
     }
 
-    static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens, HashMap<String, FunctionDef> functionSymbolTable) throws Exception {
+    static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens) throws Exception {
         if (tokens.get(0).getToken().equals("def")) {
             tokens.remove(0);
         }
@@ -66,8 +63,7 @@ public class FunctionDefNode implements JottTree {
             Token errToken = tokens.get(0);
             throw new Exception(String.format("Function Definition Error:\n\tExpected \"{\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
-        HashMap<String, String> localVariableSymbolTable = new HashMap<>();
-        BodyNode bodyNode = BodyNode.parseBodyNode(tokens, localVariableSymbolTable);
+        BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
         if (tokens.get(0).getTokenType() == TokenType.R_BRACE) {
             tokens.remove(0);
         }
@@ -76,7 +72,7 @@ public class FunctionDefNode implements JottTree {
             throw new Exception(String.format("Function Definition Error:\n\tExpected \"}\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
 
-        return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode, localVariableSymbolTable);
+        return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode);
     }
 
     public String getFunctionName() {
@@ -128,6 +124,10 @@ public class FunctionDefNode implements JottTree {
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         HashMap<String, String> newLocalVariableSymbolTable = new HashMap<>();
-        return false;
+        boolean isValidated = this.idNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
+                this.fDefParamNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
+                this.funcReturnNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
+                this.bodyNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable);
+        return isValidated;
     }
 }

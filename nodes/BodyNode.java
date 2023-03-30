@@ -11,28 +11,26 @@ import java.util.HashMap;
 public class BodyNode implements JottTree {
     private final ArrayList<BodyStmtNode> bodyStmtNodes;
     private final ReturnStmtNode returnStmtNode;
-    private final HashMap<String, String> localVarSymbolTable;
 
-    public BodyNode(ArrayList<BodyStmtNode> bodyStmtNodes, ReturnStmtNode returnStmtNode, HashMap<String, String> localVarSymbolTable) {
+    public BodyNode(ArrayList<BodyStmtNode> bodyStmtNodes, ReturnStmtNode returnStmtNode) {
         this.bodyStmtNodes = bodyStmtNodes;
         this.returnStmtNode = returnStmtNode;
-        this.localVarSymbolTable = localVarSymbolTable;
     }
-    static BodyNode parseBodyNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
+    static BodyNode parseBodyNode(ArrayList<Token> tokens) throws Exception {
         ArrayList<BodyStmtNode> bodyStmtNodes = new ArrayList<>();
         ReturnStmtNode returnStmtNode = null;
-        getBodyStmtNodes(tokens, bodyStmtNodes, localVarSymbolTable);
+        getBodyStmtNodes(tokens, bodyStmtNodes);
         if (tokens.get(0).getToken().equals("return")) {
             returnStmtNode = ReturnStmtNode.parseReturnStmtNode(tokens);
         }
-        return new BodyNode(bodyStmtNodes, returnStmtNode, localVarSymbolTable);
+        return new BodyNode(bodyStmtNodes, returnStmtNode);
     }
 
-    static void getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes, HashMap<String, String> localVarSymbolTable) throws Exception {
+    static void getBodyStmtNodes(ArrayList<Token> tokens, ArrayList<BodyStmtNode> bodyStmtNodes) throws Exception {
         if(!tokens.get(0).getToken().equals("return") &&
                 tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD)) {
-            bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens, localVarSymbolTable));
-            getBodyStmtNodes(tokens, bodyStmtNodes, localVarSymbolTable);
+            bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens));
+            getBodyStmtNodes(tokens, bodyStmtNodes);
         }
     }
 
@@ -69,7 +67,12 @@ public class BodyNode implements JottTree {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        for (BodyStmtNode bsn : this.bodyStmtNodes) {
+            if (!bsn.validateTree(functionSymbolTable, localVariableSymbolTable)) {
+                return false;
+            }
+        }
+        return this.returnStmtNode == null || this.returnStmtNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }
 

@@ -18,7 +18,7 @@ public class WhileLoopNode implements BodyStmtNode {
         this.body_node = bodyNode;
     }
 
-    static WhileLoopNode parseWhileLoopNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
+    static WhileLoopNode parseWhileLoopNode(ArrayList<Token> tokens) throws Exception {
         if (!tokens.get(0).getToken().equals("while")) {
             Token errToken = tokens.get(0);
             throw new Exception(String.format("While Loop Error:\n\tReceived token \"%s\" expected \"while\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
@@ -43,7 +43,7 @@ public class WhileLoopNode implements BodyStmtNode {
         }
         tokens.remove(0); //remove '{'
 
-        BodyNode bodyNode = BodyNode.parseBodyNode(tokens, localVarSymbolTable);
+        BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
 
         if (!tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
             Token errToken = tokens.get(0);

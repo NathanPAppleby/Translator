@@ -23,7 +23,7 @@ public class AssignNode implements StmtNode {
         this.exprNode = exprNode;
     }
 
-    static AssignNode parseAssignNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
+    static AssignNode parseAssignNode(ArrayList<Token> tokens) throws Exception {
 
         TypeNode typeNode = null;
 
@@ -47,10 +47,6 @@ public class AssignNode implements StmtNode {
             throw new Exception(String.format("Assign Error:\n\tExpected \";\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
-
-        if (typeNode != null) {
-            localVarSymbolTable.put(idNode.getIdName(), typeNode.getType());
-        }
         return new AssignNode(typeNode, idNode, exprNode);
     }
 
@@ -104,6 +100,7 @@ public class AssignNode implements StmtNode {
                 }
             }
             */
+        localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
         return false;
     }
 }

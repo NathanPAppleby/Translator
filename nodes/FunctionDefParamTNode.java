@@ -57,6 +57,6 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        return super.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

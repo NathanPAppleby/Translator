@@ -53,7 +53,7 @@ public class IdNode implements ExprNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        return true;
     }
 
     @Override

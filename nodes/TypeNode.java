@@ -49,6 +49,6 @@ public class TypeNode implements JottTree {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        return true;
     }
 }

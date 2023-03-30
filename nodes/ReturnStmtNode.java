@@ -53,6 +53,6 @@ public class ReturnStmtNode implements JottTree {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

@@ -71,6 +71,11 @@ public class FunctionDefParamNode implements JottTree {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        addParamToLocalVarTable(localVariableSymbolTable);
+        return this.fDefParamTNode == null || this.fDefParamTNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+    }
+
+    public void addParamToLocalVarTable( HashMap<String, String> localVariableSymbolTable ) {
+        localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
     }
 }

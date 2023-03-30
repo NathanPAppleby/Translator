@@ -19,7 +19,7 @@ public class ElseIfLstNode implements JottTree {
         this.elseIfLstNode = elseIfLstNode;
     }
 
-    static ElseIfLstNode parseElseIfLstNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
+    static ElseIfLstNode parseElseIfLstNode(ArrayList<Token> tokens) throws Exception {
         if(tokens.get( 0 ).getToken().equals("elseif")) {
             tokens.remove( 0 );
             if (tokens.get(0).getTokenType().equals(TokenType.L_BRACKET)) {
@@ -29,10 +29,10 @@ public class ElseIfLstNode implements JottTree {
                     tokens.remove(0);
                     if (tokens.get(0).getTokenType().equals(TokenType.L_BRACE)) {
                         tokens.remove(0);
-                        BodyNode bodyNode = BodyNode.parseBodyNode(tokens ,localVarSymbolTable);
+                        BodyNode bodyNode = BodyNode.parseBodyNode(tokens);
                         if (tokens.get(0).getTokenType().equals(TokenType.R_BRACE)) {
                             tokens.remove(0);
-                            ElseIfLstNode elseIfLstNode = ElseIfLstNode.parseElseIfLstNode(tokens, localVarSymbolTable);
+                            ElseIfLstNode elseIfLstNode = ElseIfLstNode.parseElseIfLstNode(tokens);
                             return new ElseIfLstNode(exprNode, bodyNode, elseIfLstNode);
                         } else {
                             Token errToken = tokens.get(0);

@@ -8,15 +8,15 @@ import java.util.HashMap;
 
 public interface BodyStmtNode extends JottTree {
 
-    static BodyStmtNode parseBodyStmtNode(ArrayList<Token> tokens, HashMap<String, String> localVarSymbolTable) throws Exception {
+    static BodyStmtNode parseBodyStmtNode(ArrayList<Token> tokens) throws Exception {
         if (tokens.get(0).getToken().equals("if")) {
-            return IfStmtNode.parseIfStmtNode(tokens, localVarSymbolTable);
+            return IfStmtNode.parseIfStmtNode(tokens);
         }
         else if (tokens.get(0).getToken().equals("while")) {
-            return WhileLoopNode.parseWhileLoopNode(tokens, localVarSymbolTable);
+            return WhileLoopNode.parseWhileLoopNode(tokens);
         }
         else {
-            return StmtNode.parseStmtNode(tokens, localVarSymbolTable);
+            return StmtNode.parseStmtNode(tokens);
         }
     }
 }

@@ -50,6 +50,6 @@ public class FuncReturnNode implements JottTree {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return false;
+        return this.typeNode == null || this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }
