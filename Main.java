@@ -1,5 +1,6 @@
 
 
+import nodes.ProgramNode;
 import provided.*;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -13,20 +14,19 @@ public class Main {
 
             ArrayList<Token> tokenList = JottTokenizer.tokenize(jottFile);
 
-            try {
-                JottTree tree = JottParser.parse(tokenList);
+            ProgramNode programNode = ProgramNode.parseProgramNode(tokenList);
 
-                System.out.println(tree.convertToJott());
+            if(programNode.validateTree()) {
+                System.out.println(programNode.convertToJott());
 
                 File outFile = new File(args[1]);
                 if (outFile.createNewFile()) {
                     FileWriter writer = new FileWriter(args[1]);
-                    writer.write(tree.convertToJott());
+                    writer.write(programNode.convertToJott());
                     writer.close();
                 }
-            } catch (Exception e) {
-
             }
+
         }
         else{
             throw new Exception("Invalid input. Valid input:\njava Main.java {input file} {output file");
