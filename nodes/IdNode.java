@@ -67,5 +67,5 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public Token getTokenObj() { return null; }
+    public Token getTokenObj() { return this.token; }
 }
