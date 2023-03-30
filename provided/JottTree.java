@@ -34,11 +34,4 @@ public interface JottTree {
      * @return a string representing the Python code of this tree
      */
     public String convertToPython();
-
-    /**
-     * This will validate that the tree follows the semantic rules of Jott
-	 * Errors validating will be reported to System.err
-     * @return true if valid Jott code; false otherwise
-     */
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
 }
