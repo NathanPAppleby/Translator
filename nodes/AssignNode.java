@@ -76,22 +76,21 @@ public class AssignNode implements StmtNode {
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         Token exprToken = exprNode.getTokenObj();
-        //todo if exprNode is constant node- only constant node has a getJottType() actually implemented atm!
-        //body of this if commented out below
-            /*
+        //if exprNode is A Constant Node - only constant node has a getJottType() actually implemented atm!
+        if (exprToken.getTokenType() == TokenType.NUMBER || exprToken.getTokenType() == TokenType.STRING ||
+                Objects.equals(exprToken.getToken(), "True") || Objects.equals(exprToken.getToken(), "False"))
             //if type of idNode is not equal to type of a constant
-            if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), this.exprNode.getJottType()) ) {
+            if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable)) ) {
                 try {
                     throw new Exception(String.format("Semantic Error:\n constant \"%s\" has invalid type\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
-            */
-
         //somehow this method can be written much better avoiding redundancy
         //if exprNode is also an idNode, so in case of "Integer a = b" for example
-            /* //in second portion of if condition, getToken should return id Name?
+        if (exprToken.getTokenType() == TokenType.ID_KEYWORD) {
+            //in second portion of if condition, getToken should return id Name?
             if ( !Objects.equals(localVariableSymbolTable.get(idNode.getIdName()), localVariableSymbolTable.get(exprToken.getToken())) ) {
                 try {
                     throw new Exception(String.format("Semantic Error:\n variable \"%s\" has invalid type\n%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
@@ -99,7 +98,8 @@ public class AssignNode implements StmtNode {
                     throw new RuntimeException(e);
                 }
             }
-            */
+        }
+
         localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
         return false;
     }
