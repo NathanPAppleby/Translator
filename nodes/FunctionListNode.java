@@ -68,7 +68,10 @@ public class FunctionListNode implements JottTree {
             // Validation
             isValidated = isValidated && fn.validateTree(functionSymbolTable, localVariableSymbolTable);
             // After validation, add function to function symbol table
-            functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn)); // TODO: Need to check to make sure function does not already exist
+            if (functionSymbolTable.containsKey(fn.getFunctionName())) {
+                throw new Exception("Function already exists"); // TODO: Improve
+            }
+            functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn));
         }
         // Check to make sure there is a correctly defined main function
         if (!functionSymbolTable.containsKey("main")) {
@@ -79,7 +82,7 @@ public class FunctionListNode implements JottTree {
             if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
                 throw new Exception("Semantic Error:\nMain function must return type \"Void\" or \"Integer\"\nfilename.jott\n");
             }
-            //TODO: params in main function?
+
         }
         return isValidated;
     }

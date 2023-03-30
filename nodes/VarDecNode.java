@@ -53,10 +53,11 @@ public class VarDecNode implements StmtNode {
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
         // Validation
-
+        boolean isValidated = this.idNode.validateTree(functionSymbolTable,localVariableSymbolTable) &&
+                this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
         // After Validation, add to local variable table
         localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
-        return false;
+        return true;
     }
 
     @Override

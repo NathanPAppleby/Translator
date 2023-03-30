@@ -69,12 +69,14 @@ public class FuncCallNode implements StmtNode, ExprNode {
         ArrayList<FunctionParameter> funcParameters = fd.parameters;
         // Incorrect number of parameters
         if (parameters.size() != funcParameters.size()) {
-            return false;
+            String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+            throw new Exception("Semantic Error:\nIncorrect number of parameters in function call.\n"+file);
         }
         for (int i = 0; i < parameters.size(); i++) {
             if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
                 // Parameter does not match the type of function parameter defined in the function definition
-                return false;
+                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                throw new Exception("Semantic Error:\nParameter types does not match provided value.\n"+file);
             }
         }
         // Function is defined, same number of parameters coming in with the call as there are defined in the function,

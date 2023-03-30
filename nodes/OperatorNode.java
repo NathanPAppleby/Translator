@@ -61,7 +61,7 @@ public class OperatorNode implements JottTree {
                 return true;
             }
             default -> {
-                return false;
+                throw new Exception(""); //TODO Add message
             }
         }
     }

@@ -52,23 +52,11 @@ public class ProgramNode implements JottTree {
         return this.functionListNode.convertToPython();
     }
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public boolean validateTree() throws Exception {
         HashMap<String, FunctionDef> newFunctionSymbolTable = new HashMap<>();
         boolean isValidated = true;
         try {
             functionListNode.validateTree(newFunctionSymbolTable, null);
-
-            // Every file must have a "main" function.
-            if (!newFunctionSymbolTable.containsKey("main")) {
-                throw new Exception("Semantic Error:\nMissing main function definition\nfilename.jott\n");
-            } else {
-                // main function must return "Void" or "Integer" types
-                FunctionDef fd = newFunctionSymbolTable.get("main");
-                if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
-                    return false;
-                }
-                //TODO: params in main function?
-            }
             return true;
         }
         catch (Exception e) {
