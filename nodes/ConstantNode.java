@@ -104,7 +104,7 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         //already validated in parsing
         return true;
     }

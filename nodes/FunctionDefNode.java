@@ -121,7 +121,6 @@ public class FunctionDefNode implements JottTree {
         return null;
     }
 
-    @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         HashMap<String, String> newLocalVariableSymbolTable = new HashMap<>();
         boolean isValidated = this.idNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&

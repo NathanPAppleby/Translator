@@ -65,12 +65,9 @@ public class BodyNode implements JottTree {
         return null;
     }
 
-    @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
         for (BodyStmtNode bsn : this.bodyStmtNodes) {
-            if (!bsn.validateTree(functionSymbolTable, localVariableSymbolTable)) {
-                return false;
-            }
+            bsn.validateTree(functionSymbolTable, localVariableSymbolTable);
         }
         return this.returnStmtNode == null || this.returnStmtNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }

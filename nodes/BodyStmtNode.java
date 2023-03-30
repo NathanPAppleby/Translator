@@ -2,6 +2,7 @@ package nodes;
 
 import provided.JottTree;
 import provided.Token;
+import symbols.FunctionDef;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public interface BodyStmtNode extends JottTree {
             return StmtNode.parseStmtNode(tokens);
         }
     }
+
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
 
     public boolean containsReturn();
 }

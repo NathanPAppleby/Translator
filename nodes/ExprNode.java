@@ -77,4 +77,6 @@ public interface ExprNode extends JottTree {
 
     //to be able to get token info like Line Number
     public Token getTokenObj();
+
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
 }

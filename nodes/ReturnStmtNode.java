@@ -51,7 +51,6 @@ public class ReturnStmtNode implements JottTree {
         return "return " + exprNode.convertToPython();
     }
 
-    @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }

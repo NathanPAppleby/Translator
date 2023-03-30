@@ -55,7 +55,6 @@ public class OperatorNode implements JottTree {
         return null;
     }
 
-    @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         switch (this.token.getToken()) {
             case "+", "*", "/", "-", ">", "<", ">=", "<=", "==", "!=" -> {
