@@ -55,6 +55,24 @@ public class IdNode implements ExprNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        ArrayList<String> blacklist = new ArrayList<>() {
+            {
+                add("while");
+                add("if");
+                add("else");
+                add("Integer");
+                add("Boolean");
+                add("Double");
+                add("String");
+                add("Void");
+                add("def");
+                add("return");
+            }
+        };
+        if(blacklist.contains(this.getIdName())){
+            String file = this.getTokenObj().getFilename() + ":" + this.getTokenObj().getLineNum();
+            throw new Exception(String.format("Semantic Error:\n\tIllegal ID name \"%s\" used\n\t%s",this.getIdName(), file));
+        }
         return true;
     }
 

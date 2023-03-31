@@ -75,6 +75,7 @@ public class AssignNode implements StmtNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
@@ -83,6 +84,9 @@ public class AssignNode implements StmtNode {
             addToLocalVarSymbolTable = true;
             idTokenJottType = this.typeNode.getType();
         }
+
+        this.idNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+
         String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
         //handle operation return check FIRST
         if (this.exprNode.isOperation()) {
