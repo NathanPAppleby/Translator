@@ -19,12 +19,14 @@ public class OperationNode implements ExprNode {
     private final OperatorNode middle;
     private final ExprNode right;
     private final boolean isBoolean;
+    private final boolean isOperation;
 
     OperationNode(ExprNode leftNode, OperatorNode middleNode, ExprNode rightNode) {
         this.left = leftNode;
         this.middle = middleNode;
         this.isBoolean = (middleNode.getToken().getTokenType().equals(TokenType.REL_OP));
         this.right = rightNode;
+        this.isOperation = true;
     }
 
     @Override
@@ -89,7 +91,16 @@ public class OperationNode implements ExprNode {
     }
 
     @Override
-    public Token getTokenObj() { return null; }
+    public boolean isOperation() {
+        return this.isOperation;
+    }
 
+    /**
+     * For this Override in Operation Node, because OperationNode doesn't
+     * have a distinct token, we will return the left Node's token
+     * @return Left Node of Operation's Token Object
+     */
+    @Override
+    public Token getTokenObj() { return this.left.getTokenObj(); }
 
 }

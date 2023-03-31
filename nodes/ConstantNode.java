@@ -20,6 +20,8 @@ public class ConstantNode implements ExprNode {
     private final Token token;
     private final boolean isBoolean;
 
+    private final boolean isOperation;
+
     // "Double" | "Integer" | "String" | "Boolean"
     private final String jottType;
 
@@ -33,6 +35,7 @@ public class ConstantNode implements ExprNode {
         this.token = token;
         this.jottType = jottTypeStr;
         isBoolean = token.getToken().equals("True") || token.getToken().equals("False");
+        this.isOperation = false;
     }
 
     public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
@@ -101,6 +104,11 @@ public class ConstantNode implements ExprNode {
     @Override
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         return isBoolean;
+    }
+
+    @Override
+    public boolean isOperation() {
+        return this.isOperation;
     }
 
     @Override

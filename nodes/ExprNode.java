@@ -71,6 +71,8 @@ public interface ExprNode extends JottTree {
     }
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
 
+    public boolean isOperation();
+
     //Idea here is to be able to get type expression when doing validation in
     //AssignNode, so the type of constant node and idNode too if needed?
     public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);

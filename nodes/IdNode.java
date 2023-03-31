@@ -12,9 +12,11 @@ import java.util.HashMap;
 public class IdNode implements ExprNode {
 
     private final Token token;
+    private final boolean isOperation;
 
     public IdNode(Token token){
         this.token = token;
+        this.isOperation = false;
     }
 
     static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception {
@@ -64,6 +66,11 @@ public class IdNode implements ExprNode {
     @Override
     public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
         return localVariableSymbolTable.get(this.getIdName());
+    }
+
+    @Override
+    public boolean isOperation() {
+        return this.isOperation;
     }
 
     @Override

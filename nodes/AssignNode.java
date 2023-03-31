@@ -75,7 +75,6 @@ public class AssignNode implements StmtNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        Token exprToken = this.exprNode.getTokenObj();
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
@@ -84,10 +83,27 @@ public class AssignNode implements StmtNode {
             addToLocalVarSymbolTable = true;
             idTokenJottType = this.typeNode.getType();
         }
-        //if exprNode is A Constant Node - only constant node has a getJottType() actually implemented atm!
+        String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
+        //handle operation return check FIRST
+        if (this.exprNode.isOperation()) {
+            if (!Objects.equals(idTokenJottType, exprTokenJottType)) {
+                try { //could specify entire operation in output?
+                    throw new Exception(String.format("Semantic Error:\n Operation return is of type '%s', and " +
+                                    "does not match type '%s' \n%s:%d\n", exprTokenJottType, idTokenJottType,
+                            this.exprNode.getTokenObj().getFilename() , this.exprNode.getTokenObj().getLineNum()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (addToLocalVarSymbolTable) {
+                localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
+            }
+            return true; //if return type of entire operation checks out, then it's operands are of proper type as well
+        }
+        Token exprToken = this.exprNode.getTokenObj();
+        //if exprNode is A Constant Node
         if (exprToken.getTokenType() == TokenType.NUMBER || exprToken.getTokenType() == TokenType.STRING ||
                 Objects.equals(exprToken.getToken(), "True") || Objects.equals(exprToken.getToken(), "False")) {
-            String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
             //if type of idNode is not equal to type of constant
             if ( !Objects.equals(idTokenJottType, exprTokenJottType) ) {
                 try {
@@ -103,7 +119,11 @@ public class AssignNode implements StmtNode {
         //if exprNode is also an idNode (b or functionName in cases below):
         // Cases: "Integer a = b"
         //        "Integer a = functionName(...)"
-        if (exprToken.getTokenType() == TokenType.ID_KEYWORD) {
+        //we handle constants up top we dont want to consider handling Boolean constant here
+        // even though 'True', 'False' are of type ID_KEYWORD, hence 2nd/3rd portions of conditional
+        if ((exprToken.getTokenType() == TokenType.ID_KEYWORD)
+                && (!Objects.equals(exprToken.getToken(), "True"))
+                && (!Objects.equals(exprToken.getToken(), "False"))) {
             // if our exprNode (IdNode) is an id that is a functionName (rather than an id of a variable)
             if (functionSymbolTable.containsKey(exprToken.getToken())) {
                 //if id type is not equal to return type for function

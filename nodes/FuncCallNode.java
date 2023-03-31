@@ -14,10 +14,12 @@ public class FuncCallNode implements StmtNode, ExprNode {
     // < func_call > -> <id >[ params ]
     private final IdNode idNode;
     private final ParamNode paramNode; // Can be nothing
+    private final boolean isOperation;
 
     public FuncCallNode(IdNode idNode, ParamNode paramNode){
         this.idNode = idNode;
         this.paramNode = paramNode;
+        this.isOperation = false;
     }
 
     static FuncCallNode parseFuncCallNode(ArrayList<Token> tokens) throws Exception {
@@ -99,6 +101,11 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public Token getTokenObj() { return null; }
+
+    @Override
+    public boolean isOperation() {
+        return this.isOperation;
+    }
 
     @Override
     public boolean containsReturn() {
