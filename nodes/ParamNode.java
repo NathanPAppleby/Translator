@@ -79,4 +79,8 @@ public class ParamNode implements JottTree {
             return type;
         }
     }
+
+    public ExprNode getExprNode() {
+        return exprNode;
+    }
 }

@@ -67,7 +67,8 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) {
         //already validated in parsing
         return true;
     }
@@ -115,4 +116,7 @@ public class ConstantNode implements ExprNode {
     public boolean isOperation() {
         return this.isOperation;
     }
+
+    @Override
+    public boolean isInitalized() {return true;}
 }

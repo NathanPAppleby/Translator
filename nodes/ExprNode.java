@@ -90,5 +90,7 @@ public interface ExprNode extends JottTree {
         }
         else return idTokenJottType.equals("Boolean") && exprTokenJottType.contains("Boolean");
     }
+
+    public boolean isInitalized();
 }
 

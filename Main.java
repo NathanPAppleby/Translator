@@ -22,7 +22,9 @@ public class Main {
         ArrayList<Token> tokenList = JottTokenizer.tokenize(jottFile);
 
         ProgramNode programNode = ProgramNode.parseProgramNode(tokenList);
-
+        if (programNode == null) {
+            return;
+        }
         if(programNode.validateTree()) {
             System.out.println(programNode.convertToJott());
 
