@@ -137,6 +137,8 @@ public class AssignNode implements StmtNode {
                         throw new RuntimeException(e);
                     }
                 }
+                //we also want to validate the function call as part of the assignment statement
+                this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
             } else {
                 //in second portion of if condition, getToken should return id Name?
                 String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken());
