@@ -18,20 +18,18 @@ public class OperationNode implements ExprNode {
     private final ExprNode left;
     private final OperatorNode middle;
     private final ExprNode right;
-    private final boolean isBoolean;
     private final boolean isOperation;
 
     OperationNode(ExprNode leftNode, OperatorNode middleNode, ExprNode rightNode) {
         this.left = leftNode;
         this.middle = middleNode;
-        this.isBoolean = (middleNode.getToken().getTokenType().equals(TokenType.REL_OP));
         this.right = rightNode;
         this.isOperation = true;
     }
 
     @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return isBoolean;
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return this.getJottType(functionSymbolTable, localVariableSymbolTable).contains("Boolean");
     }
 
     @Override
@@ -66,8 +64,7 @@ public class OperationNode implements ExprNode {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         return this.left.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && this.middle.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && this.right.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && !this.getJottType(functionSymbolTable, localVariableSymbolTable).equals("Invalid");
+                && this.right.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     @Override
@@ -95,7 +92,8 @@ public class OperationNode implements ExprNode {
                 return rtype;
             }
         }
-        return "Invalid";
+        String file = this.getTokenObj().getFilename() + ":" + this.getTokenObj().getLineNum();
+        throw new Exception(String.format("Semantic Error:\n\tEquation mixes incompatible types\n\t%s", file));
     }
 
     @Override
