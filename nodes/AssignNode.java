@@ -89,7 +89,7 @@ public class AssignNode implements StmtNode {
             if (!ExprNode.typeMatch(idTokenJottType, exprTokenJottType)) {
                 try { //could specify entire operation in output?
                     throw new Exception(String.format("Semantic Error:\n\tOperation return is of type '%s', and " +
-                                    "does not match type '%s' \n%s:%d\n", exprTokenJottType, idTokenJottType,
+                                    "does not match type \"%s\"\n\t%s:%d\n", exprTokenJottType, idTokenJottType,
                             this.exprNode.getTokenObj().getFilename() , this.exprNode.getTokenObj().getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -108,7 +108,7 @@ public class AssignNode implements StmtNode {
             if ( !ExprNode.typeMatch(idTokenJottType, exprTokenJottType) ) {
                 try {
                     throw new Exception(String.format("Semantic Error:\n\tConstant \"%s\" is of type '%s', and does not " +
-                                    "match type '%s' \n%s:%d\n", exprToken.getToken(), exprTokenJottType,
+                                    "match type \"%s\" \n\t%s:%d\n", exprToken.getToken(), exprTokenJottType,
                             idTokenJottType, exprToken.getFilename(), exprToken.getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -131,7 +131,7 @@ public class AssignNode implements StmtNode {
                 if (!Objects.equals(idTokenJottType, exprIdfunctionReturnType)) {
                     try {
                         throw new Exception(String.format("Semantic Error:\n\tReturn type of function \"%s\" is of type " +
-                                "'%s', and does not match type '%s' \n%s:%d\n", exprToken.getToken(), exprIdfunctionReturnType,
+                                "'%s', and does not match type '%s' \n\t%s:%d\n", exprToken.getToken(), exprIdfunctionReturnType,
                                 idTokenJottType, exprToken.getFilename(), exprToken.getLineNum()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -143,7 +143,7 @@ public class AssignNode implements StmtNode {
                 if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {
                     try {
                         throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" is of type '%s', and does not " +
-                                        "match type '%s'\n%s:%d\n", exprToken.getToken(), exprIdJottType, idTokenJottType,
+                                        "match type '%s'\n\t%s:%d\n", exprToken.getToken(), exprIdJottType, idTokenJottType,
                                 exprToken.getFilename(), exprToken.getLineNum()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
