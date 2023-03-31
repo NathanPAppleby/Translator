@@ -69,6 +69,19 @@ public class FuncCallNode implements StmtNode, ExprNode {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
             // referencing a yet undefined function
+            // if our undefined function takes in params, make sure they have been initialized
+            ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
+            for (ParamNode curParam : params) {
+                if (!curParam.getExprNode().isInitalized()) {
+                    try {
+                        throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized \n"));
+                        //throw new Exception(String.format("Semantic Error:\n\tParameter \"%s\" has not been initialized \n\t%s:%d\n"));
+                        //exprToken.getFilename(), exprToken.getLineNum()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
             if(functionName.equals("print") && this.paramNode.getAllParamNodes().size() == 1){
                 return true;
             }

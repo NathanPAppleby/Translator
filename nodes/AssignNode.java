@@ -104,6 +104,7 @@ public class AssignNode implements StmtNode {
                 try {
                     throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initalized\n"));
                     //"\n\t%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                    //todo filename filenum
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
