@@ -75,16 +75,24 @@ public class OperationNode implements ExprNode {
         String ltype = this.left.getJottType(functionSymbolTable, localVariableSymbolTable);
         String rtype = this.right.getJottType(functionSymbolTable, localVariableSymbolTable);
         // Compare the left and right types
-        if(ltype.equals(rtype) && !ltype.equals("Invalid")){
+        if(((ltype.contains("Integer") && (rtype.contains("Integer")))
+                || ltype.contains("Double") && (rtype.contains("Double")))){
             // Make sure they are the right types
-            if(ltype.equals("Integer") || ltype.equals("Double")){
+            if((ltype.equals("Integer") && rtype.equals("Integer"))
+                    || (ltype.equals("Double") && rtype.equals("Double"))){
                 // Figure out if operation is boolean or not
                 if(this.middle.getToken().getTokenType().equals(TokenType.REL_OP)){
-                    return "Boolean";
+                    return ltype + " Boolean";
                 }
                 else{
                     return ltype;
                 }
+            }
+            else if (ltype.contains("Boolean") && !rtype.contains("Boolean")) {
+                return ltype;
+            }
+            else if (!ltype.contains("Boolean") && rtype.contains("Boolean")){
+                return rtype;
             }
         }
         return "Invalid";

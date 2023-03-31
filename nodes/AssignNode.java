@@ -86,7 +86,7 @@ public class AssignNode implements StmtNode {
         String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
         //handle operation return check FIRST
         if (this.exprNode.isOperation()) {
-            if (!Objects.equals(idTokenJottType, exprTokenJottType)) {
+            if (!ExprNode.typeMatch(idTokenJottType, exprTokenJottType)) {
                 try { //could specify entire operation in output?
                     throw new Exception(String.format("Semantic Error:\n Operation return is of type '%s', and " +
                                     "does not match type '%s' \n%s:%d\n", exprTokenJottType, idTokenJottType,
@@ -105,7 +105,7 @@ public class AssignNode implements StmtNode {
         if (exprToken.getTokenType() == TokenType.NUMBER || exprToken.getTokenType() == TokenType.STRING ||
                 Objects.equals(exprToken.getToken(), "True") || Objects.equals(exprToken.getToken(), "False")) {
             //if type of idNode is not equal to type of constant
-            if ( !Objects.equals(idTokenJottType, exprTokenJottType) ) {
+            if ( !ExprNode.typeMatch(idTokenJottType, exprTokenJottType) ) {
                 try {
                     throw new Exception(String.format("Semantic Error:\n constant \"%s\" is of type '%s', and does not " +
                                     "match type '%s' \n%s:%d\n", exprToken.getToken(), exprTokenJottType,

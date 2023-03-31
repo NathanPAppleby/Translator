@@ -69,6 +69,14 @@ public interface ExprNode extends JottTree {
             return expressionNode;
         }
     }
+
+    //Returns whether specific types match more general ones or not
+    static boolean typeMatch(String idTokenJottType,String exprTokenJottType){
+        if(idTokenJottType.equals(exprTokenJottType)){
+            return true;
+        }
+        else return idTokenJottType.equals("Boolean") && exprTokenJottType.contains("Boolean");
+    }
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
 
     public boolean isOperation();
