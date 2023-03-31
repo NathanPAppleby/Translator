@@ -40,7 +40,13 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public String convertToJott() {
-        return idNode.convertToJott() + "[" + paramNode.convertToJott() + "]";
+
+        String output = idNode.convertToJott() + "[";
+        if(paramNode != null){
+            output += paramNode.convertToJott();
+        }
+        output += "]";
+        return output;
     }
 
     @Override
@@ -70,23 +76,36 @@ public class FuncCallNode implements StmtNode, ExprNode {
             throw new Exception("Semantic Error:\nReference to an undefined function\n"+file);
         }
         FunctionDef fd = functionSymbolTable.get(functionName);
-        ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
-        ArrayList<FunctionParameter> funcParameters = fd.parameters;
-        // Incorrect number of parameters
-        if (parameters.size() != funcParameters.size()) {
-            String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-            throw new Exception("Semantic Error:\nIncorrect number of parameters in function call.\n"+file);
-        }
-        for (int i = 0; i < parameters.size(); i++) {
-            if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
-                // Parameter does not match the type of function parameter defined in the function definition
+        if(this.paramNode != null) {
+            ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
+            ArrayList<FunctionParameter> funcParameters = fd.parameters;
+            // Incorrect number of parameters
+            if (parameters.size() != funcParameters.size()) {
                 String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                throw new Exception("Semantic Error:\nParameter types does not match provided value.\n"+file);
+                throw new Exception("Semantic Error:\nIncorrect number of parameters in function call.\n" + file);
             }
+            for (int i = 0; i < parameters.size(); i++) {
+                if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
+                    // Parameter does not match the type of function parameter defined in the function definition
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception("Semantic Error:\nParameter types does not match provided value.\n" + file);
+                }
+            }
+            // Function is defined, same number of parameters coming in with the call as there are defined in the function,
+            // and all passed parameters match the expected type
+            return true;
         }
-        // Function is defined, same number of parameters coming in with the call as there are defined in the function,
-        // and all passed parameters match the expected type
-        return true;
+        else{
+            ArrayList<FunctionParameter> funcParameters = fd.parameters;
+            // Incorrect number of parameters
+            if (funcParameters.size() != 0) {
+                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                throw new Exception("Semantic Error:\nIncorrect number of parameters in function call.\n" + file);
+            }
+            // Function is defined, same number of parameters coming in with the call as there are defined in the function,
+            // and all passed parameters match the expected type
+            return true;
+        }
     }
 
     @Override
