@@ -83,9 +83,25 @@ public class IfStmtNode implements BodyStmtNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+        if (else_node != null && elseif_lst != null) {
+            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+        }
+        else if (else_node == null && elseif_lst != null){
+            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+
+        }
+        else if (else_node != null){
+            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+        }
+        else{
+            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+        }
     }
 
     @Override

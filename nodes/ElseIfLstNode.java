@@ -84,8 +84,12 @@ public class ElseIfLstNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        if (elseIfLstNode != null) {
+            return bexprNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && elseIfLstNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
+        }
         return bexprNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable)
-                && elseIfLstNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
+                && bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
     }
 
     public boolean containsReturn() {
