@@ -154,6 +154,11 @@ public class FuncCallNode implements StmtNode, ExprNode {
         return false;
     }
 
+    @Override
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return null;
+    }
+
     /*
     @Override
     public boolean isInitalized() {return true;}

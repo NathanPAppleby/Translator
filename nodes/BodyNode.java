@@ -82,5 +82,19 @@ public class BodyNode implements JottTree {
     public String convertToPython() {
         return null;
     }
+
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        String returnVal = null;
+        if (returnStmtNode != null) {
+            returnVal = returnStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+            return returnVal;
+        }
+        else {
+            // check body for return
+            BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
+            returnVal = lastBdyStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+        }
+        return returnVal;
+    }
 }
 

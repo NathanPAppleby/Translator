@@ -101,4 +101,26 @@ public class IfStmtNode implements BodyStmtNode {
                 (this.elseif_lst == null || this.elseif_lst.containsReturn()) &&
                 (this.else_node == null || this.else_node.containsReturn());
     }
+
+    @Override
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                            HashMap<String, String> localVariableSymbolTable) throws Exception {
+        // First check body for return
+        String returnVal = null;
+        returnVal = this.body.getReturn(functionSymbolTable, localVariableSymbolTable);
+        if (returnVal == null) {
+            // Next check elseif for return if still no return found
+            if (this.elseif_lst != null) {
+                returnVal = this.elseif_lst.getReturn(functionSymbolTable, localVariableSymbolTable);
+            }
+        }
+        // Then check else for return if still no return found
+        if (returnVal == null) {
+            if (this.else_node != null) {
+                returnVal = this.else_node.getReturn(functionSymbolTable, localVariableSymbolTable);
+            }
+        }
+        // This is now the return type, or null if no return was found
+        return returnVal;
+    }
 }

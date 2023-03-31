@@ -69,6 +69,17 @@ public class ElseIfLstNode implements JottTree {
                bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
     }
 
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                            HashMap<String, String> localVariableSymbolTable) throws Exception {
+        // Check body for return
+        String returnVal = this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+        // if no return in body, check elseif for return
+        if (returnVal == null && this.elseIfLstNode != null) {
+            returnVal = this.elseIfLstNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+        }
+        return returnVal;
+    }
+
     @Override
     public String convertToJott() {
         String out =    "elseif[ " +

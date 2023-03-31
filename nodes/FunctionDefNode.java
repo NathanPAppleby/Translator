@@ -84,9 +84,16 @@ public class FunctionDefNode implements JottTree {
                 this.bodyNode.validateTree(functionSymbolTable, newLocalVarTable);
         // Check to make sure if return type is not "Void"
         // then there is a return statement within the body or every return statement
-        if (!this.funcReturnNode.getReturnType().equals("Void")) {
-            this.bodyNode.alwaysReturns();
+        //todo Validate whatever is returned is same type as return type
+        //todo Validate if void that there is no return, if not void then there is return
+        String returnType = this.bodyNode.getReturn(functionSymbolTable, newLocalVarTable);
+        if (!this.funcReturnNode.getReturnType().equals("Void") && returnType == null) {
+            throw new Exception("Semantic Error: no return found (need to clean up exception, in FunctionDefNode line 91");
         }
+
+//        if (!this.funcReturnNode.getReturnType().equals("Void")) {
+//            this.bodyNode.alwaysReturns();
+//        }
         return isValidated;
     }
 

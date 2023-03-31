@@ -36,6 +36,11 @@ public class ReturnStmtNode implements JottTree {
         return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                            HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
+    }
+
     @Override
     public String convertToJott() {
         return "return " + exprNode.convertToJott() + ";";
