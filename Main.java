@@ -20,7 +20,7 @@ public class Main {
 
             ProgramNode programNode = ProgramNode.parseProgramNode(tokenList);
 
-            if(programNode.validateTree()) {
+            if(programNode != null && programNode.validateTree()) {
                 System.out.println(programNode.convertToJott());
 
                 File outFile = new File(args[1]);
