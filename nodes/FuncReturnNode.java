@@ -24,6 +24,11 @@ public class FuncReturnNode implements JottTree {
          return new FuncReturnNode(TypeNode.parseTypeNode(tokens));
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return this.typeNode == null || this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+    }
+
     public String getReturnType() {
         return typeNode == null ? "Void" : typeNode.convertToJott();
     }
@@ -46,9 +51,5 @@ public class FuncReturnNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return this.typeNode == null || this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

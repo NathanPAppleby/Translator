@@ -55,6 +55,20 @@ public class ElseIfLstNode implements JottTree {
         }
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        if (!this.bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable)){
+            String file = this.bexprNode.getTokenObj().getFilename() + ":" + this.bexprNode.getTokenObj().getLineNum();
+            throw new Exception(
+                    String.format("Semantic Error:\n\tElseif statement conditional requires boolean value\n\t%s", file));
+        }
+
+       return bexprNode.validateTree(functionSymbolTable, localVariableSymbolTable) &&
+               bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable) &&
+               (elseIfLstNode == null || elseIfLstNode.validateTree(functionSymbolTable, localVariableSymbolTable)) &&
+               bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
+    }
+
     @Override
     public String convertToJott() {
         String out =    "elseif[ " +
@@ -81,19 +95,6 @@ public class ElseIfLstNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        if (!this.bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable)){
-            String file = this.bexprNode.getTokenObj().getFilename() + ":" + this.bexprNode.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error:\n\tElseif statement conditional requires boolean value\n\t%s", file));
-        }
-
-        if (elseIfLstNode != null) {
-            return bexprNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && elseIfLstNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
-        }
-        return bexprNode.validateTree(functionSymbolTable, localVariableSymbolTable) && bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     public boolean containsReturn() {

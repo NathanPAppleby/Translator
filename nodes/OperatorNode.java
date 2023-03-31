@@ -32,6 +32,19 @@ public class OperatorNode implements JottTree {
         }
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        switch (this.token.getToken()) {
+            case "+", "*", "/", "-", ">", "<", ">=", "<=", "==", "!=" -> {
+                return true;
+            }
+            default -> {
+                String filename = this.token.getFilename() + ":" + this.token.getLineNum();
+                throw new Exception("Semantic Error\n\tInvalid operator\n\t"+ filename);
+            }
+        }
+    }
+
     public Token getToken() {
         return token;
     }
@@ -53,16 +66,5 @@ public class OperatorNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        switch (this.token.getToken()) {
-            case "+", "*", "/", "-", ">", "<", ">=", "<=", "==", "!=" -> {
-                return true;
-            }
-            default -> {
-                throw new Exception(""); //TODO Add message
-            }
-        }
     }
 }

@@ -24,6 +24,12 @@ public class ParamTNode extends ParamNode {
     }
 
     @Override
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return super.validateTree(functionSymbolTable, localVariableSymbolTable);
+    }
+
+    @Override
     public String convertToJott() {
         return "," + super.convertToJott();
     }
@@ -41,10 +47,5 @@ public class ParamTNode extends ParamNode {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return super.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

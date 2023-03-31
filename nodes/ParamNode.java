@@ -28,6 +28,12 @@ public class ParamNode implements JottTree {
         return new ParamNode(exprNode, paramTNode);
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable) &&
+                (this.paramTNode == null || this.paramTNode.validateTree(functionSymbolTable, localVariableSymbolTable));
+    }
+
     @Override
     public String convertToJott() {
         return exprNode.convertToJott() + (paramTNode == null ? "" : paramTNode.convertToJott());
@@ -48,11 +54,6 @@ public class ParamNode implements JottTree {
         return null;
     }
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable) &&
-                (this.paramTNode == null || this.paramTNode.validateTree(functionSymbolTable, localVariableSymbolTable));
-    }
-
     // Retrieve all linked Param and ParamTNodes into a single, easily accessible list
     public ArrayList<ParamNode> getAllParamNodes() {
         ArrayList<ParamNode> pn;
@@ -68,7 +69,8 @@ public class ParamNode implements JottTree {
 
     //Due to the need of more specific operation types, this function either
     //returns the given type, or it returns a more generalized version of a specific type
-    public String getType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public String getType(HashMap<String, FunctionDef> functionSymbolTable,
+                          HashMap<String, String> localVariableSymbolTable) throws Exception {
         String type = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
         if(type.contains("Boolean")){
             return "Boolean";

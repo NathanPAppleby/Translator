@@ -26,6 +26,38 @@ public class FunctionListNode implements JottTree {
             getFunctionDefNodes(tokens, functionDefNodes);
         }
     }
+
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        for (FunctionDefNode fn : this.functionDefNodes) {
+            // Validation
+            fn.validateTree(functionSymbolTable, localVariableSymbolTable);
+            // After validation, add function to function symbol table
+            if (functionSymbolTable.containsKey(fn.getFunctionName())) {
+                String fileInfo = fn.getFilenameAndLine();
+                throw new Exception(String.format("Semantic Error:\n\tFunction %s already exists\n\t%s\n",
+                        fn.getFunctionName(), fileInfo));
+            }
+            functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn));
+        }
+        // Check to make sure there is a correctly defined main function
+        if (!functionSymbolTable.containsKey("main")) {
+            String fileInfo = this.functionDefNodes.get(this.functionDefNodes.size()-1).getFilenameAndLine();
+            throw new Exception(
+                    String.format("Semantic Error:\n\tMissing main function definition\n\t%s\n", fileInfo));
+        } else {
+            // main function must return "Void" or "Integer" types
+            FunctionDef fd = functionSymbolTable.get("main");
+            if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
+                String fileInfo = this.functionDefNodes.get(this.functionDefNodes.size()-1).getFilenameAndLine();
+                throw new Exception(
+                        String.format("Semantic Error:\n\tMain function must return type \"Void\" or \"Integer\"\n\t%s\n",
+                        fileInfo));
+            }
+        }
+        return true;
+    }
+
     @Override
     public String convertToJott() {
         StringBuilder output = new StringBuilder();
@@ -60,30 +92,5 @@ public class FunctionListNode implements JottTree {
             output.append(defNode.convertToPython()).append("\n");
         }
         return output.toString();
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        boolean isValidated = true;
-        for (FunctionDefNode fn : this.functionDefNodes) {
-            // Validation
-            isValidated = isValidated && fn.validateTree(functionSymbolTable, localVariableSymbolTable);
-            // After validation, add function to function symbol table
-            if (functionSymbolTable.containsKey(fn.getFunctionName())) {
-                throw new Exception("Function already exists"); // TODO: Improve
-            }
-            functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn));
-        }
-        // Check to make sure there is a correctly defined main function
-        if (!functionSymbolTable.containsKey("main")) {
-            throw new Exception("Semantic Error:\n\tMissing main function definition\n\tfilename.jott\n");
-        } else {
-            // main function must return "Void" or "Integer" types
-            FunctionDef fd = functionSymbolTable.get("main");
-            if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
-                throw new Exception("Semantic Error:\n\tMain function must return type \"Void\" or \"Integer\"\n\tfilename.jott\n");
-            }
-
-        }
-        return isValidated;
     }
 }

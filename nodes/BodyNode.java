@@ -34,6 +34,24 @@ public class BodyNode implements JottTree {
         }
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
+        for (BodyStmtNode bsn : this.bodyStmtNodes) {
+            bsn.validateTree(functionSymbolTable, localVariableSymbolTable);
+        }
+        return this.returnStmtNode == null ||
+                this.returnStmtNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+    }
+
+    public boolean alwaysReturns() {
+        if (this.returnStmtNode != null) {
+            return true;
+        }
+        // If the body does not have a return statement,
+        // iterate backwards through the body statements to look for a body statement that always returns
+        BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
+        return lastBdyStmtNode.containsReturn();
+    }
+
     @Override
     public String convertToJott() {
         StringBuilder output = new StringBuilder();
@@ -63,22 +81,6 @@ public class BodyNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
-        for (BodyStmtNode bsn : this.bodyStmtNodes) {
-            bsn.validateTree(functionSymbolTable, localVariableSymbolTable);
-        }
-        return this.returnStmtNode == null || this.returnStmtNode.validateTree(functionSymbolTable, localVariableSymbolTable);
-    }
-
-    public boolean alwaysReturns() {
-        if (this.returnStmtNode != null) {
-            return true;
-        }
-        // If the body does not have a return statement, iterate backwards through the body statements to look for a body statement that always returns
-        BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
-        return lastBdyStmtNode.containsReturn();
     }
 }
 

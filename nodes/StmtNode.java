@@ -40,5 +40,6 @@ public interface StmtNode extends BodyStmtNode, JottTree {
         }
     }
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
+    boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                         HashMap<String, String> localVariableSymbolTable) throws Exception;
 }

@@ -1,6 +1,5 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;

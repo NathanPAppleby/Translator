@@ -1,11 +1,9 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -51,31 +49,8 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public String convertToJott() {
-        String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
-                exprNode.convertToJott();
-
-        return output;
-    }
-
-    @Override
-    public String convertToJava(String className) {
-        return null;
-    }
-
-    @Override
-    public String convertToC() {
-        return null;
-    }
-
-    @Override
-    public String convertToPython() {
-        return null;
-    }
-
-    @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        
+
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
@@ -135,7 +110,7 @@ public class AssignNode implements StmtNode {
                 if (!Objects.equals(idTokenJottType, exprIdfunctionReturnType)) {
                     try {
                         throw new Exception(String.format("Semantic Error:\n\tReturn type of function \"%s\" is of type " +
-                                "'%s', and does not match type '%s' \n\t%s:%d\n", exprToken.getToken(), exprIdfunctionReturnType,
+                                        "'%s', and does not match type '%s' \n\t%s:%d\n", exprToken.getToken(), exprIdfunctionReturnType,
                                 idTokenJottType, exprToken.getFilename(), exprToken.getLineNum()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -163,6 +138,28 @@ public class AssignNode implements StmtNode {
         return true;
     }
 
+    @Override
+    public String convertToJott() {
+        String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
+                exprNode.convertToJott();
+
+        return output;
+    }
+
+    @Override
+    public String convertToJava(String className) {
+        return null;
+    }
+
+    @Override
+    public String convertToC() {
+        return null;
+    }
+
+    @Override
+    public String convertToPython() {
+        return null;
+    }
 
     @Override
     public boolean containsReturn() {

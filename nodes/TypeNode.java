@@ -23,6 +23,11 @@ public class TypeNode implements JottTree {
         }
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return true;
+    }
+
     public String getType(){
         return this.token.getToken();
     }
@@ -45,9 +50,5 @@ public class TypeNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return true;
     }
 }

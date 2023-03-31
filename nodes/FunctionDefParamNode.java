@@ -36,6 +36,13 @@ public class FunctionDefParamNode implements JottTree {
         return new FunctionDefParamNode(idNode, typeNode, fDefParamTNode);
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        addParamToLocalVarTable(localVariableSymbolTable);
+        return this.fDefParamTNode == null ||
+                this.fDefParamTNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+    }
+
     public String getParamName(){
         return this.idNode.getIdName();
     }
@@ -67,11 +74,6 @@ public class FunctionDefParamNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        addParamToLocalVarTable(localVariableSymbolTable);
-        return this.fDefParamTNode == null || this.fDefParamTNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     public void addParamToLocalVarTable( HashMap<String, String> localVariableSymbolTable ) {

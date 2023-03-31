@@ -24,7 +24,9 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
 
         if (tokens.get(0).getTokenType() != TokenType.COLON) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Function Definition Parameter Error:\n\tExpected \":\", found \"%s\"\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(
+                    String.format("Function Definition Parameter Error:\n\tExpected \":\", found \"%s\"\n\t%s:%d\n",
+                            errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 
@@ -33,6 +35,12 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
         FunctionDefParamTNode fDefParamTNode = FunctionDefParamTNode.parseFunctionDefParamTNode(tokens);
 
         return new FunctionDefParamTNode(idNode, typeNode, fDefParamTNode);
+    }
+
+    @Override
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return super.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     @Override
@@ -53,10 +61,5 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return super.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

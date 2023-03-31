@@ -1,6 +1,5 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
@@ -56,6 +55,21 @@ public class IfStmtNode implements BodyStmtNode {
     }
 
     @Override
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        if (!this.b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable)){
+            String file = this.b_expr.getTokenObj().getFilename() + ":" + this.b_expr.getTokenObj().getLineNum();
+            throw new Exception(String.format("Semantic Error:\n\tIf statement conditional requires boolean value\n\t%s", file));
+        }
+
+        return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) &&
+                body.validateTree(functionSymbolTable, localVariableSymbolTable) &&
+                (elseif_lst == null || elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)) &&
+                (else_node == null || else_node.validateTree(functionSymbolTable, localVariableSymbolTable)) &&
+                b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+    }
+
+    @Override
     public String convertToJott() {
         return "if[" +
                 this.b_expr.convertToJott() +
@@ -79,34 +93,6 @@ public class IfStmtNode implements BodyStmtNode {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        if (!this.b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable)){
-            String file = this.b_expr.getTokenObj().getFilename() + ":" + this.b_expr.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error:\n\tIf statement conditional requires boolean value\n\t%s", file));
-        }
-
-        if (else_node != null && elseif_lst != null) {
-            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
-        }
-        else if (else_node == null && elseif_lst != null){
-            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
-
-        }
-        else if (else_node != null){
-            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && else_node.validateTree(functionSymbolTable, localVariableSymbolTable) && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
-        }
-        else{
-            return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) && body.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
-        }
     }
 
     @Override

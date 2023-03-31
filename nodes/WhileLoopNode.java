@@ -1,6 +1,5 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
@@ -54,6 +53,18 @@ public class WhileLoopNode implements BodyStmtNode {
         return new WhileLoopNode(exprNode, bodyNode);
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        if (bool_expr.isBoolean(functionSymbolTable, localVariableSymbolTable)){
+            return body_node.validateTree(functionSymbolTable, localVariableSymbolTable)
+                    && bool_expr.validateTree(functionSymbolTable, localVariableSymbolTable);
+        }
+        else{
+            String file = this.bool_expr.getTokenObj().getFilename() + ":" + this.bool_expr.getTokenObj().getLineNum();
+            throw new Exception(String.format("Semantic Error:\n\tWhile loops conditional requires boolean value\n\t%s", file));
+        }
+    }
+
     @Override
     public String convertToJott() {
         return "while[" +
@@ -76,17 +87,6 @@ public class WhileLoopNode implements BodyStmtNode {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        if (bool_expr.isBoolean(functionSymbolTable, localVariableSymbolTable)){
-            return body_node.validateTree(functionSymbolTable, localVariableSymbolTable)
-                    && bool_expr.validateTree(functionSymbolTable, localVariableSymbolTable);
-        }
-        else{
-            String file = this.bool_expr.getTokenObj().getFilename() + ":" + this.bool_expr.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error:\n\tWhile loops conditional requires boolean value\n\t%s", file));
-        }
     }
 
     @Override

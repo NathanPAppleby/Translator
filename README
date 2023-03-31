@@ -1,9 +1,24 @@
 Phase 1:
 To run the JottTokenizerTester, run from inside the jott-translator directory:
-javac testers/JottTokenizerTester.java
-java testers/JottTokenizerTester.java
+    >>> javac testers/JottTokenizerTester.java
+    >>> java testers/JottTokenizerTester.java
 
 Phase 2:
 To run the JottParserTest from the console, run from inside the jott-translator directory
-javac testers/JottParserTester.java
-java testers/JottParserTester.java
+    >>> javac testers/JottParserTester.java
+    >>> java testers/JottParserTester.java
+
+Phase 3:
+To run our main function from the console, run the below command from inside the jott-translator directory.
+The inputFile.jott parameter is the path to an existing input file of Jott code to be tested.
+The outputFile.out parameter is the path to an output file to be created or overwritten with the compiled code.
+The language_type parameter is a string within the range {"Jott", "C", "Java", "Python"} of the language type to compile to.
+For this phase, the language_type parameter should always be "Jott".
+    >>> javac Main.java
+    >>> java Main.java inputFile.in outputFile.out language_type
+ Example:
+    >>> javac Main.java
+    >>> java Main.java ./phase3testcases/helloWorld.jott ./outputHelloWorld.jott Jott
+ This will use the "helloWorld.jott" file as input and rewrite the jott code to "outputHelloWorld.jott" after parsing
+ and validating the code.
+

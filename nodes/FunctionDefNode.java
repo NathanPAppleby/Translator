@@ -75,6 +75,21 @@ public class FunctionDefNode implements JottTree {
         return new FunctionDefNode(idNode, fDefParamNode, funcReturnNode, bodyNode);
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        HashMap<String, String> newLocalVarTable = new HashMap<>();
+        boolean isValidated = this.idNode.validateTree(functionSymbolTable, newLocalVarTable) &&
+                (this.fDefParamNode == null || this.fDefParamNode.validateTree(functionSymbolTable, newLocalVarTable)) &&
+                this.funcReturnNode.validateTree(functionSymbolTable, newLocalVarTable) &&
+                this.bodyNode.validateTree(functionSymbolTable, newLocalVarTable);
+        // Check to make sure if return type is not "Void"
+        // then there is a return statement within the body or every return statement
+        if (!this.funcReturnNode.getReturnType().equals("Void")) {
+            this.bodyNode.alwaysReturns();
+        }
+        return isValidated;
+    }
+
     public String getFunctionName() {
         return this.idNode.getIdName();
     }
@@ -121,16 +136,7 @@ public class FunctionDefNode implements JottTree {
         return null;
     }
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        HashMap<String, String> newLocalVariableSymbolTable = new HashMap<>();
-        boolean isValidated = this.idNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
-                (this.fDefParamNode == null || this.fDefParamNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable)) &&
-                this.funcReturnNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable) &&
-                this.bodyNode.validateTree(functionSymbolTable, newLocalVariableSymbolTable);
-        // Check to make sure if return type is not "Void" then there is a return statement within the body or every return statement
-        if (!this.funcReturnNode.getReturnType().equals("Void")) {
-            this.bodyNode.alwaysReturns();
-        }
-        return isValidated;
+    public String getFilenameAndLine(){
+        return this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
     }
 }

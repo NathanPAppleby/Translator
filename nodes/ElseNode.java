@@ -26,7 +26,9 @@ public class ElseNode implements JottTree {
 
         if (tokens.get(0).getTokenType() != TokenType.L_BRACE) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Else Error:\n\tReceived token \"%s\" expected \"{\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(
+                    String.format("Else Error:\n\tReceived token \"%s\" expected \"{\".\n\t%s:%d\n",
+                            errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 
@@ -34,11 +36,18 @@ public class ElseNode implements JottTree {
 
         if (tokens.get(0).getTokenType() != TokenType.R_BRACE) {
             Token errToken = tokens.get(0);
-            throw new Exception(String.format("Else Error:\n\tReceived token \"%s\" expected \"}\".\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
+            throw new Exception(
+                    String.format("Else Error:\n\tReceived token \"%s\" expected \"}\".\n\t%s:%d\n",
+                            errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
         tokens.remove(0);
 
         return new ElseNode(bodyNode);
+    }
+
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     @Override
@@ -59,10 +68,6 @@ public class ElseNode implements JottTree {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     public boolean containsReturn() {

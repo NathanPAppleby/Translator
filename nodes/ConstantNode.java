@@ -1,6 +1,5 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
@@ -38,14 +37,6 @@ public class ConstantNode implements ExprNode {
         this.isOperation = false;
     }
 
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return this.jottType;
-    }
-
-    public Token getTokenObj() {
-        return this.token;
-    }
-
     static ConstantNode parseConstantNode(ArrayList<Token> tokens) throws Exception {
 
         if (tokens.get(0).getTokenType().equals(TokenType.STRING)) {
@@ -73,6 +64,20 @@ public class ConstantNode implements ExprNode {
             throw new Exception(String.format("Invalid Constant Error:\n\t\"%s\" is an invalid constant\n\t%s:%d\n", errToken.getToken(), errToken.getFilename(), errToken.getLineNum()));
         }
          */
+    }
+
+    @Override
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        //already validated in parsing
+        return true;
+    }
+
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+        return this.jottType;
+    }
+
+    public Token getTokenObj() {
+        return this.token;
     }
 
     @Override
@@ -109,11 +114,5 @@ public class ConstantNode implements ExprNode {
     @Override
     public boolean isOperation() {
         return this.isOperation;
-    }
-
-    @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        //already validated in parsing
-        return true;
     }
 }

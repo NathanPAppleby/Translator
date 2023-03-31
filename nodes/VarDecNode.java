@@ -1,6 +1,5 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
@@ -31,6 +30,17 @@ public class VarDecNode implements StmtNode {
     }
 
     @Override
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String,
+            String> localVariableSymbolTable) throws Exception{
+        // Validation
+        boolean isValidated = this.idNode.validateTree(functionSymbolTable,localVariableSymbolTable) &&
+                this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+        // After Validation, add to local variable table
+        localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
+        return true;
+    }
+
+    @Override
     public String convertToJott() {
         return typeNode.convertToJott() + " " + idNode.convertToJott() + ";";
     }
@@ -48,16 +58,6 @@ public class VarDecNode implements StmtNode {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
-        // Validation
-        boolean isValidated = this.idNode.validateTree(functionSymbolTable,localVariableSymbolTable) &&
-                this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
-        // After Validation, add to local variable table
-        localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
-        return true;
     }
 
     @Override

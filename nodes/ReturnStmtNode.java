@@ -31,6 +31,11 @@ public class ReturnStmtNode implements JottTree {
         }
     }
 
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
+                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+        return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
+    }
+
     @Override
     public String convertToJott() {
         return "return " + exprNode.convertToJott() + ";";
@@ -49,9 +54,5 @@ public class ReturnStmtNode implements JottTree {
     @Override
     public String convertToPython() {
         return "return " + exprNode.convertToPython();
-    }
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
-        return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 }

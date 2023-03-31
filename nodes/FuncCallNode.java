@@ -1,6 +1,5 @@
 package nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
@@ -8,7 +7,6 @@ import symbols.FunctionParameter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Function;
 
 public class FuncCallNode implements StmtNode, ExprNode {
     // < func_call > -> <id >[ params ]
@@ -36,32 +34,6 @@ public class FuncCallNode implements StmtNode, ExprNode {
         }
         tokens.remove(0);
         return new FuncCallNode(idNode, paramNode);
-    }
-
-    @Override
-    public String convertToJott() {
-
-        String output = idNode.convertToJott() + "[";
-        if(paramNode != null){
-            output += paramNode.convertToJott();
-        }
-        output += "]";
-        return output;
-    }
-
-    @Override
-    public String convertToJava(String className) {
-        return null;
-    }
-
-    @Override
-    public String convertToC() {
-        return null;
-    }
-
-    @Override
-    public String convertToPython() {
-        return null;
     }
 
     @Override
@@ -106,6 +78,32 @@ public class FuncCallNode implements StmtNode, ExprNode {
             // and all passed parameters match the expected type
             return true;
         }
+    }
+
+    @Override
+    public String convertToJott() {
+
+        String output = idNode.convertToJott() + "[";
+        if(paramNode != null){
+            output += paramNode.convertToJott();
+        }
+        output += "]";
+        return output;
+    }
+
+    @Override
+    public String convertToJava(String className) {
+        return null;
+    }
+
+    @Override
+    public String convertToC() {
+        return null;
+    }
+
+    @Override
+    public String convertToPython() {
+        return null;
     }
 
     @Override

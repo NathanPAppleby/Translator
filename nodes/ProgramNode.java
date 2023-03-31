@@ -32,6 +32,18 @@ public class ProgramNode implements JottTree {
         }
     }
 
+    public boolean validateTree() throws Exception {
+        HashMap<String, FunctionDef> newFunctionSymbolTable = new HashMap<>();
+        try {
+            functionListNode.validateTree(newFunctionSymbolTable, null);
+            return true;
+        }
+        catch (Exception e) {
+            System.err.println(e.getLocalizedMessage() == null ? e.toString() : e.getLocalizedMessage());
+            return false;
+        }
+    }
+
     @Override
     public String convertToJott() {
         return this.functionListNode.convertToJott();
@@ -50,19 +62,5 @@ public class ProgramNode implements JottTree {
     @Override
     public String convertToPython() {
         return this.functionListNode.convertToPython();
-    }
-
-    public boolean validateTree() throws Exception {
-        HashMap<String, FunctionDef> newFunctionSymbolTable = new HashMap<>();
-        boolean isValidated = true;
-        try {
-            functionListNode.validateTree(newFunctionSymbolTable, null);
-            return true;
-        }
-        catch (Exception e) {
-            isValidated = false;
-            System.err.println(e.getLocalizedMessage() == null ? e.toString() : e.getLocalizedMessage());
-            return false;
-        }
     }
 }
