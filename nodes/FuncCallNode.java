@@ -138,4 +138,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     public boolean containsReturn() {
         return false;
     }
+
+    @Override
+    public boolean isInitalized() {return true;}
 }

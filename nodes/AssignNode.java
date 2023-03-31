@@ -90,11 +90,20 @@ public class AssignNode implements StmtNode {
         String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
         //handle operation return check FIRST
         if (this.exprNode.isOperation()) {
+            this.idNode.setInitalizedAsTrue(); //our id Node is initialized with the result of an operation
             if (!ExprNode.typeMatch(idTokenJottType, exprTokenJottType)) {
                 try { //could specify entire operation in output?
                     throw new Exception(String.format("Semantic Error:\n\tOperation return is of type '%s', and " +
                                     "does not match type \"%s\"\n\t%s:%d\n", exprTokenJottType, idTokenJottType,
                             this.exprNode.getTokenObj().getFilename() , this.exprNode.getTokenObj().getLineNum()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (!exprNode.isInitalized()) {
+                try {
+                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initalized\n"));
+                    //"\n\t%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -118,6 +127,7 @@ public class AssignNode implements StmtNode {
                     throw new RuntimeException(e);
                 }
             }
+            this.idNode.setInitalizedAsTrue(); //our id Node is initialized with a constant
         }
         //Somehow this method can be written much better avoiding redundancy
         //if exprNode is also an idNode (b or functionName in cases below):
@@ -128,6 +138,7 @@ public class AssignNode implements StmtNode {
         if ((exprToken.getTokenType() == TokenType.ID_KEYWORD)
                 && (!Objects.equals(exprToken.getToken(), "True"))
                 && (!Objects.equals(exprToken.getToken(), "False"))) {
+            this.idNode.setInitalizedAsTrue(); //our id Node is initialized w result of function or another id
             // if our exprNode (IdNode) is an id that is a functionName (rather than an id of a variable)
             if (functionSymbolTable.containsKey(exprToken.getToken())) {
                 //if id type is not equal to return type for function
@@ -144,6 +155,14 @@ public class AssignNode implements StmtNode {
                 //we also want to validate the function call as part of the assignment statement
                 this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
             } else {
+                if (!exprNode.isInitalized()) {
+                    try {
+                        throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" has not been initalized " +
+                                        "\n\t%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 //in second portion of if condition, getToken should return id Name?
                 String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken());
                 if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {

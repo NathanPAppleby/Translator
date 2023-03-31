@@ -116,4 +116,7 @@ public class ConstantNode implements ExprNode {
         //already validated in parsing
         return true;
     }
+
+    @Override
+    public boolean isInitalized() {return true;}
 }

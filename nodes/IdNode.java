@@ -13,10 +13,12 @@ public class IdNode implements ExprNode {
 
     private final Token token;
     private final boolean isOperation;
+    private boolean isInitalized; //in terms of variable id's
 
     public IdNode(Token token){
         this.token = token;
         this.isOperation = false;
+        this.isInitalized = false; //assume false on Default NEED TO SET TO TRUE EVERYWHERE ID INIT
     }
 
     static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception {
@@ -94,4 +96,13 @@ public class IdNode implements ExprNode {
 
     @Override
     public Token getTokenObj() { return this.token; }
+
+    public void setInitalizedAsTrue() {
+        this.isInitalized = true;
+    }
+
+    @Override
+    public boolean isInitalized() {
+        return this.isInitalized;
+    }
 }

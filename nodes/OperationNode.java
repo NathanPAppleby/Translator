@@ -109,4 +109,8 @@ public class OperationNode implements ExprNode {
     @Override
     public Token getTokenObj() { return this.left.getTokenObj(); }
 
+    @Override
+    public boolean isInitalized() {
+        return this.left.isInitalized() && this.right.isInitalized();
+    }
 }
