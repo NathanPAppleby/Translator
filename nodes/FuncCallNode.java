@@ -119,7 +119,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public Token getTokenObj() { return null; }
+    public Token getTokenObj() { return this.idNode.getTokenObj(); }
 
     @Override
     public boolean isOperation() {

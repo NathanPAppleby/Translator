@@ -137,16 +137,17 @@ public class AssignNode implements StmtNode {
                         throw new RuntimeException(e);
                     }
                 }
-            }
-            //in second portion of if condition, getToken should return id Name?
-            String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken());
-            if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {
-                try {
-                    throw new Exception(String.format("Semantic Error:\n variable \"%s\" is of type '%s', and does not " +
-                            "match type '%s'\n%s:%d\n", exprToken.getToken(), exprIdJottType, idTokenJottType,
-                            exprToken.getFilename(), exprToken.getLineNum()));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+            } else {
+                //in second portion of if condition, getToken should return id Name?
+                String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken());
+                if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {
+                    try {
+                        throw new Exception(String.format("Semantic Error:\n variable \"%s\" is of type '%s', and does not " +
+                                        "match type '%s'\n%s:%d\n", exprToken.getToken(), exprIdJottType, idTokenJottType,
+                                exprToken.getFilename(), exprToken.getLineNum()));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
