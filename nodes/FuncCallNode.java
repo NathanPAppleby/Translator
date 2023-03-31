@@ -109,13 +109,19 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
+            return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
+        }
+        throw new Exception(String.format("Semantic Error:\n Function \"%s\" does not exist\n", this.idNode.getIdName()));
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return functionSymbolTable.get(this.idNode.getIdName()).returnType;
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+        if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
+            return functionSymbolTable.get(this.idNode.getIdName()).returnType;
+        }
+        throw new Exception(String.format("Semantic Error:\n Function \"%s\" does not exist\n", this.idNode.getIdName()));
     }
 
     @Override

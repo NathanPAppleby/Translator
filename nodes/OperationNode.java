@@ -71,7 +71,7 @@ public class OperationNode implements ExprNode {
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         String ltype = this.left.getJottType(functionSymbolTable, localVariableSymbolTable);
         String rtype = this.right.getJottType(functionSymbolTable, localVariableSymbolTable);
         // Compare the left and right types

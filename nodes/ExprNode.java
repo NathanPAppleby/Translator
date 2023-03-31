@@ -26,12 +26,12 @@ public interface ExprNode extends JottTree {
         //if we have a <bool> or a <str_literal> (both of TokenType String)
         //we can return that right away bc it will not
         //directly exist as one of our 4 potential operation nodes
+        ExprNode expressionNode = null; //can be <id> or <num>
         if (tokens.get(0).getTokenType().equals(TokenType.STRING) || tokens.get(0).getToken().equals("True") || tokens.get(0).getToken().equals("False")) {
             return ConstantNode.parseConstantNode(tokens);
         }
-        ExprNode expressionNode = null; //will be <id> or <num>
         // Negative Number check
-        if (tokens.get(0).getToken().equals("-") && tokens.get(1).getTokenType().equals(TokenType.NUMBER)) {
+        else if (tokens.get(0).getToken().equals("-") && tokens.get(1).getTokenType().equals(TokenType.NUMBER)) {
             tokens.remove(0); //remove negative token
             Token num = tokens.remove(0); //remove num
             Token negativeNum = new Token("-" + num.getToken(), num.getFilename(), num.getLineNum(), num.getTokenType());
@@ -41,7 +41,8 @@ public interface ExprNode extends JottTree {
         // Positive Number check
         else if ( tokens.get(0).getTokenType().equals(TokenType.NUMBER) ) {
             expressionNode = ConstantNode.parseConstantNode(tokens);
-        } else if ( tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) ) {
+        }
+        else if ( tokens.get(0).getTokenType().equals(TokenType.ID_KEYWORD) ) {
             //MUST Check for func call before id because func call starts with id
             if ( tokens.get(1).getTokenType().equals(TokenType.L_BRACKET) ) {
                 expressionNode = FuncCallNode.parseFuncCallNode(tokens);
@@ -69,6 +70,18 @@ public interface ExprNode extends JottTree {
             return expressionNode;
         }
     }
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
+
+    public boolean isOperation();
+
+    //Idea here is to be able to get type expression when doing validation in
+    //AssignNode, so the type of constant node and idNode too if needed?
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
+
+    //to be able to get token info like Line Number
+    public Token getTokenObj();
+
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
 
     //Returns whether specific types match more general ones or not
     static boolean typeMatch(String idTokenJottType,String exprTokenJottType){
@@ -77,16 +90,5 @@ public interface ExprNode extends JottTree {
         }
         else return idTokenJottType.equals("Boolean") && exprTokenJottType.contains("Boolean");
     }
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
-
-    public boolean isOperation();
-
-    //Idea here is to be able to get type expression when doing validation in
-    //AssignNode, so the type of constant node and idNode too if needed?
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable);
-
-    //to be able to get token info like Line Number
-    public Token getTokenObj();
-
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
 }
+

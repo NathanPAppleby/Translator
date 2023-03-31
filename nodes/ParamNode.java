@@ -68,7 +68,7 @@ public class ParamNode implements JottTree {
 
     //Due to the need of more specific operation types, this function either
     //returns the given type, or it returns a more generalized version of a specific type
-    public String getType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public String getType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         String type = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
         if(type.contains("Boolean")){
             return "Boolean";
