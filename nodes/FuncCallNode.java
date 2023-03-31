@@ -61,6 +61,9 @@ public class FuncCallNode implements StmtNode, ExprNode {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
             // referencing a yet undefined function
+            if(functionName.equals("print") && this.paramNode.getAllParamNodes().size() == 1){
+                return true;
+            }
             String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
             throw new Exception("Semantic Error:\nReference to an undefined function\n"+file);
         }
