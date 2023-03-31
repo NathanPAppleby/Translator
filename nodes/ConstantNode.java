@@ -117,6 +117,8 @@ public class ConstantNode implements ExprNode {
         return this.isOperation;
     }
 
-    @Override
+    /*@Override
     public boolean isInitalized() {return true;}
+
+     */
 }

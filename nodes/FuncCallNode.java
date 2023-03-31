@@ -40,7 +40,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
-            // referencing a yet undefined function
+            /*
             if(functionName.equals("print")){
                 // if our undefined function takes in params, make sure they have been initialized
                 ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
@@ -56,6 +56,8 @@ public class FuncCallNode implements StmtNode, ExprNode {
                     }
                 }
             }
+             */
+            // referencing a yet undefined function
             if(functionName.equals("print") && this.paramNode.getAllParamNodes().size() == 1){
                 return true;
             }
@@ -152,6 +154,9 @@ public class FuncCallNode implements StmtNode, ExprNode {
         return false;
     }
 
+    /*
     @Override
     public boolean isInitalized() {return true;}
+
+     */
 }
