@@ -60,6 +60,7 @@ public class IdNode implements ExprNode {
                 add("while");
                 add("if");
                 add("else");
+                add("elseif");
                 add("Integer");
                 add("Boolean");
                 add("Double");
