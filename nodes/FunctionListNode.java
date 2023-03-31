@@ -75,12 +75,12 @@ public class FunctionListNode implements JottTree {
         }
         // Check to make sure there is a correctly defined main function
         if (!functionSymbolTable.containsKey("main")) {
-            throw new Exception("Semantic Error:\n\tMissing main function definition\nfilename.jott\n");
+            throw new Exception("Semantic Error:\n\tMissing main function definition\n\tfilename.jott\n");
         } else {
             // main function must return "Void" or "Integer" types
             FunctionDef fd = functionSymbolTable.get("main");
             if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
-                throw new Exception("Semantic Error:\n\tMain function must return type \"Void\" or \"Integer\"\nfilename.jott\n");
+                throw new Exception("Semantic Error:\n\tMain function must return type \"Void\" or \"Integer\"\n\tfilename.jott\n");
             }
 
         }

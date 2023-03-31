@@ -73,7 +73,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 return true;
             }
             String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-            throw new Exception("Semantic Error:\n\tReference to an undefined function\n"+file);
+            throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), file));
         }
         FunctionDef fd = functionSymbolTable.get(functionName);
         if(this.paramNode != null) {
@@ -82,13 +82,13 @@ public class FuncCallNode implements StmtNode, ExprNode {
             // Incorrect number of parameters
             if (parameters.size() != funcParameters.size()) {
                 String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n" + file);
+                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + file);
             }
             for (int i = 0; i < parameters.size(); i++) {
                 if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
                     // Parameter does not match the type of function parameter defined in the function definition
                     String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n" + file);
+                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
                 }
             }
             // Function is defined, same number of parameters coming in with the call as there are defined in the function,
@@ -100,7 +100,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
             // Incorrect number of parameters
             if (funcParameters.size() != 0) {
                 String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n" + file);
+                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + file);
             }
             // Function is defined, same number of parameters coming in with the call as there are defined in the function,
             // and all passed parameters match the expected type
@@ -113,7 +113,8 @@ public class FuncCallNode implements StmtNode, ExprNode {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
             return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
         }
-        throw new Exception("Semantic Error:\n\tReference to an undefined function");
+        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+        throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), file));
     }
 
     @Override
@@ -121,7 +122,8 @@ public class FuncCallNode implements StmtNode, ExprNode {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
             return functionSymbolTable.get(this.idNode.getIdName()).returnType;
         }
-        throw new Exception("Semantic Error:\n\tReference to an undefined function");
+        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+        throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), file));
     }
 
     @Override
