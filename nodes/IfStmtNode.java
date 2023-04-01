@@ -106,24 +106,63 @@ public class IfStmtNode implements BodyStmtNode {
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
                             HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
         // First check body for return
+        boolean hasReturn = false;
         String returnVal = null;
         returnVal = this.body.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        // Check all elseifs for returns
+        // has return if there is a return value. If hasreturn is true, then all elseif and else statements NEED returns
+        hasReturn = returnVal != null;
 
-
-        if (returnVal == null) {
-            // Next check else
-            if (this.elseif_lst != null) {
-                returnVal = this.elseif_lst.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+        // If there is an elseif block, check to make sure there is or isnt a return (depending on initial body)
+        if (elseif_lst != null) {
+            String elseifReturns = this.elseif_lst.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+            if (elseifReturns == null && hasReturn) {
+                throw new Exception("Semantic Error: Missing return in else if (need to fix exception, in IfStmtNode)");
+            }
+            // There is a return in the elseif but no return in the beginning if
+            if (elseifReturns != null && !hasReturn) {
+                throw new Exception("Semantic Error: Extra return statement in else if (need to fix exception, in IfStmtNode)");
             }
         }
-        // Then check else for return if still no return found
-        if (returnVal == null) {
-            if (this.else_node != null) {
-                returnVal = this.else_node.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+
+        if (hasReturn && this.else_node == null) {
+            throw new Exception("Semantic Error: Missing necessary else block due to earlier return");
+        }
+        else if (this.else_node != null) {
+            returnVal = this.else_node.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+            if (returnVal == null && hasReturn) {
+                throw new Exception("Semantic Error: Missing necessary return in else block");
+            }
+            else if (returnVal != null && !hasReturn){
+                throw new Exception("Semantic Error: Extra return in else block");
             }
         }
-        // This is now the return type, or null if no return was found
+
+
         return returnVal;
+
+
+
+
+
+//        // First check body for return
+//        String returnVal = null;
+//        returnVal = this.body.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+//        // Check all elseifs for returns
+//
+//
+//        if (returnVal == null) {
+//            // Next check else
+//            if (this.elseif_lst != null) {
+//                returnVal = this.elseif_lst.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+//            }
+//        }
+//        // Then check else for return if still no return found
+//        if (returnVal == null) {
+//            if (this.else_node != null) {
+//                returnVal = this.else_node.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+//            }
+//        }
+//        // This is now the return type, or null if no return was found
+//        return returnVal;
     }
 }

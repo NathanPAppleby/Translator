@@ -93,12 +93,5 @@ public class WhileLoopNode implements BodyStmtNode {
     public boolean containsReturn() {
         return this.body_node.alwaysReturns();
     }
-
-    @Override
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
-        // "While loops with a return do not count as a valid return path" (from project writeup)
-        return null;
-    }
 }
 
