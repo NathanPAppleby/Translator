@@ -78,5 +78,6 @@ public class FunctionDefParamNode implements JottTree {
 
     public void addParamToLocalVarTable( HashMap<String, IdNode> localVariableSymbolTable ) {
         localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
+        localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
     }
 }

@@ -54,6 +54,7 @@ public class AssignNode implements StmtNode {
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
+            localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
             idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable);
         } else { //variable is being declared in same statement as assignment: <type> <id> = <expr>
             addToLocalVarSymbolTable = true;
@@ -89,6 +90,7 @@ public class AssignNode implements StmtNode {
              */
             if (addToLocalVarSymbolTable) {
                 localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
+                localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
             }
             return true; //if return type of entire operation checks out, then it's operands are of proper type as well
         }
@@ -160,6 +162,7 @@ public class AssignNode implements StmtNode {
         }
         if (addToLocalVarSymbolTable) {
             localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
+            localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
         }
         return true;
     }

@@ -12,12 +12,13 @@ public class IdNode implements ExprNode {
 
     private final Token token;
     private final boolean isOperation;
-    //private boolean isInitalized; //in terms of variable id's
+
+    private boolean isInitalized; //in terms of variable id's
 
     public IdNode(Token token){
         this.token = token;
         this.isOperation = false;
-        //this.isInitalized = false; //assume false on Default NEED TO SET TO TRUE EVERYWHERE ID INIT
+        this.isInitalized = false; //assume false on Default NEED TO SET TO TRUE EVERYWHERE ID INIT
     }
 
     static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception {
@@ -28,6 +29,10 @@ public class IdNode implements ExprNode {
         }
         tokens.remove(0);
         return new IdNode(t);
+    }
+
+    public void initialize(){
+        this.isInitalized = true;
     }
 
     public String getIdName() {
