@@ -54,7 +54,13 @@ public class AssignNode implements StmtNode {
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
-            localVariableSymbolTable.get(this.idNode.getIdName()).set(1, "True");
+            if(localVariableSymbolTable.containsKey(this.idNode.getIdName())) {
+                localVariableSymbolTable.get(this.idNode.getIdName()).set(1, "True");
+            }
+            else{
+                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" does not exist\n\t%s", this.idNode.getIdName(), file));
+            }
             idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName()).get(0);
         } else { //variable is being declared in same statement as assignment: <type> <id> = <expr>
             addToLocalVarSymbolTable = true;
