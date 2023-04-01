@@ -76,10 +76,10 @@ public class AssignNode implements StmtNode {
                     throw new RuntimeException(e);
                 }
             }
-            /*
             if (!exprNode.isInitalized()) {
                 try {
-                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initalized\n"));
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initalized\n\t"+file));
                     //"\n\t%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
                     //filename filenum needed
                 } catch (Exception e) {
@@ -87,7 +87,6 @@ public class AssignNode implements StmtNode {
                 }
             }
 
-             */
             if (addToLocalVarSymbolTable) {
                 localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
                 localVariableSymbolTable.get(this.idNode.getIdName()).initialize();

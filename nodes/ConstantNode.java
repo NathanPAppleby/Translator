@@ -108,6 +108,11 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
+    public boolean isInitalized() {
+        return true;
+    }
+
+    @Override
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
         return isBoolean;
     }

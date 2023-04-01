@@ -100,6 +100,11 @@ public class OperationNode implements ExprNode {
     }
 
     @Override
+    public boolean isInitalized() {
+        return left.isInitalized() && right.isInitalized();
+    }
+
+    @Override
     public boolean isOperation() {
         return this.isOperation;
     }

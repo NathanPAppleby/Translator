@@ -40,14 +40,15 @@ public class FuncCallNode implements StmtNode, ExprNode {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
-            /*
-            if(functionName.equals("print")){
+
+            if(functionName.equals("print") || functionName.equals("concat") || functionName.equals("length")){
                 // if our undefined function takes in params, make sure they have been initialized
                 ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
                 for (ParamNode curParam : params) {
                     if (!curParam.getExprNode().isInitalized()) {
                         try {
-                            throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized \n"));
+                            String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                            throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+file));
                             //throw new Exception(String.format("Semantic Error:\n\tParameter \"%s\" has not been initialized \n\t%s:%d\n"));
                             //exprToken.getFilename(), exprToken.getLineNum()));
                         } catch (Exception e) {
@@ -56,7 +57,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
                     }
                 }
             }
-             */
+
             // referencing a yet undefined function
             if(functionName.equals("print")){
                 if(this.paramNode == null || this.paramNode.getAllParamNodes().size() != 1){
@@ -136,6 +137,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
         return output;
     }
 
+
     @Override
     public String convertToJava(String className) {
         return null;
@@ -151,6 +153,10 @@ public class FuncCallNode implements StmtNode, ExprNode {
         return null;
     }
 
+    @Override
+    public boolean isInitalized() {
+        return true;
+    }
     @Override
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {

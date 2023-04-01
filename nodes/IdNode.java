@@ -35,6 +35,11 @@ public class IdNode implements ExprNode {
         this.isInitalized = true;
     }
 
+    @Override
+    public boolean isInitalized() {
+        return this.isInitalized;
+    }
+
     public String getIdName() {
         return token.getToken();
     }
