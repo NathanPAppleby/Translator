@@ -90,6 +90,9 @@ public class FunctionDefNode implements JottTree {
         if (!this.funcReturnNode.getReturnType().equals("Void") && returnType == null) {
             throw new Exception("Semantic Error: no return found (need to clean up exception, in FunctionDefNode line 91");
         }
+        if (!this.funcReturnNode.getReturnType().equals(returnType)) {
+            throw new Exception("Semantic Error: Return does not match function return type");
+        }
 
 //        if (!this.funcReturnNode.getReturnType().equals("Void")) {
 //            this.bodyNode.alwaysReturns();
