@@ -67,4 +67,9 @@ public class VarDecNode implements StmtNode {
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         return false;
     }
+
+    @Override
+    public String getLocation() {
+        return String.format("%s:%s",this.idNode.getTokenObj().getFilename(), this.idNode.getTokenObj().getLineNum());
+    }
 }

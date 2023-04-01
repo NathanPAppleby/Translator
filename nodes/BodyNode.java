@@ -84,7 +84,7 @@ public class BodyNode implements JottTree {
                 }
             }
             else{
-                throw new Exception(String.format("Semantic Error:\n\tUnreachable code"));
+                throw new Exception(String.format("Semantic Error:\n\tUnreachable code\n%s", bodyStmtNode.getLocation()));
             }
         }
         if (this.returnStmtNode != null) {
@@ -92,7 +92,7 @@ public class BodyNode implements JottTree {
                 foundReturn = this.returnStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
             }
             else{
-                throw new Exception(String.format("Semantic Error:\n\tUnreachable code"));
+                throw new Exception(String.format("Semantic Error:\n\tUnreachable code\n\t%s", this.returnStmtNode.getLocation()));
             }
         }
 

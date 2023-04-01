@@ -60,8 +60,7 @@ public class WhileLoopNode implements BodyStmtNode {
                     && bool_expr.validateTree(functionSymbolTable, localVariableSymbolTable);
         }
         else{
-            String file = this.bool_expr.getTokenObj().getFilename() + ":" + this.bool_expr.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error:\n\tWhile loops conditional requires boolean value\n\t%s", file));
+            throw new Exception(String.format("Semantic Error:\n\tWhile loops conditional requires boolean value\n\t%s", this.getLocation()));
         }
     }
 
@@ -93,6 +92,11 @@ public class WhileLoopNode implements BodyStmtNode {
     @Override
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         return false;
+    }
+
+    @Override
+    public String getLocation() {
+        return String.format("%s:%s",this.bool_expr.getTokenObj().getFilename(), this.bool_expr.getTokenObj().getLineNum());
     }
 }
 

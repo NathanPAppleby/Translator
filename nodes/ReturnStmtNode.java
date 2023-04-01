@@ -51,6 +51,10 @@ public class ReturnStmtNode implements JottTree {
         }
     }
 
+    public String getLocation() {
+        return String.format("%s:%s",this.exprNode.getTokenObj().getFilename(), this.exprNode.getTokenObj().getLineNum());
+    }
+
     @Override
     public String convertToJott() {
         return "return " + exprNode.convertToJott() + ";";

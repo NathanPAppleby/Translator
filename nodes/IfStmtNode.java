@@ -58,8 +58,7 @@ public class IfStmtNode implements BodyStmtNode {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
                                 HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         if (!this.b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable)){
-            String file = this.b_expr.getTokenObj().getFilename() + ":" + this.b_expr.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error:\n\tIf statement conditional requires boolean value\n\t%s", file));
+            throw new Exception(String.format("Semantic Error:\n\tIf statement conditional requires boolean value\n\t%s", this.getLocation()));
         }
 
         return b_expr.validateTree(functionSymbolTable, localVariableSymbolTable) &&
@@ -67,6 +66,22 @@ public class IfStmtNode implements BodyStmtNode {
                 (elseif_lst == null || elseif_lst.validateTree(functionSymbolTable, localVariableSymbolTable)) &&
                 (else_node == null || else_node.validateTree(functionSymbolTable, localVariableSymbolTable)) &&
                 b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable);
+    }
+
+    @Override
+    public String getLocation() {
+        return String.format("%s:%s",this.b_expr.getTokenObj().getFilename(), this.b_expr.getTokenObj().getLineNum());
+    }
+
+    @Override
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
+        boolean bodyReturn = this.body.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+        boolean elseifReturn = this.elseif_lst == null ||
+                this.elseif_lst.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+        boolean elseReturn = else_node != null &&
+                this.else_node.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+
+        return bodyReturn && elseifReturn && elseReturn;
     }
 
     @Override
@@ -95,14 +110,5 @@ public class IfStmtNode implements BodyStmtNode {
         return null;
     }
 
-    @Override
-    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
-        boolean bodyReturn = this.body.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        boolean elseifReturn = this.elseif_lst == null ||
-                this.elseif_lst.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        boolean elseReturn = else_node != null &&
-                this.else_node.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
 
-        return bodyReturn && elseifReturn && elseReturn;
-    }
 }

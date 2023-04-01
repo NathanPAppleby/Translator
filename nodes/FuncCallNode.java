@@ -47,8 +47,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 for (ParamNode curParam : params) {
                     if (!curParam.getExprNode().isInitialized(functionSymbolTable, localVariableSymbolTable)) {
                         try {
-                            String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                            throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+file));
+                            throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+this.getLocation()));
                             //throw new Exception(String.format("Semantic Error:\n\tParameter \"%s\" has not been initialized \n\t%s:%d\n"));
                             //exprToken.getFilename(), exprToken.getLineNum()));
                         } catch (Exception e) {
@@ -61,21 +60,18 @@ public class FuncCallNode implements StmtNode, ExprNode {
             // referencing a yet undefined function
             if(functionName.equals("print")){
                 if(this.paramNode.getAllParamNodes().size() != 1){
-                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
                 }
                 return true;
             }
             else if(functionName.equals("length")) {
                 if (this.paramNode.getAllParamNodes().size() != 1) {
-                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
                 }
                 ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
                     if (!parameters.get(0).getType(functionSymbolTable, localVariableSymbolTable).equals("String")) {
                         // Parameter does not match the type of function parameter defined in the function definition
-                        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
                     }
                 return true;
             }
@@ -84,14 +80,12 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 for (ParamNode parameter : parameters) {
                     if (!parameter.getType(functionSymbolTable, localVariableSymbolTable).equals("String")) {
                         // Parameter does not match the type of function parameter defined in the function definition
-                        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
                     }
                 }
                 return true;
             }
-            String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), file));
+            throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), this.getLocation()));
         }
         FunctionDef fd = functionSymbolTable.get(functionName);
         if(this.paramNode != null) {
@@ -99,14 +93,12 @@ public class FuncCallNode implements StmtNode, ExprNode {
             ArrayList<FunctionParameter> funcParameters = fd.parameters;
             // Incorrect number of parameters
             if (parameters.size() != funcParameters.size()) {
-                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + file);
+                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + this.getLocation());
             }
             for (int i = 0; i < parameters.size(); i++) {
                 if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
                     // Parameter does not match the type of function parameter defined in the function definition
-                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + file);
+                    throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + this.getLocation());
                 }
             }
             // Function is defined, same number of parameters coming in with the call as there are defined in the function,
@@ -117,8 +109,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
             ArrayList<FunctionParameter> funcParameters = fd.parameters;
             // Incorrect number of parameters
             if (funcParameters.size() != 0) {
-                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + file);
+                throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + this.getLocation());
             }
             // Function is defined, same number of parameters coming in with the call as there are defined in the function,
             // and all passed parameters match the expected type
@@ -132,8 +123,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
         if (!functionSymbolTable.containsKey(this.idNode.getIdName())) {
             try {
                 throw new Exception(String.format("Semantic Error:\n\tFunction \"%s\" is undefined " +
-                                "\n\t%s:%d", this.idNode.getIdName(), this.idNode.getTokenObj().getFilename(),
-                        this.idNode.getTokenObj().getLineNum()));
+                                "\n\t%s", this.idNode.getIdName(), this.getLocation()));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -145,8 +135,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
             numberProvidedParams = 0;
             if (numParamsNeeded != numberProvidedParams) {
                 try {
-                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+file));
+                    throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+this.getLocation()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -155,8 +144,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
         ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
         if (params.size() != numParamsNeeded) {
             try {
-                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+file));
+                throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+this.getLocation()));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -165,8 +153,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
         for (ParamNode curParam : params) {
             if (!curParam.getExprNode().isInitialized(functionSymbolTable, localVariableSymbolTable)) {
                 try {
-                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+file));
+                    throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+this.getLocation()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -175,6 +162,39 @@ public class FuncCallNode implements StmtNode, ExprNode {
         return true;
     }
 
+    @Override
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
+        if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
+            return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
+        }
+        throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), this.getLocation()));
+    }
+
+    @Override
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
+        if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
+            return functionSymbolTable.get(this.idNode.getIdName()).returnType;
+        }
+        throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), this.getLocation()));
+    }
+
+    @Override
+    public Token getTokenObj() { return this.idNode.getTokenObj(); }
+
+    @Override
+    public boolean isOperation() {
+        return this.isOperation;
+    }
+
+    @Override
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
+        return false;
+    }
+
+    @Override
+    public String getLocation() {
+        return String.format("%s:%s",this.idNode.getTokenObj().getFilename(), this.idNode.getTokenObj().getLineNum());
+    }
     @Override
     public String convertToJott() {
 
@@ -185,7 +205,6 @@ public class FuncCallNode implements StmtNode, ExprNode {
         output += "]";
         return output;
     }
-
 
     @Override
     public String convertToJava(String className) {
@@ -200,36 +219,5 @@ public class FuncCallNode implements StmtNode, ExprNode {
     @Override
     public String convertToPython() {
         return null;
-    }
-
-    @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
-        if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
-            return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
-        }
-        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-        throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), file));
-    }
-
-    @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
-        if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
-            return functionSymbolTable.get(this.idNode.getIdName()).returnType;
-        }
-        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-        throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), file));
-    }
-
-    @Override
-    public Token getTokenObj() { return this.idNode.getTokenObj(); }
-
-    @Override
-    public boolean isOperation() {
-        return this.isOperation;
-    }
-
-    @Override
-    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
-        return false;
     }
 }

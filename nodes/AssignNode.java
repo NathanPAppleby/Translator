@@ -192,6 +192,16 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
+        return false;
+    }
+
+    @Override
+    public String getLocation() {
+        return String.format("%s:%s",this.exprNode.getTokenObj().getFilename(), this.exprNode.getTokenObj().getLineNum());
+    }
+
+    @Override
     public String convertToJott() {
         String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
                 exprNode.convertToJott();
@@ -215,8 +225,5 @@ public class AssignNode implements StmtNode {
     }
 
 
-    @Override
-    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
-        return false;
-    }
+
 }
