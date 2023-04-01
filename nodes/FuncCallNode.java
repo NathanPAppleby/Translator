@@ -183,7 +183,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
         return null;
     }
 

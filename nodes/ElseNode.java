@@ -51,9 +51,9 @@ public class ElseNode implements JottTree {
     }
 
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable) throws Exception {
+                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
         // Checks body for return, null if no return found
-        return this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+        return this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
     }
 
     @Override

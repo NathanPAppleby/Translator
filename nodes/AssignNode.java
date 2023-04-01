@@ -194,7 +194,7 @@ public class AssignNode implements StmtNode {
 
     @Override
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable) throws Exception {
+                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
         return null;
     }
 }

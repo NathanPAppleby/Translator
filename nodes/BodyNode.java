@@ -83,16 +83,21 @@ public class BodyNode implements JottTree {
         return null;
     }
 
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
         String returnVal = null;
         if (returnStmtNode != null) {
             returnVal = returnStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
             return returnVal;
         }
         else {
+            // Need to check every bodystmt node for if statements.
+            for (BodyStmtNode bodyStmt : this.bodyStmtNodes) {
+                returnVal = bodyStmt.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+            }
+            // If statements are only valid if all parts have a return (if, elseif (if applicable), and else)
             // check body for return
-            BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
-            returnVal = lastBdyStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+//            BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
+//            returnVal = lastBdyStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
         }
         return returnVal;
     }

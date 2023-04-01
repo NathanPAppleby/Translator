@@ -70,12 +70,12 @@ public class ElseIfLstNode implements JottTree {
     }
 
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable) throws Exception {
+                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
         // Check body for return
-        String returnVal = this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+        String returnVal = this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
         // if no return in body, check elseif for return
         if (returnVal == null && this.elseIfLstNode != null) {
-            returnVal = this.elseIfLstNode.getReturn(functionSymbolTable, localVariableSymbolTable);
+            returnVal = this.elseIfLstNode.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
         }
         return returnVal;
     }

@@ -25,6 +25,8 @@ public interface BodyStmtNode extends JottTree {
 
     public boolean containsReturn();
 
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable) throws Exception;
+    public default String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                                    HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+        return null;
+    }
 }
