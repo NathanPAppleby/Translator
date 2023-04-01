@@ -49,12 +49,12 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
 
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
-            idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName());
+            idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable);
         } else { //variable is being declared in same statement as assignment: <type> <id> = <expr>
             addToLocalVarSymbolTable = true;
             idTokenJottType = this.typeNode.getType();
@@ -88,7 +88,7 @@ public class AssignNode implements StmtNode {
 
              */
             if (addToLocalVarSymbolTable) {
-                localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
+                localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
             }
             return true; //if return type of entire operation checks out, then it's operands are of proper type as well
         }
@@ -146,7 +146,7 @@ public class AssignNode implements StmtNode {
 
                  */
                 //in second portion of if condition, getToken should return id Name?
-                String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken());
+                String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken()).getJottType(functionSymbolTable, localVariableSymbolTable);
                 if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {
                     try {
                         throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" is of type '%s', and does not " +
@@ -159,7 +159,7 @@ public class AssignNode implements StmtNode {
             }
         }
         if (addToLocalVarSymbolTable) {
-            localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
+            localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
         }
         return true;
     }
@@ -194,7 +194,7 @@ public class AssignNode implements StmtNode {
 
     @Override
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
         return null;
     }
 }

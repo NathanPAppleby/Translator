@@ -56,7 +56,7 @@ public class ElseIfLstNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         if (!this.bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable)){
             String file = this.bexprNode.getTokenObj().getFilename() + ":" + this.bexprNode.getTokenObj().getLineNum();
             throw new Exception(
@@ -70,7 +70,7 @@ public class ElseIfLstNode implements JottTree {
     }
 
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
         // Check body for return
         String returnVal = this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
         // check return type

@@ -68,12 +68,12 @@ public class ConstantNode implements ExprNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, String> localVariableSymbolTable) {
+                                HashMap<String, IdNode> localVariableSymbolTable) {
         //already validated in parsing
         return true;
     }
 
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
         return this.jottType;
     }
 
@@ -108,7 +108,7 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
         return isBoolean;
     }
 

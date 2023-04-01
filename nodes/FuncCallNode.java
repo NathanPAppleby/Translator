@@ -37,7 +37,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
             /*
@@ -152,7 +152,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
             return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
         }
@@ -161,7 +161,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
             return functionSymbolTable.get(this.idNode.getIdName()).returnType;
         }
@@ -183,7 +183,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
         return null;
     }
 

@@ -34,7 +34,7 @@ public class BodyNode implements JottTree {
         }
     }
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception{
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception{
         for (BodyStmtNode bsn : this.bodyStmtNodes) {
             bsn.validateTree(functionSymbolTable, localVariableSymbolTable);
         }
@@ -84,7 +84,7 @@ public class BodyNode implements JottTree {
     }
 
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
         String returnVal = null;
         // First check bodystmts for valid if statement with returns
         for (BodyStmtNode bodyStmt : this.bodyStmtNodes) {

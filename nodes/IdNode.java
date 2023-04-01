@@ -55,7 +55,7 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         ArrayList<String> blacklist = new ArrayList<>() {
             {
                 add("while");
@@ -82,13 +82,13 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return localVariableSymbolTable.get(this.getIdName()).equals("Boolean");
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(this.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable).contains("Boolean");
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) {
-        return localVariableSymbolTable.get(this.getIdName());
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(this.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class FunctionListNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         for (FunctionDefNode fn : this.functionDefNodes) {
             // Validation
             fn.validateTree(functionSymbolTable, localVariableSymbolTable);

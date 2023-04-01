@@ -29,7 +29,7 @@ public class OperationNode implements ExprNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, String> localVariableSymbolTable) throws Exception {
+                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         return this.left.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && this.middle.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && this.right.validateTree(functionSymbolTable, localVariableSymbolTable);
@@ -37,7 +37,7 @@ public class OperationNode implements ExprNode {
 
     @Override
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable,
-                             HashMap<String, String> localVariableSymbolTable) throws Exception {
+                             HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         return this.getJottType(functionSymbolTable, localVariableSymbolTable).contains("Boolean");
     }
 
@@ -71,7 +71,7 @@ public class OperationNode implements ExprNode {
 
     @Override
     public String getJottType(HashMap<String, FunctionDef> functionSymbolTable,
-                              HashMap<String, String> localVariableSymbolTable) throws Exception {
+                              HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
         String ltype = this.left.getJottType(functionSymbolTable, localVariableSymbolTable);
         String rtype = this.right.getJottType(functionSymbolTable, localVariableSymbolTable);
         // Compare the left and right types

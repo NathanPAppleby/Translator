@@ -31,12 +31,12 @@ public class VarDecNode implements StmtNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String,
-            String> localVariableSymbolTable) throws Exception{
+            IdNode> localVariableSymbolTable) throws Exception{
         // Validation
         boolean isValidated = this.idNode.validateTree(functionSymbolTable,localVariableSymbolTable) &&
                 this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
         // After Validation, add to local variable table
-        localVariableSymbolTable.put(this.idNode.getIdName(), this.typeNode.getType());
+        localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
         return true;
     }
 
@@ -67,7 +67,7 @@ public class VarDecNode implements StmtNode {
 
     @Override
     public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
         return null;
     }
 }

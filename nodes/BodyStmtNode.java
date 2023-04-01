@@ -21,12 +21,12 @@ public interface BodyStmtNode extends JottTree {
         }
     }
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, String> localVariableSymbolTable) throws Exception;
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception;
 
     public boolean containsReturn();
 
     public default String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                                    HashMap<String, String> localVariableSymbolTable, String returnType) throws Exception {
+                                    HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
         return null;
     }
 }
