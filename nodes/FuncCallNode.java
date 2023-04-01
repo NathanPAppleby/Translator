@@ -58,7 +58,35 @@ public class FuncCallNode implements StmtNode, ExprNode {
             }
              */
             // referencing a yet undefined function
-            if(functionName.equals("print") && this.paramNode.getAllParamNodes().size() == 1){
+            if(functionName.equals("print")){
+                if(this.paramNode == null || this.paramNode.getAllParamNodes().size() != 1){
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                }
+                return true;
+            }
+            else if(functionName.equals("length")) {
+                if (this.paramNode == null || this.paramNode.getAllParamNodes().size() != 1) {
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                }
+                ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
+                    if (!parameters.get(0).getType(functionSymbolTable, localVariableSymbolTable).equals("String")) {
+                        // Parameter does not match the type of function parameter defined in the function definition
+                        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                    }
+                return true;
+            }
+            else if (this.paramNode != null && functionName.equals("concat") && this.paramNode.getAllParamNodes().size() == 2) {
+                ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
+                for (ParamNode parameter : parameters) {
+                    if (!parameter.getType(functionSymbolTable, localVariableSymbolTable).equals("String")) {
+                        // Parameter does not match the type of function parameter defined in the function definition
+                        String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                    }
+                }
                 return true;
             }
             String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();

@@ -69,6 +69,9 @@ public class IdNode implements ExprNode {
                 add("Void");
                 add("def");
                 add("return");
+                add("print");
+                add("concat");
+                add("length");
             }
         };
         if(blacklist.contains(this.getIdName())){
