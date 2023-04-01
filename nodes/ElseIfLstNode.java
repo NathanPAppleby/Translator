@@ -69,20 +69,11 @@ public class ElseIfLstNode implements JottTree {
                bexprNode.isBoolean(functionSymbolTable, localVariableSymbolTable);
     }
 
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
-        // Check body for return
-        String returnVal = this.bodyNode.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        // check return type
-        if (returnVal != null && !returnVal.equals(returnType)) {
-
-            throw new Exception("Semantic Error:\n\tElseif statement contains wrong return value\n\t");
-        }
-        // if there is a return, check next elseif block for return
-        if (returnVal != null && this.elseIfLstNode != null) {
-            returnVal = this.elseIfLstNode.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        }
-        return returnVal;
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                                  HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+        return this.bodyNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType) &&
+                (this.elseIfLstNode == null ||
+                        this.elseIfLstNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType));
     }
 
     @Override

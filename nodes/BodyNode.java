@@ -83,33 +83,25 @@ public class BodyNode implements JottTree {
         return null;
     }
 
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
-        String returnVal = null;
-        // First check bodystmts for valid if statement with returns
-        for (BodyStmtNode bodyStmt : this.bodyStmtNodes) {
-            returnVal = bodyStmt.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                                  HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+        boolean foundReturn = false;
+        if (this.returnStmtNode != null) {
+            foundReturn = this.returnStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
         }
-        //todo if validifreturn is TRUE: make sure there is not another return
-        //
 
+        for (BodyStmtNode bodyStmtNode : bodyStmtNodes) {
+            if (bodyStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType)) {
+                if (foundReturn) {
+                    throw new Exception("Found extra return");
+                }
+                else {
+                    foundReturn = true;
+                }
+            }
+        }
 
-//        if (returnStmtNode != null) {
-//            returnVal = returnStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
-//            return returnVal;
-//        }
-//        else {
-//            // Need to check every bodystmt node for if statements.
-//            for (BodyStmtNode bodyStmt : this.bodyStmtNodes) {
-//                returnVal = bodyStmt.getReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-//            }
-            // If statements are only valid if all parts have a return (if, elseif (if applicable), and else)
-            // check body for return
-//            BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
-//            returnVal = lastBdyStmtNode.getReturn(functionSymbolTable, localVariableSymbolTable);
-        //}
-        return returnVal;
+        return foundReturn;
     }
 }
 

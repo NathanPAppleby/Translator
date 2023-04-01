@@ -36,9 +36,15 @@ public class ReturnStmtNode implements JottTree {
         return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
-        return this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
+                                  HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception{
+        if (this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable).equals(returnType)) {
+            return true;
+        }
+        else {
+            String filename = this.exprNode.getTokenObj().getFilename() + ":" + this.exprNode.getTokenObj().getLineNum();
+            throw new Exception("Semantic Error\n\tInvalid return type\n\t"+ filename);
+        }
     }
 
     @Override

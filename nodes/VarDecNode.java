@@ -66,8 +66,7 @@ public class VarDecNode implements StmtNode {
     }
 
     @Override
-    public String getReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                            HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
-        return null;
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+        return false;
     }
 }

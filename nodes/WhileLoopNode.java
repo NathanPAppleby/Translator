@@ -93,5 +93,10 @@ public class WhileLoopNode implements BodyStmtNode {
     public boolean containsReturn() {
         return this.body_node.alwaysReturns();
     }
+
+    @Override
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+        return false;
+    }
 }
 
