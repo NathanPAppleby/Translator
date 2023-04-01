@@ -74,8 +74,4 @@ public class ElseNode implements JottTree {
     public String convertToPython() {
         return null;
     }
-
-    public boolean containsReturn() {
-        return this.bodyNode.alwaysReturns();
-    }
 }

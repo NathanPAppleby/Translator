@@ -96,34 +96,13 @@ public class IfStmtNode implements BodyStmtNode {
     }
 
     @Override
-    public boolean containsReturn() {
-        return this.body.alwaysReturns() &&
-                (this.elseif_lst == null || this.elseif_lst.containsReturn()) &&
-                (this.else_node == null || this.else_node.containsReturn());
-    }
-
-    @Override
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
-        boolean bodyReturn = false;
-        boolean elseifReturn = false;
-        boolean elseReturn = false;
-        bodyReturn = this.body.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+        boolean bodyReturn = this.body.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+        boolean elseifReturn = this.elseif_lst == null ||
+                this.elseif_lst.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+        boolean elseReturn = else_node != null &&
+                this.else_node.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
 
-        if (this.elseif_lst != null) {
-            elseifReturn = this.elseif_lst.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        }
-        if (this.else_node != null) {
-            elseReturn = this.else_node.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        }
-
-        if (bodyReturn && elseifReturn && elseReturn) {
-            return true;
-        }
-        else if (!bodyReturn && !elseifReturn && !elseReturn) {
-            return false;
-        }
-        else {
-            throw new Exception("Invalid return statements in if statement");
-        }
+        return bodyReturn && elseifReturn && elseReturn;
     }
 }

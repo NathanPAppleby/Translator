@@ -42,16 +42,6 @@ public class BodyNode implements JottTree {
                 this.returnStmtNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
-    public boolean alwaysReturns() {
-        if (this.returnStmtNode != null) {
-            return true;
-        }
-        // If the body does not have a return statement,
-        // iterate backwards through the body statements to look for a body statement that always returns
-        BodyStmtNode lastBdyStmtNode = this.bodyStmtNodes.get(this.bodyStmtNodes.size()-1);
-        return lastBdyStmtNode.containsReturn();
-    }
-
     @Override
     public String convertToJott() {
         StringBuilder output = new StringBuilder();
@@ -86,18 +76,23 @@ public class BodyNode implements JottTree {
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
                                   HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         boolean foundReturn = false;
-        if (this.returnStmtNode != null) {
-            foundReturn = this.returnStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
-        }
 
         for (BodyStmtNode bodyStmtNode : bodyStmtNodes) {
-            if (bodyStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType)) {
-                if (foundReturn) {
-                    throw new Exception("Found extra return");
-                }
-                else {
+            if(!foundReturn) {
+                if (bodyStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType)) {
                     foundReturn = true;
                 }
+            }
+            else{
+                throw new Exception(String.format("Semantic Error:\n\tUnreachable code"));
+            }
+        }
+        if (this.returnStmtNode != null) {
+            if (!foundReturn) {
+                foundReturn = this.returnStmtNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
+            }
+            else{
+                throw new Exception(String.format("Semantic Error:\n\tUnreachable code"));
             }
         }
 

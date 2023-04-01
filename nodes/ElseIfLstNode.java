@@ -103,8 +103,4 @@ public class ElseIfLstNode implements JottTree {
     public String convertToPython() {
         return null;
     }
-
-    public boolean containsReturn() {
-        return this.bodyNode.alwaysReturns() && (this.elseIfLstNode == null || this.elseIfLstNode.containsReturn());
-    }
 }

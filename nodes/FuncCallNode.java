@@ -60,14 +60,14 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
             // referencing a yet undefined function
             if(functionName.equals("print")){
-                if(this.paramNode == null || this.paramNode.getAllParamNodes().size() != 1){
+                if(this.paramNode.getAllParamNodes().size() != 1){
                     String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
                     throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
                 }
                 return true;
             }
             else if(functionName.equals("length")) {
-                if (this.paramNode == null || this.paramNode.getAllParamNodes().size() != 1) {
+                if (this.paramNode.getAllParamNodes().size() != 1) {
                     String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
                     throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
                 }
@@ -182,11 +182,6 @@ public class FuncCallNode implements StmtNode, ExprNode {
     @Override
     public boolean isOperation() {
         return this.isOperation;
-    }
-
-    @Override
-    public boolean containsReturn() {
-        return false;
     }
 
     @Override

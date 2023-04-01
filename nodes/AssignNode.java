@@ -191,10 +191,6 @@ public class AssignNode implements StmtNode {
         return null;
     }
 
-    @Override
-    public boolean containsReturn() {
-        return false;
-    }
 
     @Override
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
