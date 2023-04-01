@@ -40,11 +40,18 @@ public class ReturnStmtNode implements JottTree {
                                   HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception{
 
         //Checks if value is initialized
-        this.exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable);
-        if(returnType.equals("Void")){
+        boolean isInit = this.exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable);
+        if (returnType.equals("Void")){
             throw new Exception("Semantic Error\n\tUnexpected return in Void function\n\t"+ this.getLocation());
-        }
-        else if (this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable).equals(returnType)) {
+        } else if (!isInit) {
+            try {
+                throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" is uninitialized " +
+                                "\n\t%s:%d", this.exprNode.getTokenObj().getToken(),
+                        this.exprNode.getTokenObj().getFilename(), this.exprNode.getTokenObj().getLineNum()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else if (this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable).equals(returnType)) {
             return true;
         }
         else {
