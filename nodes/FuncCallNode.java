@@ -138,15 +138,35 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 throw new RuntimeException(e);
             }
         }
-        //make sure all params are initalized
+        //make sure provided number of params is correct
+        int numParamsNeeded = functionSymbolTable.get(this.idNode.getIdName()).parameters.size();
+        int numberProvidedParams;
+        if(this.paramNode == null) {
+            numberProvidedParams = 0;
+            if (numParamsNeeded != numberProvidedParams) {
+                try {
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+file));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
         ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
+        if (params.size() != numParamsNeeded) {
+            try {
+                String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+file));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //make sure all params are initalized
         for (ParamNode curParam : params) {
             if (!curParam.getExprNode().isInitialized(functionSymbolTable, localVariableSymbolTable)) {
                 try {
                     String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
                     throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+file));
-                    //throw new Exception(String.format("Semantic Error:\n\tParameter \"%s\" has not been initialized \n\t%s:%d\n"));
-                    //exprToken.getFilename(), exprToken.getLineNum()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
