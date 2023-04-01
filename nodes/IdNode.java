@@ -81,6 +81,16 @@ public class IdNode implements ExprNode {
 
     @Override
     public boolean isInitialized(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        //make sure declated first
+        if (!localVariableSymbolTable.containsKey(this.getIdName())) {
+            try {
+                throw new Exception(String.format("Semantic Error:\n\tVariable '%s' is undefined " +
+                                "\n\t%s:%d\n", this.token.getToken(), this.token.getFilename(),
+                        this.token.getLineNum()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } //if declared make sure initalized
         return localVariableSymbolTable.get(getIdName()).get(1).equals("True");
     }
 

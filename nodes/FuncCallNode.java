@@ -128,6 +128,16 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public boolean isInitialized(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        //check for function declaration
+        if (!functionSymbolTable.containsKey(this.idNode.getIdName())) {
+            try {
+                throw new Exception(String.format("Semantic Error:\n\tFunction '%s' is undefined " +
+                                "\n\t%s:%d\n", this.idNode.getIdName(), this.idNode.getTokenObj().getFilename(),
+                        this.idNode.getTokenObj().getLineNum()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
         return true;
     }
 

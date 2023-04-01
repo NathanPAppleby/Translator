@@ -69,22 +69,44 @@ public class AssignNode implements StmtNode {
 
         this.idNode.validateTree(functionSymbolTable, localVariableSymbolTable);
 
-        String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
+        Token expressionToken = this.exprNode.getTokenObj();
+        //if our expression is a variable or a function name, we check to make sure it is declared
+        if ((expressionToken.getTokenType() == TokenType.ID_KEYWORD)
+                && (!Objects.equals(expressionToken.getToken(), "True"))
+                && (!Objects.equals(expressionToken.getToken(), "False"))) {
+            // if our exprssionToken (IdNode) being a functionName or a variable, ensure it has been declared/defined
+            exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable);
+            /*
+            if (!localVariableSymbolTable.containsKey(expressionToken.getToken()) || !functionSymbolTable.containsKey(expressionToken.getToken())) {
+                try {
+                    throw new Exception(String.format("Semantic Error:\n\tVariable or Function '%s' is undefined " +
+                                    "\n\t%s:%d\n", expressionToken.getToken(), expressionToken.getFilename(),
+                            expressionToken.getLineNum()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+             */
+        }
+
         //handle operation return check FIRST
         if (this.exprNode.isOperation()) {
+            //first we make sure all variables in operation have been initalized and declared.
+            if (!exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable)) {
+                try {
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initialized\n\t"+file));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
             if (!ExprNode.typeMatch(idTokenJottType, exprTokenJottType)) {
                 try { //could specify entire operation in output?
                     throw new Exception(String.format("Semantic Error:\n\tOperation return is of type '%s', and " +
                                     "does not match type \"%s\"\n\t%s:%d\n", exprTokenJottType, idTokenJottType,
                             this.exprNode.getTokenObj().getFilename() , this.exprNode.getTokenObj().getLineNum()));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (!exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable)) {
-                try {
-                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initialized\n\t"+file));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -102,6 +124,7 @@ public class AssignNode implements StmtNode {
         if (exprToken.getTokenType() == TokenType.NUMBER || exprToken.getTokenType() == TokenType.STRING ||
                 Objects.equals(exprToken.getToken(), "True") || Objects.equals(exprToken.getToken(), "False")) {
             //if type of idNode is not equal to type of constant
+            String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
             if ( !ExprNode.typeMatch(idTokenJottType, exprTokenJottType) ) {
                 try {
                     throw new Exception(String.format("Semantic Error:\n\tConstant \"%s\" is of type '%s', and does not " +
