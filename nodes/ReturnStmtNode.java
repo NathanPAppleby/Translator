@@ -47,7 +47,7 @@ public class ReturnStmtNode implements JottTree {
         }
         else {
             String filename = this.exprNode.getTokenObj().getFilename() + ":" + this.exprNode.getTokenObj().getLineNum();
-            throw new Exception("Semantic Error\n\tInvalid return type\n\t"+ filename);
+            throw new Exception(String.format("Semantic Error\n\tInvalid return type \"%s\" in \"%s\" function\n\t%s",this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable),returnType, filename));
         }
     }
 

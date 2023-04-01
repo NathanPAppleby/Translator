@@ -106,7 +106,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
                     // Parameter does not match the type of function parameter defined in the function definition
                     String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + file);
+                    throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + file);
                 }
             }
             // Function is defined, same number of parameters coming in with the call as there are defined in the function,
@@ -131,8 +131,8 @@ public class FuncCallNode implements StmtNode, ExprNode {
         //check for function declaration
         if (!functionSymbolTable.containsKey(this.idNode.getIdName())) {
             try {
-                throw new Exception(String.format("Semantic Error:\n\tFunction '%s' is undefined " +
-                                "\n\t%s:%d\n", this.idNode.getIdName(), this.idNode.getTokenObj().getFilename(),
+                throw new Exception(String.format("Semantic Error:\n\tFunction \"%s\" is undefined " +
+                                "\n\t%s:%d", this.idNode.getIdName(), this.idNode.getTokenObj().getFilename(),
                         this.idNode.getTokenObj().getLineNum()));
             } catch (Exception e) {
                 throw new RuntimeException(e);

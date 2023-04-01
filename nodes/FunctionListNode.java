@@ -35,7 +35,7 @@ public class FunctionListNode implements JottTree {
             // After validation, add function to function symbol table
             if (functionSymbolTable.containsKey(fn.getFunctionName())) {
                 String fileInfo = fn.getFilenameAndLine();
-                throw new Exception(String.format("Semantic Error:\n\tFunction %s already exists\n\t%s\n",
+                throw new Exception(String.format("Semantic Error:\n\tFunction \"%s\" already exists\n\t%s",
                         fn.getFunctionName(), fileInfo));
             }
             functionSymbolTable.put(fn.getFunctionName(), FunctionDef.buildFunctionDef(fn));
@@ -44,14 +44,14 @@ public class FunctionListNode implements JottTree {
         if (!functionSymbolTable.containsKey("main")) {
             String fileInfo = this.functionDefNodes.get(this.functionDefNodes.size()-1).getFilenameAndLine();
             throw new Exception(
-                    String.format("Semantic Error:\n\tMissing main function definition\n\t%s\n", fileInfo));
+                    String.format("Semantic Error:\n\tMissing main function definition\n\t%s", fileInfo));
         } else {
             // main function must return "Void" or "Integer" types
             FunctionDef fd = functionSymbolTable.get("main");
             if (!fd.returnType.equals("Void") && !fd.returnType.equals("Integer")) {
                 String fileInfo = this.functionDefNodes.get(this.functionDefNodes.size()-1).getFilenameAndLine();
                 throw new Exception(
-                        String.format("Semantic Error:\n\tMain function must return type \"Void\" or \"Integer\"\n\t%s\n",
+                        String.format("Semantic Error:\n\tMain function must return type \"Void\" or \"Integer\"\n\t%s",
                         fileInfo));
             }
         }
