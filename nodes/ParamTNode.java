@@ -25,7 +25,7 @@ public class ParamTNode extends ParamNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         return super.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 

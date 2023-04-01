@@ -70,18 +70,18 @@ public interface ExprNode extends JottTree {
             return expressionNode;
         }
     }
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception;
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception;
 
     public boolean isOperation();
 
     //Idea here is to be able to get type expression when doing validation in
     //AssignNode, so the type of constant node and idNode too if needed?
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception;
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception;
 
     //to be able to get token info like Line Number
     public Token getTokenObj();
 
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception;
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception;
 
     //Returns whether specific types match more general ones or not
     static boolean typeMatch(String idTokenJottType,String exprTokenJottType){
@@ -91,6 +91,7 @@ public interface ExprNode extends JottTree {
         else return idTokenJottType.equals("Boolean") && exprTokenJottType.contains("Boolean");
     }
 
-    public boolean isInitalized();
+    public boolean isInitialized(HashMap<String, FunctionDef> functionSymbolTable,
+                                 HashMap<String, ArrayList<String>> localVariableSymbolTable);
 }
 

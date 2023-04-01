@@ -49,13 +49,13 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
 
         boolean addToLocalVarSymbolTable = false; //default assumes already exists in table
         String idTokenJottType;
         if (this.typeNode == null) { //variable has already been declared and should exist in localVarSymTable: <id> = <expr>
-            localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
-            idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable);
+            localVariableSymbolTable.get(this.idNode.getIdName()).set(1, "True");
+            idTokenJottType = localVariableSymbolTable.get(this.idNode.getIdName()).get(0);
         } else { //variable is being declared in same statement as assignment: <type> <id> = <expr>
             addToLocalVarSymbolTable = true;
             idTokenJottType = this.typeNode.getType();
@@ -66,7 +66,6 @@ public class AssignNode implements StmtNode {
         String exprTokenJottType = this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable);
         //handle operation return check FIRST
         if (this.exprNode.isOperation()) {
-            //this.idNode.setInitalizedAsTrue(); //our id Node is initialized with the result of an operation
             if (!ExprNode.typeMatch(idTokenJottType, exprTokenJottType)) {
                 try { //could specify entire operation in output?
                     throw new Exception(String.format("Semantic Error:\n\tOperation return is of type '%s', and " +
@@ -76,20 +75,19 @@ public class AssignNode implements StmtNode {
                     throw new RuntimeException(e);
                 }
             }
-            if (!exprNode.isInitalized()) {
+            if (!exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable)) {
                 try {
                     String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initalized\n\t"+file));
-                    //"\n\t%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
-                    //filename filenum needed
+                    throw new Exception(String.format("Semantic Error:\n\tVariable in operation has not been initialized\n\t"+file));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
 
             if (addToLocalVarSymbolTable) {
-                localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
-                localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
+                localVariableSymbolTable.put(this.idNode.getIdName(), new ArrayList<>());
+                localVariableSymbolTable.get(this.idNode.getIdName()).add(this.typeNode.getType());
+                localVariableSymbolTable.get(this.idNode.getIdName()).add("True");
             }
             return true; //if return type of entire operation checks out, then it's operands are of proper type as well
         }
@@ -107,18 +105,16 @@ public class AssignNode implements StmtNode {
                     throw new RuntimeException(e);
                 }
             }
-            //this.idNode.setInitalizedAsTrue(); //our id Node is initialized with a constant
         }
         //Somehow this method can be written much better avoiding redundancy
         //if exprNode is also an idNode (b or functionName in cases below):
         // Cases: "Integer a = b"
         //        "Integer a = functionName(...)"
-        //we handle constants up top we dont want to consider handling Boolean constant here
+        //we handle constants up top we don't want to consider handling Boolean constant here
         // even though 'True', 'False' are of type ID_KEYWORD, hence 2nd/3rd portions of conditional
         if ((exprToken.getTokenType() == TokenType.ID_KEYWORD)
                 && (!Objects.equals(exprToken.getToken(), "True"))
                 && (!Objects.equals(exprToken.getToken(), "False"))) {
-            //this.idNode.setInitalizedAsTrue(); //our id Node is initialized w result of function or another id
             // if our exprNode (IdNode) is an id that is a functionName (rather than an id of a variable)
             if (functionSymbolTable.containsKey(exprToken.getToken())) {
                 //if id type is not equal to return type for function
@@ -135,19 +131,18 @@ public class AssignNode implements StmtNode {
                 //we also want to validate the function call as part of the assignment statement
                 this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
             } else {
-                /*
-                if (!exprNode.isInitalized()) {
+
+                if (!exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable)) {
                     try {
-                        throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" has not been initalized " +
+                        throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" has not been initialized " +
                                         "\n\t%s:%d\n", exprToken.getToken(), exprToken.getFilename(), exprToken.getLineNum()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
 
-                 */
                 //in second portion of if condition, getToken should return id Name?
-                String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken()).getJottType(functionSymbolTable, localVariableSymbolTable);
+                String exprIdJottType = localVariableSymbolTable.get(exprToken.getToken()).get(0);
                 if ( !Objects.equals(idTokenJottType, exprIdJottType) ) {
                     try {
                         throw new Exception(String.format("Semantic Error:\n\tVariable \"%s\" is of type '%s', and does not " +
@@ -160,8 +155,9 @@ public class AssignNode implements StmtNode {
             }
         }
         if (addToLocalVarSymbolTable) {
-            localVariableSymbolTable.put(this.idNode.getIdName(), this.idNode);
-            localVariableSymbolTable.get(this.idNode.getIdName()).initialize();
+            localVariableSymbolTable.put(this.idNode.getIdName(), new ArrayList<>());
+            localVariableSymbolTable.get(this.idNode.getIdName()).add(this.typeNode.getType());
+            localVariableSymbolTable.get(this.idNode.getIdName()).add("True");
         }
         return true;
     }
@@ -195,7 +191,7 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         return false;
     }
 }

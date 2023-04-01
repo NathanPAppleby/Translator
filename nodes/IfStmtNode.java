@@ -56,7 +56,7 @@ public class IfStmtNode implements BodyStmtNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         if (!this.b_expr.isBoolean(functionSymbolTable, localVariableSymbolTable)){
             String file = this.b_expr.getTokenObj().getFilename() + ":" + this.b_expr.getTokenObj().getLineNum();
             throw new Exception(String.format("Semantic Error:\n\tIf statement conditional requires boolean value\n\t%s", file));
@@ -103,7 +103,7 @@ public class IfStmtNode implements BodyStmtNode {
     }
 
     @Override
-    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         boolean bodyReturn = false;
         boolean elseifReturn = false;
         boolean elseReturn = false;

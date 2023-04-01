@@ -33,7 +33,7 @@ public class OperatorNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         switch (this.token.getToken()) {
             case "+", "*", "/", "-", ">", "<", ">=", "<=", "==", "!=" -> {
                 return true;

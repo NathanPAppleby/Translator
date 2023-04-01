@@ -46,12 +46,12 @@ public class ElseNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         return bodyNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                                  HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+                                  HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         return this.bodyNode.validateReturn(functionSymbolTable, localVariableSymbolTable, returnType);
     }
 

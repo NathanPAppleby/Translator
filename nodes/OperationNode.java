@@ -4,6 +4,7 @@ import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -29,15 +30,20 @@ public class OperationNode implements ExprNode {
 
     @Override
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         return this.left.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && this.middle.validateTree(functionSymbolTable, localVariableSymbolTable)
                 && this.right.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     @Override
+    public boolean isInitialized(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        return left.isInitialized(functionSymbolTable, localVariableSymbolTable) && right.isInitialized(functionSymbolTable, localVariableSymbolTable);
+    }
+
+    @Override
     public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable,
-                             HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                             HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         return this.getJottType(functionSymbolTable, localVariableSymbolTable).contains("Boolean");
     }
 
@@ -71,7 +77,7 @@ public class OperationNode implements ExprNode {
 
     @Override
     public String getJottType(HashMap<String, FunctionDef> functionSymbolTable,
-                              HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                              HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         String ltype = this.left.getJottType(functionSymbolTable, localVariableSymbolTable);
         String rtype = this.right.getJottType(functionSymbolTable, localVariableSymbolTable);
         // Compare the left and right types
@@ -99,10 +105,6 @@ public class OperationNode implements ExprNode {
         throw new Exception(String.format("Semantic Error:\n\tEquation mixes incompatible types\n\t%s", file));
     }
 
-    @Override
-    public boolean isInitalized() {
-        return left.isInitalized() && right.isInitalized();
-    }
 
     @Override
     public boolean isOperation() {
@@ -117,11 +119,4 @@ public class OperationNode implements ExprNode {
     @Override
     public Token getTokenObj() { return this.left.getTokenObj(); }
 
-    /*
-    @Override
-    public boolean isInitalized() {
-        return this.left.isInitalized() && this.right.isInitalized();
-    }
-
-     */
 }

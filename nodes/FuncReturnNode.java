@@ -25,7 +25,7 @@ public class FuncReturnNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         return this.typeNode == null || this.typeNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 

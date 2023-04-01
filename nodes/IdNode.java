@@ -13,12 +13,9 @@ public class IdNode implements ExprNode {
     private final Token token;
     private final boolean isOperation;
 
-    private boolean isInitalized; //in terms of variable id's
-
     public IdNode(Token token){
         this.token = token;
         this.isOperation = false;
-        this.isInitalized = false; //assume false on Default NEED TO SET TO TRUE EVERYWHERE ID INIT
     }
 
     static IdNode parseIdNode(ArrayList<Token> tokens) throws Exception {
@@ -29,15 +26,6 @@ public class IdNode implements ExprNode {
         }
         tokens.remove(0);
         return new IdNode(t);
-    }
-
-    public void initialize(){
-        this.isInitalized = true;
-    }
-
-    @Override
-    public boolean isInitalized() {
-        return this.isInitalized;
     }
 
     public String getIdName() {
@@ -65,7 +53,7 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         ArrayList<String> blacklist = new ArrayList<>() {
             {
                 add("while");
@@ -92,13 +80,19 @@ public class IdNode implements ExprNode {
     }
 
     @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
-        return localVariableSymbolTable.get(this.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable).contains("Boolean");
+    public boolean isInitialized(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(getIdName()).get(1).equals("True");
+    }
+
+
+    @Override
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(this.getIdName()).get(0).contains("Boolean");
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) {
-        return localVariableSymbolTable.get(this.getIdName()).getJottType(functionSymbolTable, localVariableSymbolTable);
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        return localVariableSymbolTable.get(this.getIdName()).get(0);
     }
 
     @Override
@@ -109,15 +103,4 @@ public class IdNode implements ExprNode {
     @Override
     public Token getTokenObj() { return this.token; }
 
-    /*
-    public void setInitalizedAsTrue() {
-        this.isInitalized = true;
-    }
-
-    @Override
-    public boolean isInitalized() {
-        return this.isInitalized;
-    }
-
-     */
 }

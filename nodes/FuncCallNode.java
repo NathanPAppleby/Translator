@@ -37,7 +37,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+    public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
 
@@ -45,7 +45,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 // if our undefined function takes in params, make sure they have been initialized
                 ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
                 for (ParamNode curParam : params) {
-                    if (!curParam.getExprNode().isInitalized()) {
+                    if (!curParam.getExprNode().isInitialized(functionSymbolTable, localVariableSymbolTable)) {
                         try {
                             String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
                             throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+file));
@@ -127,6 +127,11 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
+    public boolean isInitialized(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) {
+        return true;
+    }
+
+    @Override
     public String convertToJott() {
 
         String output = idNode.convertToJott() + "[";
@@ -154,11 +159,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean isInitalized() {
-        return true;
-    }
-    @Override
-    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+    public boolean isBoolean(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
             return functionSymbolTable.get(this.idNode.getIdName()).returnType.equals("Boolean");
         }
@@ -167,7 +168,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+    public String getJottType(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         if(functionSymbolTable.get(this.idNode.getIdName()) != null) {
             return functionSymbolTable.get(this.idNode.getIdName()).returnType;
         }
@@ -189,13 +190,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception {
+    public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception {
         return false;
     }
-
-    /*
-    @Override
-    public boolean isInitalized() {return true;}
-
-     */
 }

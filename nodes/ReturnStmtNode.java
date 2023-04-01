@@ -32,12 +32,12 @@ public class ReturnStmtNode implements JottTree {
     }
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
-                                HashMap<String, IdNode> localVariableSymbolTable) throws Exception {
+                                HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         return this.exprNode.validateTree(functionSymbolTable, localVariableSymbolTable);
     }
 
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
-                                  HashMap<String, IdNode> localVariableSymbolTable, String returnType) throws Exception{
+                                  HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception{
         if (this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable).equals(returnType)) {
             return true;
         }
