@@ -138,6 +138,20 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 throw new RuntimeException(e);
             }
         }
+        //make sure all params are initalized
+        ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
+        for (ParamNode curParam : params) {
+            if (!curParam.getExprNode().isInitialized(functionSymbolTable, localVariableSymbolTable)) {
+                try {
+                    String file = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
+                    throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+file));
+                    //throw new Exception(String.format("Semantic Error:\n\tParameter \"%s\" has not been initialized \n\t%s:%d\n"));
+                    //exprToken.getFilename(), exprToken.getLineNum()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
         return true;
     }
 
