@@ -38,16 +38,18 @@ public class ReturnStmtNode implements JottTree {
 
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,
                                   HashMap<String, ArrayList<String>> localVariableSymbolTable, String returnType) throws Exception{
+
+        //Checks if value is initialized
+        this.exprNode.isInitialized(functionSymbolTable, localVariableSymbolTable);
         if(returnType.equals("Void")){
-            String filename = this.exprNode.getTokenObj().getFilename() + ":" + this.exprNode.getTokenObj().getLineNum();
-            throw new Exception("Semantic Error\n\tUnexpected return in Void function\n\t"+ filename);
+            throw new Exception("Semantic Error\n\tUnexpected return in Void function\n\t"+ this.getLocation());
         }
         else if (this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable).equals(returnType)) {
             return true;
         }
         else {
-            String filename = this.exprNode.getTokenObj().getFilename() + ":" + this.exprNode.getTokenObj().getLineNum();
-            throw new Exception(String.format("Semantic Error\n\tInvalid return type \"%s\" in \"%s\" function\n\t%s",this.exprNode.getJottType(functionSymbolTable, localVariableSymbolTable),returnType, filename));
+            throw new Exception(String.format("Semantic Error\n\tInvalid return type \"%s\" in \"%s\" function\n\t%s",this.exprNode.getJottType(functionSymbolTable,
+                    localVariableSymbolTable),returnType, this.getLocation()));
         }
     }
 
