@@ -23,6 +23,9 @@ public class Main {
             language = args[2];
         }
         ArrayList<Token> tokenList = JottTokenizer.tokenize(jottFile);
+        if (tokenList == null) {
+            return;
+        }
 
         ProgramNode programNode = ProgramNode.parseProgramNode(tokenList);
         if (programNode == null) {
@@ -34,19 +37,24 @@ public class Main {
             File outFile = new File(args[1]);
             if (outFile.createNewFile()) {
                 FileWriter writer = new FileWriter(args[1]);
-                if(language.equals("Jott")) {
-                    writer.write(programNode.convertToJott());
-                } else if (language.equals("Java")) {
-                    //TODO implementation of convertToJava
-                    //writer.write(programNode.convertToJava(null));
-                } else if (language.equals("C")) {
-                    //TODO implementation of convertToC
-                    //writer.write(programNode.convertToC());
-                } else if (language.equals("Python")) {
-                    //TODO implementation of convertToPython
-                    //writer.write(programNode.convertToPython());
-                } else {
-                    throw new Exception("Invalid input. Valid input:\njava Main.java {input file} {output file} {output language}");
+                switch (language) {
+                    case "Jott":
+                        writer.write(programNode.convertToJott());
+                        break;
+                    case "Java":
+                        //TODO implementation of convertToJava
+                        //writer.write(programNode.convertToJava(null));
+                        break;
+                    case "C":
+                        //TODO implementation of convertToC
+                        //writer.write(programNode.convertToC());
+                        break;
+                    case "Python":
+                        //TODO implementation of convertToPython
+                        //writer.write(programNode.convertToPython());
+                        break;
+                    default:
+                        throw new Exception("Invalid input. Valid input:\njava Main.java {input file} {output file} {output language}");
                 }
                 writer.close();
             }
