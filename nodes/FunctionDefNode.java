@@ -87,11 +87,11 @@ public class FunctionDefNode implements JottTree {
         boolean returnPresent = this.bodyNode.validateReturn(functionSymbolTable, newLocalVarTable, this.funcReturnNode.getReturnType());
         if (this.funcReturnNode.getReturnType().equals("Void") && returnPresent) {
             String filename = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-            throw new Exception("Semantic Error\n\tUnexpected return in Void function\n\t"+ filename);
+            throw new Exception("Semantic Error\n\tUnexpected return in Void function " + this.idNode.getIdName() + "\n\t"+ filename);
         }
         else if (!this.funcReturnNode.getReturnType().equals("Void") && !returnPresent) {
             String filename = this.idNode.getTokenObj().getFilename() + ":" + this.idNode.getTokenObj().getLineNum();
-            throw new Exception("Semantic Error\n\tNo return found in requiring function\n\t"+ filename);
+            throw new Exception("Semantic Error\n\tNo return found in requiring function " + this.idNode.getIdName() + "\n\t"+ filename);
         }
 
 
