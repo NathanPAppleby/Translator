@@ -33,7 +33,7 @@ public class FunctionListNode implements JottTree {
 
         ArrayList<FunctionParameter> printParams = new ArrayList<>(){
             {
-                add(new FunctionParameter("toPrint", "String"));
+                add(new FunctionParameter("toPrint", "Any"));
             }
         };
         FunctionDef print = new FunctionDef("print", printParams, "Void");

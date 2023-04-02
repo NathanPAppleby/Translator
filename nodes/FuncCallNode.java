@@ -51,7 +51,8 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + this.getLocation());
             }
             for (int i = 0; i < parameters.size(); i++) {
-                if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)) {
+                if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)
+                && !funcParameters.get(i).parameterReturnType.equals("Any")){
                     // Parameter does not match the type of function parameter defined in the function definition
                     throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + this.getLocation());
                 }
