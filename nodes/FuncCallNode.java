@@ -141,7 +141,10 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 }
             }
         }
-        ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
+        ArrayList<ParamNode> params = new ArrayList<>();
+        if (this.paramNode != null) {
+            params = this.paramNode.getAllParamNodes();
+        }
         if (params.size() != numParamsNeeded) {
             try {
                 throw new Exception(String.format("Semantic Error:\n\tIncorrect number of parameters provided\n\t"+this.getLocation()));
