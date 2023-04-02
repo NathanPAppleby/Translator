@@ -12,6 +12,9 @@ public class Main {
         if(args.length != 3 && args.length != 2) {
             throw new Exception("Invalid input. Valid input:\njava Main.java {input file} {output file} {output language}");
         }
+        if (!new File(args[0]).isFile()) {
+            throw new Exception("Invalid input file name: " + args[0]);
+        }
 
         String jottFile = args[0];
         String language = "Jott";
