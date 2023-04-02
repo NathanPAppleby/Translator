@@ -3,6 +3,7 @@ package nodes;
 import provided.JottTree;
 import provided.Token;
 import symbols.FunctionDef;
+import symbols.FunctionParameter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,33 @@ public class FunctionListNode implements JottTree {
 
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable,
                                 HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
+
+        ArrayList<FunctionParameter> printParams = new ArrayList<>(){
+            {
+                add(new FunctionParameter("toPrint", "String"));
+            }
+        };
+        FunctionDef print = new FunctionDef("print", printParams, "Void");
+        functionSymbolTable.put("print", print);
+
+        ArrayList<FunctionParameter> concatParams = new ArrayList<>(){
+            {
+                add(new FunctionParameter("concat1", "String"));
+                add(new FunctionParameter("concat2", "String"));
+            }
+        };
+        FunctionDef concat = new FunctionDef("concat", concatParams, "String");
+        functionSymbolTable.put("concat", concat);
+
+        ArrayList<FunctionParameter> lengthParams = new ArrayList<>(){
+            {
+                add(new FunctionParameter("toLength", "String"));
+            }
+        };
+        FunctionDef length = new FunctionDef("length", lengthParams, "Integer");
+        functionSymbolTable.put("length", length);
+
+
         for (FunctionDefNode fn : this.functionDefNodes) {
             // Validation
             fn.validateTree(functionSymbolTable, localVariableSymbolTable);

@@ -40,51 +40,6 @@ public class FuncCallNode implements StmtNode, ExprNode {
     public boolean validateTree(HashMap<String, FunctionDef> functionSymbolTable, HashMap<String, ArrayList<String>> localVariableSymbolTable) throws Exception {
         String functionName = this.idNode.getIdName();
         if (!functionSymbolTable.containsKey(functionName)) {
-
-            if(functionName.equals("print") || functionName.equals("concat") || functionName.equals("length")){
-                // if our undefined function takes in params, make sure they have been initialized
-                ArrayList<ParamNode> params = this.paramNode.getAllParamNodes();
-                for (ParamNode curParam : params) {
-                    if (!curParam.getExprNode().isInitialized(functionSymbolTable, localVariableSymbolTable)) {
-                        try {
-                            throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+this.getLocation()));
-                            //throw new Exception(String.format("Semantic Error:\n\tParameter \"%s\" has not been initialized \n\t%s:%d\n"));
-                            //exprToken.getFilename(), exprToken.getLineNum()));
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
-
-            // referencing a yet undefined function
-            if(functionName.equals("print")){
-                if(this.paramNode.getAllParamNodes().size() != 1){
-                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
-                }
-                return true;
-            }
-            else if(functionName.equals("length")) {
-                if (this.paramNode.getAllParamNodes().size() != 1) {
-                    throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
-                }
-                ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
-                    if (!parameters.get(0).getType(functionSymbolTable, localVariableSymbolTable).equals("String")) {
-                        // Parameter does not match the type of function parameter defined in the function definition
-                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
-                    }
-                return true;
-            }
-            else if (this.paramNode != null && functionName.equals("concat") && this.paramNode.getAllParamNodes().size() == 2) {
-                ArrayList<ParamNode> parameters = this.paramNode.getAllParamNodes();
-                for (ParamNode parameter : parameters) {
-                    if (!parameter.getType(functionSymbolTable, localVariableSymbolTable).equals("String")) {
-                        // Parameter does not match the type of function parameter defined in the function definition
-                        throw new Exception("Semantic Error:\n\tParameter types does not match provided value.\n\t" + this.getLocation());
-                    }
-                }
-                return true;
-            }
             throw new Exception(String.format("Semantic Error:\n\tReference to an undefined function \"%s\"\n\t%s",this.idNode.getIdName(), this.getLocation()));
         }
         FunctionDef fd = functionSymbolTable.get(functionName);
