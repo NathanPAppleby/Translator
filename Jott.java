@@ -6,11 +6,11 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.io.File;
 
-public class Main {
+public class Jott {
 
     public static void main(String[] args) throws Exception {
         if(args.length != 3 && args.length != 2) {
-            throw new Exception("Invalid input. Valid input:\njava Main.java {input file} {output file} {output language}");
+            throw new Exception("Invalid input. Valid input:\njava Jott.java {input file} {output file} {output language}");
         }
         if (!new File(args[0]).isFile()) {
             throw new Exception("Invalid input file name: " + args[0]);
@@ -54,7 +54,7 @@ public class Main {
                         //writer.write(programNode.convertToPython());
                         break;
                     default:
-                        throw new Exception("Invalid input. Valid input:\njava Main.java {input file} {output file} {output language}");
+                        throw new Exception("Invalid input. Valid input:\njava Jott.java {input file} {output file} {output language}");
                 }
                 writer.close();
             }
