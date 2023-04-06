@@ -84,7 +84,7 @@ public class WhileLoopNode implements BodyStmtNode {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         return null;
     }
 

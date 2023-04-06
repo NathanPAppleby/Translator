@@ -102,7 +102,7 @@ public class ConstantNode implements ExprNode {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         if (token.getToken().equals("true")) {
             return "True";
         } else if (token.getToken().equals("false")) {

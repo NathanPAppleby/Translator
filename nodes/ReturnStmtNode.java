@@ -80,7 +80,7 @@ public class ReturnStmtNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return "return " + exprNode.convertToPython();
+    public String convertToPython(int depth) {
+        return "return " + exprNode.convertToPython(depth);
     }
 }

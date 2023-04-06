@@ -45,7 +45,7 @@ public class ParamTNode extends ParamNode {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         return null;
     }
 }

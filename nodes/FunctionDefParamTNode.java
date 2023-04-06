@@ -59,7 +59,7 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         return null;
     }
 }

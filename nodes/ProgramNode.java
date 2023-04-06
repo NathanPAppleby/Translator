@@ -60,7 +60,9 @@ public class ProgramNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
-        return this.functionListNode.convertToPython();
+    public String convertToPython(int depth) {
+        return this.functionListNode.convertToPython(depth);
     }
+
+    public String converToPython() { return convertToPython(0); }
 }

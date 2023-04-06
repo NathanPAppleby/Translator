@@ -114,10 +114,10 @@ public class FunctionListNode implements JottTree {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         StringBuilder output = new StringBuilder();
         for(FunctionDefNode defNode : this.functionDefNodes){
-            output.append(defNode.convertToPython()).append("\n");
+            output.append(defNode.convertToPython(depth)).append("\n");
         }
         return output.toString();
     }

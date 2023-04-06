@@ -220,7 +220,7 @@ public class AssignNode implements StmtNode {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         return null;
     }
 

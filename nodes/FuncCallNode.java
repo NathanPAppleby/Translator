@@ -176,7 +176,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
     }
 
     @Override
-    public String convertToPython() {
+    public String convertToPython(int depth) {
         return null;
     }
 }
