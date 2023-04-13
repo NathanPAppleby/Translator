@@ -97,17 +97,30 @@ public class IfStmtNode implements BodyStmtNode {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return "if ( " +
+                this.b_expr.convertToJava(className) +
+                " ) {\n\t" +
+                this.body.convertToJava(className) +
+                "\n}\n" +
+                (this.elseif_lst == null ? "" : this.elseif_lst.convertToJava(className)) +
+                (this.else_node == null ? "" : this.else_node.convertToJava(className));
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "if ( " +
+                this.b_expr.convertToC() +
+                " ) {\n\t" +
+                this.body.convertToC() +
+                "\n}\n" +
+                (this.elseif_lst == null ? "" : this.elseif_lst.convertToC()) +
+                (this.else_node == null ? "" : this.else_node.convertToC());
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return "\t".repeat(depth) +
+                "if " + this.b_expr.convertToPython(0) + ":\n" + this.body.convertToPython(depth + 1) + "\n" + (this.elseif_lst == null ? "" : this.elseif_lst.convertToPython(depth)) + (this.else_node == null ? "" : this.else_node.convertToPython(depth));
     }
 
 

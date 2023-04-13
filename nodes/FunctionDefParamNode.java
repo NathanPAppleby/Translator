@@ -58,29 +58,30 @@ public class FunctionDefParamNode implements JottTree {
     @Override
     public String convertToJott() {
         return idNode.convertToJott()+ ":" + typeNode.convertToJott() +
-                (fDefParamTNode == null ? "" : fDefParamTNode.convertToJott());
+                (fDefParamTNode == null ? "" : ", " + fDefParamTNode.convertToJott());
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return this.typeNode.convertToJava(className) + " " + this.idNode.convertToJava(className) +
+                (this.fDefParamTNode == null ? "" : ", "+this.fDefParamTNode.convertToJava(className));
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return this.typeNode.convertToC() + " " + this.idNode.convertToC() +
+                (this.fDefParamTNode == null ? "" : ", "+this.fDefParamTNode.convertToC());
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return this.idNode.convertToPython(depth) +
+                (this.fDefParamTNode == null ? "" : ", " + this.fDefParamTNode.convertToPython(depth));
     }
 
     public void addParamToLocalVarTable( HashMap<String, ArrayList<String>> localVariableSymbolTable ) {
         localVariableSymbolTable.put(this.idNode.getIdName(), new ArrayList<>());
         localVariableSymbolTable.get(this.idNode.getIdName()).add(this.typeNode.getType());
         localVariableSymbolTable.get(this.idNode.getIdName()).add("True");
-
-
     }
 }
