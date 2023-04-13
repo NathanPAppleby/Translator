@@ -203,25 +203,38 @@ public class AssignNode implements StmtNode {
 
     @Override
     public String convertToJott() {
-        String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
-                exprNode.convertToJott();
 
-        return output;
+        return (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
+                exprNode.convertToJott();
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return (typeNode == null ? "" : typeNode.convertToJava(className)) +
+                " " +
+                idNode.convertToJava(className) +
+                " = " +
+                exprNode.convertToJava(className)
+                + ";\n";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return (typeNode == null ? "" : typeNode.convertToC()) +
+                " " +
+                idNode.convertToC() +
+                " = " +
+                exprNode.convertToC() +
+                ";\n";
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return "\t".repeat(depth) +
+                idNode.convertToPython(0) +
+                " = " +
+                exprNode.convertToPython(0) +
+                "\n";
     }
 
 

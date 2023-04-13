@@ -49,17 +49,18 @@ public class VarDecNode implements StmtNode {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return this.typeNode.convertToJava(className) + " " + this.idNode.convertToJava(className) + ";";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return this.typeNode.convertToC() + " " + this.idNode.convertToC() + ";";
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        // not used in python
+        return "";
     }
 
 

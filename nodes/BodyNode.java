@@ -60,17 +60,47 @@ public class BodyNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        StringBuilder output = new StringBuilder();
+        for(BodyStmtNode bodyStmtNode: this.bodyStmtNodes){
+            output.append(bodyStmtNode.convertToJava(className));
+            if (output.charAt(output.length()-1) != '}'){
+                output.append(";");
+            }
+            output.append("\n");
+        }
+        if(this.returnStmtNode != null){
+            output.append(this.returnStmtNode.convertToJava(className)).append("\n");
+        }
+        return output.toString();
     }
 
     @Override
     public String convertToC() {
-        return null;
+        StringBuilder output = new StringBuilder();
+        for(BodyStmtNode bodyStmtNode: this.bodyStmtNodes){
+            output.append(bodyStmtNode.convertToC());
+            if (output.charAt(output.length()-1) != '}'){
+                output.append(";");
+            }
+            output.append("\n");
+        }
+        if(this.returnStmtNode != null){
+            output.append(this.returnStmtNode.convertToC()).append("\n");
+        }
+        return output.toString();
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        StringBuilder output = new StringBuilder();
+        for(BodyStmtNode bodyStmtNode: this.bodyStmtNodes){
+            output.append(bodyStmtNode.convertToPython(depth+1));
+            output.append("\n");
+        }
+        if(this.returnStmtNode != null){
+            output.append(this.returnStmtNode.convertToPython(depth+1)).append("\n");
+        }
+        return output.toString();
     }
 
     public boolean validateReturn(HashMap<String, FunctionDef> functionSymbolTable,

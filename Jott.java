@@ -42,16 +42,20 @@ public class Jott {
                         writer.write(programNode.convertToJott());
                         break;
                     case "Java":
-                        //TODO implementation of convertToJava
-                        //writer.write(programNode.convertToJava(null));
+                        String className = "";
+                        for (int i = 0; i < args[1].length(); i++) {
+                            if(args[1].charAt(i) == '.') {
+                                break;
+                            }
+                            className += args[1].charAt(i);
+                        }
+                        writer.write(programNode.convertToJava(className));
                         break;
                     case "C":
-                        //TODO implementation of convertToC
-                        //writer.write(programNode.convertToC());
+                        writer.write(programNode.convertToC());
                         break;
                     case "Python":
-                        //TODO implementation of convertToPython
-                        //writer.write(programNode.convertToPython());
+                        writer.write(programNode.convertToPython(0));
                         break;
                     default:
                         throw new Exception("Invalid input. Valid input:\njava Jott.java {input file} {output file} {output language}");

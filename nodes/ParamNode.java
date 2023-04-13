@@ -41,17 +41,17 @@ public class ParamNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return exprNode.convertToJava(className) + (paramTNode == null ? "" : paramTNode.convertToJava(className));
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return exprNode.convertToC() + (paramTNode == null ? "" : paramTNode.convertToC());
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return exprNode.convertToPython(0) + (paramTNode == null ? "" : paramTNode.convertToPython(0));
     }
 
     // Retrieve all linked Param and ParamTNodes into a single, easily accessible list
