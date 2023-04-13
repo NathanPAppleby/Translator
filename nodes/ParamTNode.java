@@ -36,16 +36,16 @@ public class ParamTNode extends ParamNode {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return  "," + super.convertToJava(className);
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return  "," + super.convertToC();
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return  "," + super.convertToPython(0);
     }
 }

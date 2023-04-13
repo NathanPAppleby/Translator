@@ -167,16 +167,31 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        String output = idNode.convertToJava(className) + "(";
+        if(paramNode != null){
+            output += paramNode.convertToJava(className);
+        }
+        output += ")";
+        return output;
     }
 
     @Override
     public String convertToC() {
-        return null;
+        String output = idNode.convertToC() + "(";
+        if(paramNode != null){
+            output += paramNode.convertToC();
+        }
+        output += ")";
+        return output;
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        String output = "\t".repeat(Math.max(0, depth)) + idNode.convertToPython(0) + "(";
+        if(paramNode != null){
+            output += paramNode.convertToPython(0);
+        }
+        output += ")";
+        return output;
     }
 }
