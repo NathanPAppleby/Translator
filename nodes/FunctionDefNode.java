@@ -131,17 +131,20 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return "public " + this.funcReturnNode.convertToJava(className) + " " +
-                this.idNode.convertToJava(className) + " (" +
-                this.fDefParamNode.convertToJava(className) +
-                ") {\n" +
+        String id = this.idNode.convertToJava(className);
+        String defParams = (this.fDefParamNode == null ? "" : this.fDefParamNode.convertToJava(className));
+        if (id.equals("main") && defParams.equals("")) {
+            defParams = "String[] args";
+        }
+        return "public static " + this.funcReturnNode.convertToJava(className) + " " +
+                id + "(" + defParams + ") {\n" +
                 this.bodyNode.convertToJava(className) +
                 "}\n";
     }
 
     @Override
     public String convertToC() {
-        return this.funcReturnNode.convertToC() + " " + this.idNode.convertToC() + " ( " +
+        return this.funcReturnNode.convertToC() + " " + this.idNode.convertToC() + "( " +
                 this.fDefParamNode.convertToC() + " ) {\n" + this.bodyNode.convertToC() + "}\n";
     }
 
@@ -150,7 +153,7 @@ public class FunctionDefNode implements JottTree {
         return "\t".repeat(depth) +
                 "def " +
                 this.idNode.convertToPython(depth) +
-                " (" +
+                "(" +
                 this.fDefParamNode.convertToPython(depth) +
                 "):\n" +
                 this.bodyNode.convertToPython(depth + 1);

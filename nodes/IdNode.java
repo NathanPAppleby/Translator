@@ -1,5 +1,6 @@
 package nodes;
 
+import org.w3c.dom.ls.LSOutput;
 import provided.Token;
 import provided.TokenType;
 import symbols.FunctionDef;

@@ -167,7 +167,11 @@ public class FuncCallNode implements StmtNode, ExprNode {
 
     @Override
     public String convertToJava(String className) {
-        String output = idNode.convertToJava(className) + "(";
+        String id = idNode.convertToJava(className);
+        if (id.equals("print")) {
+            id = "System.out.println";
+        }
+        String output = id + "(";
         if(paramNode != null){
             output += paramNode.convertToJava(className);
         }
