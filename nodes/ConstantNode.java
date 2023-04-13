@@ -93,23 +93,30 @@ public class ConstantNode implements ExprNode {
 
     @Override
     public String convertToJava(String className) {
-        return token.getToken();
+        if (token.getToken().equals("True")) {
+            return "true";
+        } else if (token.getToken().equals("False")) {
+            return "false";
+        } else {
+            return token.getToken();
+        }
     }
 
     @Override
     public String convertToC() {
-        return null;
+        if (token.getToken().equals("True")) {
+            return "true";
+        } else if (token.getToken().equals("False")) {
+            return "false";
+        } else {
+            return token.getToken();
+        }
     }
+
 
     @Override
     public String convertToPython(int depth) {
-        if (token.getToken().equals("true")) {
-            return "True";
-        } else if (token.getToken().equals("false")) {
-            return "False";
-        } else {
-           return token.getToken();
-        }
+        return token.getToken();
     }
 
 
