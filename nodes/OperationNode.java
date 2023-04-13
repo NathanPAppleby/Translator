@@ -49,29 +49,29 @@ public class OperationNode implements ExprNode {
 
     @Override
     public String convertToJott() {
-        return this.left.convertToJott() +
-                this.middle.convertToJott() +
+        return this.left.convertToJott() + " " +
+                this.middle.convertToJott() + " " +
                 this.right.convertToJott();
     }
 
     @Override
     public String convertToJava(String className) {
-        return this.left.convertToJava(className) +
-                this.middle.convertToJava(className) +
+        return this.left.convertToJava(className) + " " +
+                this.middle.convertToJava(className) + " " +
                 this.right.convertToJava(className);
     }
 
     @Override
     public String convertToC() {
-        return this.left.convertToC() +
-                this.middle.convertToC() +
+        return this.left.convertToC() + " " +
+                this.middle.convertToC() + " " +
                 this.right.convertToC();
     }
 
     @Override
     public String convertToPython(int depth) {
-        return this.left.convertToPython(depth) +
-                this.middle.convertToPython(depth) +
+        return this.left.convertToPython(depth) + " " +
+                this.middle.convertToPython(depth) + " " +
                 this.right.convertToPython(depth);
     }
 
