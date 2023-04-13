@@ -45,21 +45,21 @@ public class FunctionDefParamTNode extends FunctionDefParamNode {
 
     @Override
     public String convertToJott() {
-        return "," + super.convertToJott();
+        return super.convertToJott();
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return super.convertToJava(className);
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return super.convertToC();
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return super.convertToPython(depth);
     }
 }
