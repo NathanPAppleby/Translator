@@ -32,34 +32,30 @@ public class Jott {
             return;
         }
         if(programNode.validateTree()) {
-            System.out.println(programNode.convertToJott());
+            //System.out.println(programNode.convertToJott());
 
             File outFile = new File(args[1]);
             if (outFile.createNewFile()) {
                 FileWriter writer = new FileWriter(args[1]);
+                String conversion;
                 switch (language) {
-                    case "Jott":
-                        writer.write(programNode.convertToJott());
-                        break;
-                    case "Java":
+                    case "Jott" -> conversion = programNode.convertToJott();
+                    case "Java" -> {
                         String className = "";
                         for (int i = 0; i < args[1].length(); i++) {
-                            if(args[1].charAt(i) == '.') {
+                            if (args[1].charAt(i) == '.') {
                                 break;
                             }
                             className += args[1].charAt(i);
                         }
-                        writer.write(programNode.convertToJava(className));
-                        break;
-                    case "C":
-                        writer.write(programNode.convertToC());
-                        break;
-                    case "Python":
-                        writer.write(programNode.convertToPython(0));
-                        break;
-                    default:
-                        throw new Exception("Invalid input. Valid input:\njava Jott.java {input file} {output file} {output language}");
+                        conversion = programNode.convertToJava(className);
+                    }
+                    case "C" -> conversion = programNode.convertToC();
+                    case "Python" -> conversion = programNode.convertToPython(0);
+                    default -> throw new Exception("Invalid input. Valid input:\njava Jott.java {input file} {output file} {output language}");
                 }
+                System.out.println(conversion);
+                writer.write(conversion);
                 writer.close();
             }
         }
