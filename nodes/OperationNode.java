@@ -71,7 +71,7 @@ public class OperationNode implements ExprNode {
     @Override
     public String convertToPython(int depth) {
         return this.left.convertToPython(depth) +
-                this.middle.convertToPython() +
+                this.middle.convertToPython(depth) +
                 this.right.convertToPython(depth);
     }
 
