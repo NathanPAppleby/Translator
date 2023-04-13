@@ -203,10 +203,9 @@ public class AssignNode implements StmtNode {
 
     @Override
     public String convertToJott() {
-        String output = (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
-                exprNode.convertToJott();
 
-        return output;
+        return (typeNode == null ? "" : typeNode.convertToJott()) + " " + idNode.convertToJott() + " = " +
+                exprNode.convertToJott();
     }
 
     @Override

@@ -75,17 +75,21 @@ public class WhileLoopNode implements BodyStmtNode {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return "while(" + this.bool_expr.convertToJava(className) + ") {\n"
+                + this.body_node.convertToJava(className) + "\n}";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return "while(" + this.bool_expr.convertToC() + ") {\n"
+                + this.body_node.convertToC() + "\n}";
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return "\t".repeat(Math.max(0, depth)) +
+                "while " + this.bool_expr.convertToPython(0) + ":\n" +
+                this.body_node.convertToPython(depth + 1) + "\n";
     }
 
 
