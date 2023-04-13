@@ -56,7 +56,20 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToC() {
-        return this.functionListNode.convertToC();
+        // Basic functions and imports
+        String output = "#include <stdio.h>\n" +
+                "#include <stdlib.h>\n" +
+                "#include <string.h>\n" +
+                "#include <stdbool.h>\n" +
+                "char* concat(char* s1, char* s2) {\n" +
+                "   int length = strlen(s1) + strlen(s2);\n" +
+                "   char *buffer = malloc(length + 1);\n" +
+                "   strcat(buffer, s1);\n" +
+                "   strcat(buffer, s2);\n" +
+                "   return buffer;\n" +
+                "}\n";
+        output = output + this.functionListNode.convertToC();
+        return output;
     }
 
     @Override
