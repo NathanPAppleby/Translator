@@ -131,17 +131,29 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return "public " + this.funcReturnNode.convertToJava(className) + " " +
+                this.idNode.convertToJava(className) + " (" +
+                this.fDefParamNode.convertToJava(className) +
+                ") {\n" +
+                this.bodyNode.convertToJava(className) +
+                "}\n";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return this.funcReturnNode.convertToC() + " " + this.idNode.convertToC() + " ( " +
+                this.fDefParamNode.convertToC() + " ) {\n" + this.bodyNode.convertToC() + "}\n";
     }
 
     @Override
     public String convertToPython(int depth) {
-        return null;
+        return "\t".repeat(depth) +
+                "def " +
+                this.idNode.convertToPython(depth) +
+                " (" +
+                this.fDefParamNode.convertToPython(depth) +
+                "):\n" +
+                this.bodyNode.convertToPython(depth + 1);
     }
 
     public String getFilenameAndLine(){
