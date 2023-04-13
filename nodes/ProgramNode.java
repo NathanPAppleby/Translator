@@ -60,15 +60,21 @@ public class ProgramNode implements JottTree {
         String output = "#include <stdio.h>\n" +
                 "#include <stdlib.h>\n" +
                 "#include <string.h>\n" +
-                "#include <stdbool.h>\n" +
-                "char* concat(char* s1, char* s2) {\n" +
+                "#include <stdbool.h>\n";
+        output += "char* concat(char* s1, char* s2) {\n" +
                 "   int length = strlen(s1) + strlen(s2);\n" +
                 "   char *buffer = malloc(length + 1);\n" +
                 "   strcat(buffer, s1);\n" +
                 "   strcat(buffer, s2);\n" +
                 "   return buffer;\n" +
                 "}\n";
-        output = output + this.functionListNode.convertToC();
+        output += "int length(char* s1) {\n" +
+                "   return strlen(s1);\n" +
+                "}\n";
+        output += "void print(void* v1) {\n" +
+                "   printf(\"Todo: fix print statement\");\n" +
+                "}";
+        //output += this.functionListNode.convertToC();
         return output;
     }
 
