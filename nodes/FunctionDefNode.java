@@ -144,8 +144,14 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public String convertToC() {
-        return this.funcReturnNode.convertToC() + " " + this.idNode.convertToC() + "( " +
-                this.fDefParamNode.convertToC() + " ) {\n" + this.bodyNode.convertToC() + "}\n";
+        if (this.fDefParamNode == null) {
+            return this.funcReturnNode.convertToC() + " " + this.idNode.convertToC() + "() {\n" +
+                    this.bodyNode.convertToC() + "}\n";
+        }
+        else {
+            return this.funcReturnNode.convertToC() + " " + this.idNode.convertToC() + "( " +
+                    this.fDefParamNode.convertToC() + " ) {\n" + this.bodyNode.convertToC() + "}\n";
+        }
     }
 
     @Override

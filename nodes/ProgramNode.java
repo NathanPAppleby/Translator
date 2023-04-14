@@ -73,8 +73,8 @@ public class ProgramNode implements JottTree {
                 "}\n";
         output += "void print(void* v1) {\n" +
                 "   printf(\"Todo: fix print statement\");\n" +
-                "}";
-        //output += this.functionListNode.convertToC();
+                "}\n";
+        output += this.functionListNode.convertToC();
         return output;
     }
 
