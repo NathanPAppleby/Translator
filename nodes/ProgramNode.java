@@ -78,16 +78,16 @@ public class ProgramNode implements JottTree {
                 "   return strlen(s1);\n" +
                 "}\n";
         output += "void printInteger(int i1) {\n" +
-                "   printf(\"%d\", i1);\n" +
+                "   printf(\"%d\\n\", i1);\n" +
                 "}\n" +
                 "void printDouble(double d1) {\n" +
-                "   printf(\"%f\", d1);\n" +
+                "   printf(\"%f\\n\", d1);\n" +
                 "}\n" +
                 "void printString(char* s1) {\n" +
-                "   printf(\"%s\", s1);\n" +
+                "   printf(\"%s\\n\", s1);\n" +
                 "}\n" +
                 "void printBoolean(bool b1) {\n" +
-                "   printf(\"%s\", b1?\"True\":\"False\");\n" +
+                "   printf(\"%s\\n\", b1?\"True\":\"False\");\n" +
                 "}\n";
         output += this.functionListNode.convertToC();
         return output;
