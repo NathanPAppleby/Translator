@@ -61,6 +61,12 @@ public class ProgramNode implements JottTree {
                 "#include <stdlib.h>\n" +
                 "#include <string.h>\n" +
                 "#include <stdbool.h>\n";
+        output += "#define print(X) _Generic((X), \\\n" +
+                "    int: printInteger, \\\n" +
+                "    double: printDouble, \\\n" +
+                "    char*: printString, \\\n" +
+                "    bool: printBoolean \\\n" +
+                "    )(X)\n";
         output += "char* concat(char* s1, char* s2) {\n" +
                 "   int length = strlen(s1) + strlen(s2);\n" +
                 "   char *buffer = malloc(length + 1);\n" +
@@ -71,8 +77,17 @@ public class ProgramNode implements JottTree {
         output += "int length(char* s1) {\n" +
                 "   return strlen(s1);\n" +
                 "}\n";
-        output += "void print(void* v1) {\n" +
-                "   printf(\"Todo: fix print statement\");\n" +
+        output += "void printInteger(int i1) {\n" +
+                "   printf(\"%d\", i1);\n" +
+                "}\n" +
+                "void printDouble(double d1) {\n" +
+                "   printf(\"%f\", d1);\n" +
+                "}\n" +
+                "void printString(char* s1) {\n" +
+                "   printf(\"%s\", s1);\n" +
+                "}\n" +
+                "void printBoolean(bool b1) {\n" +
+                "   printf(\"%s\", b1?\"True\":\"False\");\n" +
                 "}\n";
         output += this.functionListNode.convertToC();
         return output;
