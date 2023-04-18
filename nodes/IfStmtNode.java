@@ -112,7 +112,7 @@ public class IfStmtNode implements BodyStmtNode {
                 this.b_expr.convertToC() +
                 " ) {\n\t" +
                 this.body.convertToC() +
-                "\n}\n" +
+                "\n}" +
                 (this.elseif_lst == null ? "" : this.elseif_lst.convertToC()) +
                 (this.else_node == null ? "" : this.else_node.convertToC());
     }
