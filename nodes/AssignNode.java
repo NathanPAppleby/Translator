@@ -224,8 +224,7 @@ public class AssignNode implements StmtNode {
                 " " +
                 idNode.convertToC() +
                 " = " +
-                exprNode.convertToC() +
-                ";\n";
+                exprNode.convertToC();
     }
 
     @Override
