@@ -95,7 +95,7 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToPython(int depth) {
-        return this.functionListNode.convertToPython(depth);
+        return this.functionListNode.convertToPython(depth) + "\nmain()";
     }
 
     public String convertToPython() { return convertToPython(0); }
