@@ -120,7 +120,7 @@ public class IfStmtNode implements BodyStmtNode {
     @Override
     public String convertToPython(int depth) {
         return "\t".repeat(depth) +
-                "if " + this.b_expr.convertToPython(0) + ":\n" + this.body.convertToPython(depth + 1) + "\n" + (this.elseif_lst == null ? "" : this.elseif_lst.convertToPython(depth)) + (this.else_node == null ? "" : this.else_node.convertToPython(depth));
+                "if " + this.b_expr.convertToPython(0) + ":\n" + this.body.convertToPython(depth + 1) + (this.elseif_lst == null ? "" : this.elseif_lst.convertToPython(depth)) + (this.else_node == null ? "" : this.else_node.convertToPython(depth));
     }
 
 
