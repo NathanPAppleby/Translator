@@ -58,6 +58,9 @@ public class Jott {
                 writer.write(conversion);
                 writer.close();
             }
+            else {
+                System.err.println("This file already exists");
+            }
         }
     }
 }
