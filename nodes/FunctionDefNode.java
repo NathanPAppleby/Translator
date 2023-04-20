@@ -161,13 +161,15 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public String convertToPython(int depth) {
-        return "\t".repeat(depth) +
+        String output = "\t".repeat(depth) +
                 "def " +
                 this.idNode.convertToPython(depth) +
-                "(" +
-                this.fDefParamNode.convertToPython(depth) +
-                "):\n" +
-                this.bodyNode.convertToPython(depth + 1);
+                "(";
+        if(this.fDefParamNode != null) {
+            output += this.fDefParamNode.convertToPython(depth);
+        }
+        output += "):\n" + this.bodyNode.convertToPython(depth + 1);
+        return output;
     }
 
     public String getFilenameAndLine(){
