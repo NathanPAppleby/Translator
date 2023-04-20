@@ -101,7 +101,7 @@ public class IfStmtNode implements BodyStmtNode {
                 this.b_expr.convertToJava(className) +
                 " ) {\n\t" +
                 this.body.convertToJava(className) +
-                "\n}\n" +
+                "\n}" +
                 (this.elseif_lst == null ? "" : this.elseif_lst.convertToJava(className)) +
                 (this.else_node == null ? "" : this.else_node.convertToJava(className));
     }
