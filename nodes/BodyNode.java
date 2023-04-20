@@ -95,6 +95,7 @@ public class BodyNode implements JottTree {
         StringBuilder output = new StringBuilder();
         for(BodyStmtNode bodyStmtNode: this.bodyStmtNodes){
             output.append(bodyStmtNode.convertToPython(depth+1));
+            output.append("\n");
         }
         if(this.returnStmtNode != null){
             output.append(this.returnStmtNode.convertToPython(depth+1)).append("\n");

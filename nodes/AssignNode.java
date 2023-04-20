@@ -214,8 +214,7 @@ public class AssignNode implements StmtNode {
                 " " +
                 idNode.convertToJava(className) +
                 " = " +
-                exprNode.convertToJava(className)
-                + ";\n";
+                exprNode.convertToJava(className);
     }
 
     @Override
@@ -232,8 +231,7 @@ public class AssignNode implements StmtNode {
         return "\t".repeat(depth) +
                 idNode.convertToPython(0) +
                 " = " +
-                exprNode.convertToPython(0) +
-                "\n";
+                exprNode.convertToPython(0);
     }
 
 

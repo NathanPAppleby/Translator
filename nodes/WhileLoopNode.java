@@ -89,7 +89,7 @@ public class WhileLoopNode implements BodyStmtNode {
     public String convertToPython(int depth) {
         return "\t".repeat(Math.max(0, depth)) +
                 "while " + this.bool_expr.convertToPython(0) + ":\n" +
-                this.body_node.convertToPython(depth + 1) + "\n";
+                this.body_node.convertToPython(depth + 1);
     }
 
 
