@@ -64,14 +64,14 @@ public class ElseNode implements JottTree {
     public String convertToJava(String className) {
         return "else {\n\t" +
                 this.bodyNode.convertToJava(className) +
-                "\n}\n";
+                "\n}";
     }
 
     @Override
     public String convertToC() {
         return "else {\n\t" +
                 this.bodyNode.convertToC() +
-                "\n}\n";
+                "\n}";
     }
 
     @Override

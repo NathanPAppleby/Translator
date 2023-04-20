@@ -214,8 +214,7 @@ public class AssignNode implements StmtNode {
                 " " +
                 idNode.convertToJava(className) +
                 " = " +
-                exprNode.convertToJava(className)
-                + ";\n";
+                exprNode.convertToJava(className);
     }
 
     @Override
