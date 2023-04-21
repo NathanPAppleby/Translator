@@ -51,11 +51,21 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 throw new Exception("Semantic Error:\n\tIncorrect number of parameters in function call.\n\t" + this.getLocation());
             }
             for (int i = 0; i < parameters.size(); i++) {
-                if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)
-                && !funcParameters.get(i).parameterReturnType.equals("Any")){
-                    // Parameter does not match the type of function parameter defined in the function definition
-                    throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + this.getLocation());
+                try {
+                    if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)
+                            && !funcParameters.get(i).parameterReturnType.equals("Any")){
+                        // Parameter does not match the type of function parameter defined in the function definition
+                        throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + this.getLocation());
+                    }
                 }
+                catch (Exception e) {
+                    throw new Exception(String.format("Semantic Error:\n\tReference to an uninitialized variable \n\t%s", this.getLocation()));
+                }
+//                if (!parameters.get(i).getType(functionSymbolTable, localVariableSymbolTable).equals(funcParameters.get(i).parameterReturnType)
+//                && !funcParameters.get(i).parameterReturnType.equals("Any")){
+//                    // Parameter does not match the type of function parameter defined in the function definition
+//                    throw new Exception("Semantic Error:\n\tParameter types do not match provided value.\n\t" + this.getLocation());
+//                }
             }
             // Function is defined, same number of parameters coming in with the call as there are defined in the function,
             // and all passed parameters match the expected type
@@ -81,6 +91,7 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 throw new Exception(String.format("Semantic Error:\n\tFunction \"%s\" is undefined " +
                                 "\n\t%s", this.idNode.getIdName(), this.getLocation()));
             } catch (Exception e) {
+                System.out.println("Error here~");
                 throw new RuntimeException(e);
             }
         }
@@ -114,7 +125,9 @@ public class FuncCallNode implements StmtNode, ExprNode {
                 try {
                     throw new Exception(String.format("Semantic Error:\n\tParameter has not been initialized\n\t"+this.getLocation()));
                 } catch (Exception e) {
+                    System.out.println("error 2");
                     throw new RuntimeException(e);
+
                 }
             }
         }
