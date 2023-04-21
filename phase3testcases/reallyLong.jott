@@ -63,8 +63,8 @@ def main[]:Void{
 	String str = "a1";
 	print[testConcatLoop[ str ]];
 	testIf[1.1, 3];
-	Integer int;
-	int = testIfLoop[3];
+	Integer intI;
+	intI = testIfLoop[3];
 	print[int];
 	testFuncCallLoop[5];
 }
