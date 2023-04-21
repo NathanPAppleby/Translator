@@ -44,17 +44,17 @@ public class VarDecNode implements StmtNode {
 
     @Override
     public String convertToJott() {
-        return typeNode.convertToJott() + " " + idNode.convertToJott() + ";";
+        return typeNode.convertToJott() + " " + idNode.convertToJott();
     }
 
     @Override
     public String convertToJava(String className) {
-        return this.typeNode.convertToJava(className) + " " + this.idNode.convertToJava(className) + ";";
+        return this.typeNode.convertToJava(className) + " " + this.idNode.convertToJava(className);
     }
 
     @Override
     public String convertToC() {
-        return this.typeNode.convertToC() + " " + this.idNode.convertToC() + ";";
+        return this.typeNode.convertToC() + " " + this.idNode.convertToC();
     }
 
     @Override

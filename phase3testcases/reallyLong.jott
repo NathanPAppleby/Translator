@@ -33,14 +33,14 @@ def testIf[ d:Double, x:Integer ]:Void{
 
 def testIfLoop[ x:Integer ]:Integer{
     Integer output = 1;
-	Boolean switch = True;
+	Boolean switch1 = True;
 	while[x>0]{
-	    if[switch]{
+	    if[switch1]{
 		    output = output * 2;
-			switch = False;
+			switch1 = False;
 		}
 		else{
-		    switch = True;
+		    switch1 = True;
 		}
 		x = x - 1;
 	}
@@ -65,6 +65,6 @@ def main[]:Void{
 	testIf[1.1, 3];
 	Integer intI;
 	intI = testIfLoop[3];
-	print[int];
+	print[intI];
 	testFuncCallLoop[5];
 }
