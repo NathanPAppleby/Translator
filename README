@@ -23,6 +23,7 @@ For this phase, the language_type parameter should always be "Jott".
     >>> java Main.java ./phase3testcases/helloWorld.jott ./outputHelloWorld.jott Jott
  This will use the "helloWorld.jott" file as input and rewrite the jott code to "outputHelloWorld.jott" after parsing
  and validating the code.
+ Note: In phase 4, Main.java was renamed to Jott.java per submission feedback.
 
 
 Phase 4:
@@ -30,10 +31,10 @@ To run our main function from the console, run the below command from inside the
 The inputFile.jott parameter is the path to an existing input file of Jott code to be tested.
 The outputFile.out parameter is the path to an output file to be created or overwritten with the compiled code.
 The language_type parameter is a string within the range {"Jott", "C", "Java", "Python"} of the language type to compile to.
-    >>> javac Main.java
-    >>> java Main.java inputFile.in outputFile.out language_type
+    >>> javac Jott.java
+    >>> java Jott.java inputFile.in outputFile.out language_type
  Example:
-    >>> javac Main.java
-    >>> java Main.java ./phase3testcases/helloWorld.jott ./outHelloWorld.py Python
+    >>> javac Jott.java
+    >>> java Jott.java ./phase3testcases/helloWorld.jott ./outHelloWorld.py Python
  This will use the "helloWorld.jott" file as input and rewrite the jott code to "outHelloWorld.py" in compilable python
  code after parsing and validating the code.
