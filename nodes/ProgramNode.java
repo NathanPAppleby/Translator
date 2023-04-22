@@ -51,7 +51,11 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return "public class " + className + " {\n" + this.functionListNode.convertToJava(className) + "}\n";
+        return "public class " + className + " {\n"
+                + "public static String concat(String s1, String s2){ return s1.concat(s2); }\n"
+                + "public static int length(String s) { return s.length(); }\n"
+                + this.functionListNode.convertToJava(className)
+                + "}\n";
     }
 
     @Override
